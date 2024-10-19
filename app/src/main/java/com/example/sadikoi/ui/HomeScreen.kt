@@ -15,13 +15,15 @@ import com.example.sadikoi.ui.theme.SaDIKOITheme
 
 @Composable
 fun HomeScreen(
+    onRepertoireClicked: () -> Unit,
+    onAddUserClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
     ) {
         Button(
-            onClick = {}, //todo go to userListScreen
+            onClick = onRepertoireClicked, //todo go to userListScreen
 //            modifier = modifier,
         ) {
             Text("Contacts")
@@ -36,7 +38,7 @@ fun HomeScreen(
             Text("List of Conversation")
         }
         Button( //todo floatingActionButton
-            onClick = {} // todo add a user
+            onClick = onAddUserClicked // todo add a user
 
         ) {
             Text("Add a User")
@@ -45,10 +47,10 @@ fun HomeScreen(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    SaDIKOITheme {
-        HomeScreen()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun HomeScreenPreview() {
+//    SaDIKOITheme {
+//        HomeScreen()
+//    }
+//}

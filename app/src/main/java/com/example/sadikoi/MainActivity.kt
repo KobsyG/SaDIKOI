@@ -16,7 +16,7 @@ import com.example.sadikoi.ui.theme.SaDIKOITheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge() //todo ca degage ??
+//        enableEdgeToEdge() //todo ca degage ??
         setContent {
             SaDIKOITheme {
                 SadikoiApp()

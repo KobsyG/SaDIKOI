@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,10 +17,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sadikoi.SadikoiApp
+import com.example.sadikoi.data.UserUiState
 import com.example.sadikoi.ui.theme.SaDIKOITheme
 
 @Composable
 fun UserScreen(
+    toAddUser: Boolean = false,
+    user: UserUiState = UserUiState(),
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -37,7 +41,15 @@ fun UserScreen(
                 .border(1.dp, Color.Blue)
         ) {
             Text("Nom")
-            Text("Jean")
+//            if (user.lastName.isNotEmpty()) {
+            if (!toAddUser) {
+                Text(user.lastName)
+            } else {
+                TextField(
+                    value = "",
+                    onValueChange = {}
+                )
+            }
         }
         Row(
             horizontalArrangement = Arrangement.SpaceAround,
@@ -47,7 +59,14 @@ fun UserScreen(
                 .border(1.dp, Color.Blue)
         ) {
             Text("Prenom")
-            Text("Michel")
+            if (!toAddUser) {
+            Text(user.firstName)
+        } else {
+        TextField(
+            value = "",
+            onValueChange = {}
+        )
+    }
         }
         Row(
             horizontalArrangement = Arrangement.SpaceAround,
@@ -57,7 +76,14 @@ fun UserScreen(
                 .border(1.dp, Color.Blue)
         ) {
             Text("Numero")
-            Text("0471480625")
+            if (!toAddUser) {
+            Text(user.number.toString()) //todo number String direct ?
+        } else {
+        TextField(
+            value = "",
+            onValueChange = {}
+        )
+    }
         }
         Row(
             horizontalArrangement = Arrangement.SpaceAround,
@@ -67,7 +93,14 @@ fun UserScreen(
                 .border(1.dp, Color.Blue)
         ) {
             Text("Mail")
-            Text("Jeanmichel@mail.fr")
+            if (!toAddUser) {
+            Text(user.mail)
+} else {
+    TextField(
+        value = "",
+        onValueChange = {}
+    )
+}
         }
         Row(
             horizontalArrangement = Arrangement.SpaceAround,
@@ -77,7 +110,14 @@ fun UserScreen(
                 .border(1.dp, Color.Blue)
         ) {
             Text("Passion")
-            Text("Boomerang")
+            if (!toAddUser) {
+            Text(user.passion)
+} else {
+    TextField(
+        value = "",
+        onValueChange = {}
+    )
+}
         }
     }
 }
