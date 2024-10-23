@@ -20,11 +20,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.sadikoi.data.UserUiState
-import com.example.sadikoi.ui.HomeScreen
-import com.example.sadikoi.ui.RepertoireScreen
-import com.example.sadikoi.ui.UserScreen
-import com.example.sadikoi.ui.UserViewModel
+import com.example.sadikoi.ui.AppViewModelProvider
+import com.example.sadikoi.ui.home.HomeScreen
+import com.example.sadikoi.ui.repertoire.RepertoireScreen
+import com.example.sadikoi.ui.user.UserScreen
+import com.example.sadikoi.ui.user.UserViewModel
 import com.example.sadikoi.ui.theme.SaDIKOITheme
+import com.example.sadikoi.ui.user.UserAddScreen
+import com.example.sadikoi.ui.user.UserAddViewModel
 
 enum class SadikoiScreen() {
     Home,
@@ -35,7 +38,8 @@ enum class SadikoiScreen() {
 
 @Composable
 fun SadikoiApp(
-    viewModel: UserViewModel = viewModel(),//todo ViewModel
+//    viewModel: UserViewModel = viewModel(),//todo ViewModel
+//    userAddViewModel: UserAddViewModel = viewModel(factory = AppViewModelProvider.Factory),
     navController: NavHostController = rememberNavController()
 ) {
     Scaffold(
@@ -74,7 +78,7 @@ fun SadikoiApp(
                 RepertoireScreen(
                     listOf(UserUiState("jean", "michel"), UserUiState("michel", "jean")),
                     onUserClicked = {
-                        viewModel.setUserToShow(it)
+//                        viewModel.setUserToShow(it)
                         navController.navigate(SadikoiScreen.User.name)
                     },
                     modifier = Modifier
@@ -83,14 +87,14 @@ fun SadikoiApp(
             composable(route = SadikoiScreen.User.name) {
                 UserScreen(
 //                    user = UserUiState, todo viewModel.getUser ?
-                    user = viewModel.uiState.collectAsState().value, //todo a degager grace a ouioui
+//                    user = viewModel.uiState.collectAsState().value, //todo a degager grace a ouioui
                     modifier = Modifier
                     )
             }
 
             composable(route = SadikoiScreen.UserAdd.name) {
-                UserScreen(
-                    toAddUser = true,
+                UserAddScreen(
+//                    viewModel = userAddViewModel,
                     modifier = Modifier
                 )
             }

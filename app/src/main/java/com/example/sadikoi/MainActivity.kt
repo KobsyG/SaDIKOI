@@ -19,8 +19,8 @@ class MainActivity : ComponentActivity() {
 //        enableEdgeToEdge() //todo ca degage ??
         setContent {
             SaDIKOITheme {
-                SadikoiApp()
-            }
+                SadikoiApp() //todo check Flow plus serieusement - check companion object en Kotlin - check @Volatile
+            }                //todo check content.Context
         }
     }
 }

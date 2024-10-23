@@ -1,4 +1,4 @@
-package com.example.sadikoi.ui
+package com.example.sadikoi.ui.user
 
 import androidx.lifecycle.ViewModel
 import com.example.sadikoi.data.UserUiState
