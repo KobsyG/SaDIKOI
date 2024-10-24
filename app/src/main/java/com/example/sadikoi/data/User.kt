@@ -15,7 +15,7 @@ data class User(
     @ColumnInfo(name = "last_name") //todo tej name ?
     val lastName: String,
 
-    val number: Int,
+    val number: String, //todo String ou Int ?
 
     val mail: String,
 

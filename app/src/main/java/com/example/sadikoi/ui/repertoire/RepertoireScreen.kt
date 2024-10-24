@@ -9,11 +9,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.sadikoi.data.UserUiState
 import com.example.sadikoi.ui.theme.SaDIKOITheme
 import androidx.compose.material3.Text
+import com.example.sadikoi.data.User
 
 @Composable
 fun Contact(
-    user: UserUiState,
-    onUserClicked: (UserUiState) -> Unit,
+    user: User,
+    onUserClicked: (User) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Button(
@@ -25,26 +26,43 @@ fun Contact(
 }
 
 @Composable
-fun RepertoireScreen(
-    users: List<UserUiState>,
-    onUserClicked: (UserUiState) -> Unit,
+fun UserList(
+    userList: List<User>,
+    onUserClicked: (User) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
     ) {
-        (users.map { user ->
-           Contact(user, onUserClicked)
-        })
+        userList.map { user ->
+            Contact(user, onUserClicked)
+    }
+    }
+}
+
+@Composable
+fun RepertoireScreen(
+    viewModel: RepertoireViewModel,
+    userList: List<User>,
+    onUserClicked: (User) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+    ) {
+        UserList(
+            userList,
+            onUserClicked
+        )
         }
     }
 
 
-@Preview(showBackground = true)
-@Composable
-fun RepertoireScreenPreview() {
-    SaDIKOITheme {
-        val users: List<UserUiState> = listOf(UserUiState("jean", "michel"), UserUiState("michel", "jean"))
-        RepertoireScreen(users, {})
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun RepertoireScreenPreview() {
+//    SaDIKOITheme {
+//        val users: List<UserUiState> = listOf(UserUiState("jean", "michel"), UserUiState("michel", "jean"))
+//        RepertoireScreen(users, {})
+//    }
+//}

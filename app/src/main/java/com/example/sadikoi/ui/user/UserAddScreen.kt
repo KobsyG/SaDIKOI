@@ -26,9 +26,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun UserAddScreen(
     viewModel: UserAddViewModel = viewModel(factory = AppViewModelProvider.Factory),
-    user: UserUiState = viewModel.userUiState,
+    user: UserAddUiState = viewModel.userAddUiState,
+    userDetail: UserDetails = user.userDetails,
 //    onValueChange: (UserUiState) -> Unit = viewModel::updateUiState, //todo qweeqweq
-    onValueChange: (String) -> Unit = { viewModel.updateLastName(it) },
+    onValueChange: (UserDetails) -> Unit = { viewModel.updateUiState(it) },
+    navigateBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope() //todo pas ici probablement
@@ -48,9 +50,9 @@ fun UserAddScreen(
                 .border(1.dp, Color.Blue)
         ) {
             Text("Nom")
-                TextField(
-                    value = user.lastName,
-                    onValueChange = onValueChange
+                TextField( //todo sizemax
+                    value = userDetail.lastName,
+                    onValueChange = { onValueChange(userDetail.copy(lastName = it)) }
                 )
         }
         Row(
@@ -62,9 +64,9 @@ fun UserAddScreen(
         ) {
             Text("Prenom")
 
-                TextField(
-                    value = "",
-                    onValueChange = {}
+                TextField( //todo sizemax
+                    value = userDetail.firstName,
+                    onValueChange = { onValueChange(userDetail.copy(firstName = it)) }
                 )
 
         }
@@ -75,10 +77,10 @@ fun UserAddScreen(
                 .padding(16.dp)
                 .border(1.dp, Color.Blue)
         ) {
-            Text("Numero")
+            Text("Numero") //todo que des number + 10 number ?
                 TextField(
-                    value = "",
-                    onValueChange = {}
+                    value = userDetail.number,
+                    onValueChange = { onValueChange(userDetail.copy(number = it)) }
                 )
 
         }
@@ -91,8 +93,8 @@ fun UserAddScreen(
         ) {
             Text("Mail")
                 TextField(
-                    value = "",
-                    onValueChange = {}
+                    value = userDetail.mail,
+                    onValueChange = { onValueChange(userDetail.copy(mail = it)) }
                 )
 
         }
@@ -105,15 +107,17 @@ fun UserAddScreen(
         ) {
             Text("Passion")
                 TextField(
-                    value = "",
-                    onValueChange = {}
+                    value = userDetail.passion,
+                    onValueChange = { onValueChange(userDetail.copy(passion = it)) }
                 )
 
         }
         Button(
             onClick = {
                 coroutineScope.launch{
-                    viewModel.saveUser()
+                    viewModel.saveUser() //todo que faire si lastname or number or firstname isnull
+                    navigateBack()
+
                 }
             }
         ) {
