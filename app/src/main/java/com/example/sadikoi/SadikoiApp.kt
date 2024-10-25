@@ -1,15 +1,20 @@
 package com.example.sadikoi
 
+import android.content.Context
+import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
@@ -19,6 +24,7 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -45,6 +51,22 @@ import com.example.sadikoi.ui.user.UserAddScreen
 import com.example.sadikoi.ui.user.UserAddViewModel
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import com.example.sadikoi.ui.topBar.TopBar
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import java.util.Locale
+
+private const val TAG = "MainActivity"
 
 enum class SadikoiScreen() {
     Home,
@@ -64,7 +86,7 @@ fun SadikoiApp(
 ) {
     Scaffold(
         topBar = {
-            SadikoiAppBar(
+            TopBar(
                 modifier = Modifier
                     .height(40.dp)
                     .border(1.dp, Color.Blue)
@@ -128,84 +150,12 @@ fun SadikoiApp(
     }
 }
 
-@Composable
-fun SadikoiAppBar(
-    modifier: Modifier = Modifier
-        .height(40.dp)
-        .border(1.dp, Color.Blue)
-) {
-    Row(
-        modifier = modifier.fillMaxWidth()
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo),
-            contentDescription = "logo42"
-        )
-//        Text("Logo") //todo
-        Text("SaDIKOI")
-//        Text("Menu")
-        LanguageMenu()
-    }
-}
 
-@Composable
-fun AppBarMenu() {
 
-}
-
-//@OptIn(ExperimentalMaterial3Api::class)
+//@Preview(showBackground = true)
 //@Composable
-//fun LanguageMenu() {
-//    val options = listOf("Option 1", "Option 2", "Option 3", "Option 4", "Option 5")
-//    var expanded by remember { mutableStateOf(false) }
-//
-//    Column() {
-//        ExposedDropdownMenuBox(
-//            expanded = expanded,
-//            onExpandedChange = { expanded = !expanded } //todo different from https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary#ExposedDropdownMenuBox(kotlin.Boolean,kotlin.Function1,androidx.compose.ui.Modifier,kotlin.Function1)
-//        ) { }
+//fun SadikoiAppPreview() {
+//    SaDIKOITheme {
+//        SadikoiApp()
 //    }
 //}
-
-@Composable
-fun LanguageMenu(
-    modifier: Modifier = Modifier
-//        .fillMaxSize()
-) {
-    var expanded by remember { mutableStateOf(false) }
-    Box(/*modifier = Modifier.fillMaxSize()*/) {
-        Button(
-            onClick = { expanded = !expanded }
-        ) {
-            Icon(Icons.Default.MoreVert, contentDescription = "Localized description")
-        }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            DropdownMenuItem(
-                onClick = { /* Handle Option 1 click */ expanded = false },
-                text = { Text("Option 1") },
-            )
-            DropdownMenuItem(
-                onClick = { /* Handle Option 1 click */ expanded = false },
-                text = { Text("Option 2") },
-            )
-
-
-        }
-    }
-}
-
-@Composable
-fun ColorMenu() {
-
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SadikoiAppPreview(){
-    SaDIKOITheme {
-        SadikoiAppBar()
-    }
-}

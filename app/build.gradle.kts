@@ -76,6 +76,19 @@ dependencies {
 //    kapt("androidx.room:room-compiler:$room_version")
     ksp("androidx.room:room-compiler:$room_version") //todo ???????
 
+    //DataStore
+
+    val datastore_version = "1.1.1"
+    implementation("androidx.datastore:datastore-preferences:$datastore_version")
+
+        val appcompat_version = "1.7.0"
+
+        implementation("androidx.appcompat:appcompat:$appcompat_version")
+        // For loading and tinting drawables on older versions of the platform
+//        implementation("androidx.appcompat:appcompat-resources:$appcompat_version") //todo ???
+
+
+
 
 
 
