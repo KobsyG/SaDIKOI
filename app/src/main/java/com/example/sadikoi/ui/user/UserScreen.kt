@@ -16,14 +16,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sadikoi.data.UserUiState
+import com.example.sadikoi.ui.AppViewModelProvider
 import com.example.sadikoi.ui.theme.SaDIKOITheme
 //import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 fun UserScreen(
-    viewModel: UserViewModel,
+    viewModel: UserViewModel? = null, //todo virer le "?" utile pour la preview
     toAddUser: Boolean = false,
     user: UserUiState = UserUiState(),
     navigateBack: () -> Unit,
@@ -94,7 +96,7 @@ fun UserScreen(
             Button(
                 onClick = {
                     coroutineScope.launch {
-                        viewModel.deleteUser()
+                        viewModel?.deleteUser() //todo virer le "?" utile pour la preview
                         navigateBack()
                     }
                 }
@@ -110,10 +112,10 @@ fun UserScreen(
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun SadikoiAppPreview(){
-//    SaDIKOITheme {
-//        UserScreen()
-//    }
-//}
+@Preview(showBackground = true)
+@Composable
+fun UserScreenPreview(){
+    SaDIKOITheme {
+        UserScreen(navigateBack = {})
+    }
+}

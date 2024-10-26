@@ -60,6 +60,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.sadikoi.data.IUsersRepository
+import com.example.sadikoi.data.UsersRepository
 import com.example.sadikoi.ui.topBar.TopBar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -79,7 +81,7 @@ enum class SadikoiScreen() {
 fun SadikoiApp(
 //    viewModel: UserViewModel = viewModel(),//todo ViewModel
     viewModel: UserViewModel = viewModel(factory = AppViewModelProvider.Factory),
-//    userAddViewModel: UserAddViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    userAddViewModel: UserAddViewModel = viewModel(factory = AppViewModelProvider.Factory),
 //    repertoireViewModel: RepertoireViewModel = viewModel(),
     repertoireViewModel: RepertoireViewModel = viewModel(factory = AppViewModelProvider.Factory),
     navController: NavHostController = rememberNavController()
@@ -118,7 +120,7 @@ fun SadikoiApp(
             }
             composable(route = SadikoiScreen.Repertoire.name) {
                 RepertoireScreen(
-                    repertoireViewModel,
+//                    repertoireViewModel,
                     repertoireViewModel.repertoireUiState.collectAsState().value.userList,
                     onUserClicked = {
                         viewModel.setUserToShow(it)
@@ -139,7 +141,7 @@ fun SadikoiApp(
 
             composable(route = SadikoiScreen.UserAdd.name) {
                 UserAddScreen(
-//                    viewModel = userAddViewModel,
+                    viewModel = userAddViewModel,
                     navigateBack = { navController.navigateUp() },
                     modifier = Modifier
                 )
@@ -150,12 +152,10 @@ fun SadikoiApp(
     }
 }
 
-
-
-//@Preview(showBackground = true)
-//@Composable
-//fun SadikoiAppPreview() {
-//    SaDIKOITheme {
-//        SadikoiApp()
-//    }
-//}
+@Preview(showBackground = true)
+@Composable
+fun SadikoiAppPreview() {
+    SaDIKOITheme {
+        SadikoiApp()
+    }
+}

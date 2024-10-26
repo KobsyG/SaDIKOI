@@ -14,22 +14,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sadikoi.SadikoiApplication
 import com.example.sadikoi.data.AppContainer
 import com.example.sadikoi.data.UserUiState
+import com.example.sadikoi.data.UsersRepository
 import com.example.sadikoi.ui.AppViewModelProvider
+import com.example.sadikoi.ui.theme.SaDIKOITheme
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 fun UserAddScreen(
-    viewModel: UserAddViewModel = viewModel(factory = AppViewModelProvider.Factory),
-    user: UserAddUiState = viewModel.userAddUiState,
+    //For Preview
+    viewModel: UserAddViewModel? = null,
+    user: UserAddUiState = viewModel?.userAddUiState ?: UserAddUiState(),
+    onValueChange: (UserDetails) -> Unit = { viewModel?.updateUiState(it) },
+
+    //For real
+//    viewModel: UserAddViewModel = viewModel(factory = AppViewModelProvider.Factory),
+//    user: UserAddUiState = viewModel.userAddUiState,
+//    onValueChange: (UserDetails) -> Unit = { viewModel.updateUiState(it) },
+
+
     userDetail: UserDetails = user.userDetails,
 //    onValueChange: (UserUiState) -> Unit = viewModel::updateUiState, //todo qweeqweq
-    onValueChange: (UserDetails) -> Unit = { viewModel.updateUiState(it) },
+
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -115,7 +127,7 @@ fun UserAddScreen(
         Button(
             onClick = {
                 coroutineScope.launch{
-                    viewModel.saveUser() //todo que faire si lastname or number or firstname isnull
+                    viewModel?.saveUser() //todo que faire si lastname or number or firstname isnull -- virer le "?" utile pour la Preview
                     navigateBack()
 
                 }
@@ -123,5 +135,13 @@ fun UserAddScreen(
         ) {
             Text("Add User")
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun UserAddScreenPreview(){
+    SaDIKOITheme {
+        UserAddScreen(navigateBack = {})
     }
 }

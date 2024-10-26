@@ -9,7 +9,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.sadikoi.data.UserUiState
 import com.example.sadikoi.ui.theme.SaDIKOITheme
 import androidx.compose.material3.Text
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sadikoi.data.User
+import com.example.sadikoi.ui.AppViewModelProvider
 
 @Composable
 fun Contact(
@@ -42,7 +44,7 @@ fun UserList(
 
 @Composable
 fun RepertoireScreen(
-    viewModel: RepertoireViewModel,
+//    viewModel: RepertoireViewModel,
     userList: List<User>,
     onUserClicked: (User) -> Unit,
     modifier: Modifier = Modifier
@@ -57,12 +59,14 @@ fun RepertoireScreen(
         }
     }
 
-
-//@Preview(showBackground = true)
-//@Composable
-//fun RepertoireScreenPreview() {
-//    SaDIKOITheme {
-//        val users: List<UserUiState> = listOf(UserUiState("jean", "michel"), UserUiState("michel", "jean"))
-//        RepertoireScreen(users, {})
-//    }
-//}
+@Preview(showBackground = true)
+@Composable
+fun RepertoireScreenPreview() {
+    SaDIKOITheme {
+        val user1 = User(firstName = "jean", lastName = "michel", number = "123456789", mail = "mail", passion = "passion")
+        val user2 = User(firstName = "michel", lastName = "jean", number = "123456789", mail = "mail", passion = "passion")
+        val users: List<User> = listOf(user1, user2)
+//        val viewModel: RepertoireViewModel = viewModel(factory = AppViewModelProvider.Factory)
+        RepertoireScreen(userList = users, onUserClicked = {})
+    }
+}

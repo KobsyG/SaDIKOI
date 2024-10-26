@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.sadikoi.SadikoiApplication
 import com.example.sadikoi.ui.repertoire.RepertoireViewModel
+import com.example.sadikoi.ui.topBar.TopBarViewModel
 import com.example.sadikoi.ui.user.UserAddViewModel
 import com.example.sadikoi.ui.user.UserViewModel
 
@@ -22,6 +23,10 @@ object AppViewModelProvider {
 
         initializer {
             UserViewModel(sadikoiApplication().container.usersRepository)
+        }
+
+        initializer {
+            TopBarViewModel(sadikoiApplication().container.userPreferencesRepository)
         }
     }
 }

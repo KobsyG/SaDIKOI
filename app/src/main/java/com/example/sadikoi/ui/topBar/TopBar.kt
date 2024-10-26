@@ -37,36 +37,84 @@ import androidx.core.os.LocaleListCompat
 import com.example.sadikoi.R
 import com.example.sadikoi.ui.theme.SaDIKOITheme
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.graphics.Color.Companion.Blue
+import androidx.compose.ui.graphics.Color.Companion.Red
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.sadikoi.ui.AppViewModelProvider
 import kotlinx.coroutines.launch
 
 import java.util.Locale
 
 private const val TAG = "MainActivity"
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
+    viewModel: TopBarViewModel = viewModel(factory = AppViewModelProvider.Factory),
     modifier: Modifier = Modifier
         .height(40.dp)
         .border(1.dp, Color.Blue)
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo),
-            contentDescription = "logo42"
-        )
-//        Text("Logo") //todo
-//        Text("SaDIKOI")
-        Text(stringResource(id = R.string.app_name))
+    val color by viewModel.topBarColor.collectAsState()
 
-        Spacer(Modifier.weight(1f))
-//        Text("Menu")
-//        AppBarMenu()
-        LanguageMenu()
-    }
+    TopAppBar(
+        title = { Text("SaDIKOI") }, // todo get from Resourse (same name for all languages ? )
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = color,
+//            containerColor = Color(0xFF000000)
+        ),
+        navigationIcon = {
+
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "logo42",
+                modifier = Modifier
+//                .fillMaxHeight()
+//                .aspectRatio(1f)
+                  .sizeIn(maxHeight = 56.dp)
+                )
+//            )
+//            IconButton(onClick = { }) {
+//                Icon(
+//                    Icons.Filled.ArrowBack,
+//                    contentDescription = "Localized description"
+//                )
+//            }
+        },
+        actions = {
+//            AppBarMenu()
+            ColorMenu(viewModel)
+        }
+    )
+//    Row(
+//        verticalAlignment = Alignment.CenterVertically,
+//        modifier = modifier
+//            .fillMaxWidth()
+//    ) {
+//        Image(
+//            painter = painterResource(id = R.drawable.logo),
+//            contentDescription = "logo42"
+//        )
+////        Text("Logo") //todo
+////        Text("SaDIKOI")
+//        Text(stringResource(id = R.string.app_name))
+//
+//        Spacer(Modifier.weight(1f))
+////        Text("Menu")
+////        AppBarMenu()
+//        LanguageMenu()
+//    }
 }
 
 @Composable
@@ -83,12 +131,12 @@ fun AppBarMenu() {
             expanded = menuExpanded,
             onDismissRequest = { menuExpanded = false }
         ) {
-            DropdownMenuItem(
-                onClick = { /* Handle Option 1 click */ menuExpanded = false },
-                text = {
-                    LanguageMenu()
-                }
-            )
+//            DropdownMenuItem(
+//                onClick = { /* Handle Option 1 click */ menuExpanded = false },
+//                text = {
+//                    LanguageMenu()
+//                }
+//            )
             DropdownMenuItem(
                 onClick = { /* Handle Option 1 click */ menuExpanded = false },
                 text = {
@@ -193,8 +241,54 @@ fun LanguageMenu(
 }
 
 @Composable
-fun ColorMenu() {
-    Text("ColorMenu")
+fun ColorMenu(
+    viewModel: TopBarViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    modifier: Modifier = Modifier.fillMaxWidth()
+) {
+    var colorExpanded by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
+
+    Box {
+        TextButton(
+            onClick = { colorExpanded = !colorExpanded },
+            shape = androidx.compose.material3.MaterialTheme.shapes.small,
+        ) {
+            Text("Color")
+        }
+        DropdownMenu(
+            expanded = colorExpanded,
+            onDismissRequest = { colorExpanded = false }
+        ) {
+            DropdownMenuItem(
+                onClick = {
+                    viewModel.selectColor(Color.Red)
+                },
+                text = {
+                    Row {
+//                        Icon(Icons.Default.)
+                        Icon(
+                            painter = painterResource(id = R.drawable.red),
+                            contentDescription = "Localized description",
+                            tint = Red, //todo ???
+                        )
+//                        Text("test")
+                    }
+                }
+            )
+            DropdownMenuItem(
+                onClick = {viewModel.selectColor(Color.Blue)},
+                text = {
+                    Row {
+                        Icon(
+                            painter = painterResource(id = R.drawable.blue),
+                            contentDescription = "Localized description",
+                            tint = Blue,
+                        )
+                    }
+                }
+            )
+        }
+    }
 }
 
 //import androidx.core.os.LocaleListCompat
