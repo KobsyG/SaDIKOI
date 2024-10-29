@@ -37,10 +37,20 @@ fun UserScreen(
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
-            .fillMaxHeight(0.8f)
+            .fillMaxHeight()
             .fillMaxWidth()
             .border(1.dp, Color.Red)
     ) {
+        Button(
+            onClick = {
+                coroutineScope.launch {
+                    viewModel?.deleteUser() //todo virer le "?" utile pour la preview
+                    navigateBack()
+                }
+            }
+        ) {
+            Text("delete User")
+        }
         Row(
             horizontalArrangement = Arrangement.SpaceAround,
             modifier = Modifier
@@ -92,21 +102,22 @@ fun UserScreen(
             Text("Passion")
             Text(user.passion)
         }
-        Row {
-            Button(
-                onClick = {
-                    coroutineScope.launch {
-                        viewModel?.deleteUser() //todo virer le "?" utile pour la preview
-                        navigateBack()
-                    }
-                }
-            ) {
-                Text("delete User")
-            }
+        Row(
+            horizontalArrangement = Arrangement.SpaceAround,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .border(1.dp, Color.Blue)
+        ) {
             Button(
                 onClick = {} //todo use the same screen que userAdd mais prérempli + addUser devient modifier user
             ) {
                 Text("edit User")
+            }
+            Button(
+                onClick = {} //todo use the same screen que userAdd mais prérempli + addUser devient modifier user
+            ) {
+                Text("send Message")
             }
         }
     }

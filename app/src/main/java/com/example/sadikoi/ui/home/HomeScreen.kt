@@ -30,7 +30,8 @@ fun HomeScreen(
         }
         Column(
             modifier = Modifier
-                .fillMaxHeight(0.8f) //todo just maxHeight ?
+//                .fillMaxHeight(0.8f) //todo just maxHeight ?
+                .weight(1f)
                 .fillMaxWidth()
                 .border(1.dp, Color.Green)
         ) {

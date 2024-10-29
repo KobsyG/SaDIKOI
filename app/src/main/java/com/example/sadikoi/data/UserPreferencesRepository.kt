@@ -10,6 +10,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -19,7 +20,7 @@ class UserPreferencesRepository(
     private val dataStore: DataStore<Preferences>
 ) {
     private companion object {
-        val TOPBAR_COLOR = stringPreferencesKey("topbar_color")
+        val TOPBAR_COLOR = longPreferencesKey("topbar_color")
         const val TAG = "UserPreferencesRepo"
     }
 
@@ -33,7 +34,9 @@ class UserPreferencesRepository(
 //            }
 //        }
         .map { preferences ->
-            preferences[TOPBAR_COLOR]?.let { Color(it.toLong()) } ?: Color.Red //todo j'aime pas
+            val colorLong = preferences[TOPBAR_COLOR] ?: 0xFFFF0000L
+            Color(colorLong.toULong())
+        //todo ?
         }
 
 
@@ -53,7 +56,9 @@ class UserPreferencesRepository(
 //
     suspend fun saveTopBarColorPreference(color: Color) {
         dataStore.edit { preferences ->
-            preferences[TOPBAR_COLOR] = color.value.toString()
+            Log.d("MainActivity", "Repository Selected color: $color")
+            preferences[TOPBAR_COLOR] = color.value.toLong()
+            Log.d("MainActivity", "Repository preferences[color]: $preferences[TOPBAR_COLOR]")
         }
     }
 }

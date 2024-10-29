@@ -67,12 +67,14 @@ fun TopBar(
         .border(1.dp, Color.Blue)
 ) {
     val color by viewModel.topBarColor.collectAsState()
+//    val long: Long = 0xFFFFFF00
+//        val color = Color(long)
 
     TopAppBar(
         title = { Text("SaDIKOI") }, // todo get from Resourse (same name for all languages ? )
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = color,
-//            containerColor = Color(0xFF000000)
+//            containerColor = Color(0x00000000)
         ),
         navigationIcon = {
 
@@ -269,20 +271,22 @@ fun ColorMenu(
                         Icon(
                             painter = painterResource(id = R.drawable.red),
                             contentDescription = "Localized description",
-                            tint = Red, //todo ???
+//                            tint = Red, //todo ???
                         )
 //                        Text("test")
                     }
                 }
             )
             DropdownMenuItem(
-                onClick = {viewModel.selectColor(Color.Blue)},
+                onClick = {
+                    viewModel.selectColor(Color.Blue)
+                          },
                 text = {
                     Row {
                         Icon(
                             painter = painterResource(id = R.drawable.blue),
                             contentDescription = "Localized description",
-                            tint = Blue,
+//                            tint = Blue,
                         )
                     }
                 }
