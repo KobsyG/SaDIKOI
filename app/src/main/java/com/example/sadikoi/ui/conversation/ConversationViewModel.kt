@@ -44,21 +44,3 @@ data class MessageUi( //todo val isMe boolean ???
     val timestamp: Long
 )
 
-class SmsReceiver(private val viewModel: ConversationViewModel) : BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent ) {
-        if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION == intent.action) {
-            val smsMessages = Telephony.Sms.Intents.getMessagesFromIntent(intent)
-            for (message in smsMessages) {
-                val messageBody = message.messageBody
-                val sender = message.originatingAddress
-                val messageUi = MessageUi(
-                    text = messageBody,
-                    sender = sender ?: "",
-                    receiver = "me",
-                    timestamp = System.currentTimeMillis()
-                )
-                viewModel.onSmsReceived(messageUi) //todo getDatabase and use Dao to update DB so viewmodel can see update
-                                                //todo see if i choose shared preference instead
-            }
-    }
-}

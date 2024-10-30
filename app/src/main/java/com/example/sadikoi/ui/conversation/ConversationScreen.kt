@@ -125,7 +125,7 @@ fun InputBar(
         TextField(
             value = "message",
             onValueChange = {
-//                if (ContextCompat.checkSelfPermission(context, sendSmsPermission) != PackageManager.PERMISSION_GRANTED) {
+//                if (ContextCompat.checkSelfPermission(context, sendSmsPermission) != PackageManager.PERMISSION_GRANTED) { //todo check Airplace mode genre ?
 //                    ActivityCompat.requestPermissions(activity, arrayOf(sendSmsPermission), REQUEST_CODE_SMS_PERMISSION)
 //                } else {
                     viewModel.sendSMS("+33661696704", "Hello, this is a test message!")

@@ -1,8 +1,10 @@
 package com.example.sadikoi.data
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 
 @Entity(tableName = "users")
 data class User(
@@ -22,12 +24,21 @@ data class User(
     val passion: String
 )
 
-data class NameTuple(
-    @ColumnInfo(name = "first_name")
-    val firstName: String,
+//data class NameTuple( //todo c'est quoi deja cette merde
+//    @ColumnInfo(name = "first_name")
+//    val firstName: String,
+//
+//    @ColumnInfo(name = "last_name")
+//    val lastName: String,
+//)
 
-    @ColumnInfo(name = "last_name")
-    val lastName: String,
+data class UserWithMessages(
+    @Embedded val user: User,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "contactId"
+    )
+    val messages: List<Message>
 )
 
 //todo @Ignore ?
