@@ -26,7 +26,7 @@ data class Message (
 
     val timestamp: Long,
 
-    val isSent: Boolean //todo ah ouai ?
+//    val isSent: Boolean //todo ah ouai ?
 
 
 )

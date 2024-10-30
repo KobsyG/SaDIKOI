@@ -22,6 +22,9 @@ class UserViewModel(private val usersRepository: IUsersRepository) : ViewModel()
     private val _uiState = MutableStateFlow(UserUiState())
     val uiState: StateFlow<UserUiState> = _uiState.asStateFlow()
 
+    private val _convId = MutableStateFlow(0)
+    val convId: StateFlow<Int> = _convId.asStateFlow()
+
     suspend fun deleteUser() {
         Log.d(TAG, "deleteUser:  ${uiState.value}")
         val user: User = User(
@@ -48,6 +51,11 @@ class UserViewModel(private val usersRepository: IUsersRepository) : ViewModel()
             )
         }
     }
+
+    fun setConvId(id: Int) {
+        _convId.value = id
+    }
+
 }
 
 fun CreationExtras.sadikoiApplication(): SadikoiApplication =

@@ -24,7 +24,7 @@
 
         <receiver
             android:name=".SmsReceiver"
-            android:exported="false" > <!--todo false ?-->
+            android:exported="true" > <!--todo false ?-->
 <!--            >-->
 
             <intent-filter>

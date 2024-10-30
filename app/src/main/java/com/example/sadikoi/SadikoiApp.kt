@@ -62,6 +62,8 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.sadikoi.data.IUsersRepository
 import com.example.sadikoi.data.UsersRepository
+import com.example.sadikoi.ui.conversation.ConversationScreen
+import com.example.sadikoi.ui.conversation.ConversationViewModel
 import com.example.sadikoi.ui.topBar.TopBar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -74,7 +76,8 @@ enum class SadikoiScreen() {
     Home,
     User,
     UserAdd, //todo j'aime pas, a voir
-    Repertoire
+    Repertoire,
+    Conversation
 }
 
 @Composable
@@ -84,6 +87,7 @@ fun SadikoiApp(
     userAddViewModel: UserAddViewModel = viewModel(factory = AppViewModelProvider.Factory),
 //    repertoireViewModel: RepertoireViewModel = viewModel(),
     repertoireViewModel: RepertoireViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    conversationViewModel: ConversationViewModel = viewModel(factory = AppViewModelProvider.Factory),
     navController: NavHostController = rememberNavController()
 ) {
     Scaffold(
@@ -134,6 +138,10 @@ fun SadikoiApp(
                     viewModel,
 //                    user = UserUiState, todo viewModel.getUser ?
                     user = viewModel.uiState.collectAsState().value, //todo a degager grace a ouioui,
+                    onSendMessageClicked = {
+                        viewModel.setConvId(it)
+                       navController.navigate(SadikoiScreen.Conversation.name)
+                    },
                     navigateBack = { navController.navigateUp() },
                     modifier = Modifier
                     )
@@ -144,6 +152,14 @@ fun SadikoiApp(
                     viewModel = userAddViewModel,
                     navigateBack = { navController.navigateUp() },
                     modifier = Modifier
+                )
+            }
+
+            composable(route = SadikoiScreen.Conversation.name) {
+                ConversationScreen(
+                    conversationViewModel,
+                    contactId = viewModel.convId.collectAsState().value
+//                    modifier = Modifier
                 )
             }
         }

@@ -27,6 +27,7 @@ import kotlinx.coroutines.launch
 fun UserScreen(
     viewModel: UserViewModel? = null, //todo virer le "?" utile pour la preview
     toAddUser: Boolean = false,
+    onSendMessageClicked: (Int) -> Unit,
     user: UserUiState = UserUiState(),
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier
@@ -115,7 +116,9 @@ fun UserScreen(
                 Text("edit User")
             }
             Button(
-                onClick = {} //todo use the same screen que userAdd mais prérempli + addUser devient modifier user
+                onClick = {
+                    onSendMessageClicked(user.id)
+                }
             ) {
                 Text("send Message")
             }
@@ -123,10 +126,10 @@ fun UserScreen(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun UserScreenPreview(){
-    SaDIKOITheme {
-        UserScreen(navigateBack = {})
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun UserScreenPreview(){
+//    SaDIKOITheme {
+//        UserScreen(navigateBack = {})
+//    }
+//}

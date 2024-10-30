@@ -11,28 +11,52 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.sadikoi.data.IMessagesRepository
+import com.example.sadikoi.data.Message
+import com.example.sadikoi.data.MessagesRepository
 import com.example.sadikoi.data.User
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
-class ConversationViewModel : ViewModel() {
-    private val _messages = MutableLiveData<List<MessageUi>>()
-    val messages: LiveData<List<MessageUi>> = _messages
-    val smsManager = SmsManager.getDefault()
+class ConversationViewModel(private val messagesRepository: IMessagesRepository) : ViewModel() {
 
-    fun sendSMS(phoneNumber: String, message: String) {
-        _messages.value = _messages.value.orEmpty() + MessageUi(
-            text = message,
-            sender = "Me",
-            receiver = phoneNumber,
-            timestamp = System.currentTimeMillis()
-        )
-        smsManager.sendTextMessage(phoneNumber, null, message, null, null)
+//    val conversationUiState: StateFlow<ConversationUiState> =
+//        messagesRepository.getAllMessagesFromUser(contactId).map { ConversationUiState(it) }
+//            .stateIn(
+//                scope = viewModelScope,
+//                started = SharingStarted.WhileSubscribed(5000),
+//                initialValue = ConversationUiState()
+//            )
 
 
+    private val _messages = MutableLiveData<List<Message>>()
+    val messages: LiveData<List<Message>> = _messages
+//    val smsManager = SmsManager.getDefault()
+//
+//    fun sendSMS(phoneNumber: String, message: String) {
+//        _messages.value = _messages.value.orEmpty() + MessageUi(
+//            text = message,
+//            sender = "Me",
+//            receiver = phoneNumber,
+//            timestamp = System.currentTimeMillis()
+//        )
+//        smsManager.sendTextMessage(phoneNumber, null, message, null, null)
+//
+//
+//    }
+    fun loadMessagesFromContact(contactId: Int) {
+        viewModelScope.launch {
+            messagesRepository.getAllMessagesFromUser(contactId).collect { messagesList ->
+                _messages.value = messagesList
+            }
+        }
     }
 
-    fun onSmsReceived(messageUi: MessageUi) {
-        _messages.value = _messages.value.orEmpty() + messageUi
-    }
+
 }
 
 data class MessageUi( //todo val isMe boolean ???
@@ -43,4 +67,6 @@ data class MessageUi( //todo val isMe boolean ???
 //    val receiver: User,
     val timestamp: Long
 )
+
+data class ConversationUiState(val messageList: List<Message> = listOf())
 

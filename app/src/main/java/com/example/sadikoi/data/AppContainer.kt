@@ -13,6 +13,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
 interface AppContainer {
     val usersRepository: IUsersRepository
     val userPreferencesRepository: UserPreferencesRepository
+    val messagesRepository: IMessagesRepository
 }
 
 class AppDataContainer(private val context: Context) : AppContainer {
@@ -25,6 +26,10 @@ class AppDataContainer(private val context: Context) : AppContainer {
 
     override val userPreferencesRepository: UserPreferencesRepository by lazy {
         UserPreferencesRepository(context.dataStore)
+    }
+
+    override val messagesRepository: IMessagesRepository by lazy {
+        MessagesRepository(AppDatabase.getDatabase(context).messageDao())
 
     }
 }
