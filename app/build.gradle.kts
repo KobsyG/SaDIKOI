@@ -88,8 +88,18 @@ dependencies {
 //        implementation("androidx.appcompat:appcompat-resources:$appcompat_version") //todo ???
 
 
+    val fragment_version = "1.8.3"
 
 
+    // Kotlin
+    implementation("androidx.fragment:fragment-ktx:$fragment_version")
+    // Compose
+    implementation("androidx.fragment:fragment-compose:$fragment_version")
+
+    val activity_version = "1.9.2"
+
+    // Kotlin
+    implementation("androidx.activity:activity-ktx:$activity_version")
 
 
 }

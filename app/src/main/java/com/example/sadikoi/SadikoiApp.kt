@@ -55,6 +55,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -167,6 +168,24 @@ fun SadikoiApp(
 
     }
 }
+
+//@Composable
+//fun SmsPermissionHandler(onPermissionGranted: () -> Unit) {
+//    val context = LocalContext.current
+//    val permissionState = rememberPermissionState(android.Manifest.permission.RECEIVE_SMS)
+//
+//    LaunchedEffect(permissionState.hasPermission) {
+//        if (permissionState.hasPermission) {
+//            onPermissionGranted()
+//        } else {
+//            permissionState.launchPermissionRequest()
+//        }
+//    }
+//
+//    if (!permissionState.hasPermission) {
+//        Text("Permission to receive SMS is required for this app.")
+//    }
+//}
 
 @Preview(showBackground = true)
 @Composable
