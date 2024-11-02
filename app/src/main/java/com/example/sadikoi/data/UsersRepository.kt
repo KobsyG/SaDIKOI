@@ -8,6 +8,8 @@ interface IUsersRepository {
 
     fun getUser(id: Int): Flow<User?>
 
+    fun getUserByNumber(number: String): Int
+
     suspend fun insertUser(user: User)
 
     suspend fun deleteUser(user: User)
@@ -21,6 +23,8 @@ interface IUsersRepository {
         override fun getAllUsers(): Flow<List<User>> = userDao.getAll()
 
         override fun getUser(id: Int): Flow<User?> = userDao.getUser(id)
+
+        override fun getUserByNumber(number: String): Int = userDao.getUserIdByNumber(number)
 
         override suspend fun insertUser(user: User) = userDao.insert(user)
 

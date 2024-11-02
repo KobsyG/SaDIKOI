@@ -27,6 +27,7 @@ class SmsReceiver() : BroadcastReceiver() {
 //            val messagesRepository = SadikoiApplication().container.messagesRepository
             val appContext = context.applicationContext as SadikoiApplication
             val messagesRepository = appContext.container.messagesRepository
+            val userRepository = appContext.container.usersRepository
             Log.d("sms", "sms in intent.action : $smsMessages")
 
             for (message in smsMessages) {
@@ -36,7 +37,8 @@ class SmsReceiver() : BroadcastReceiver() {
                 CoroutineScope(Dispatchers.IO).launch {
                     val newMessage = Message(
                         messageText = messageBody,
-                        contactId = 1, //todo get contact id from sender = from originating address
+                        contactId = userRepository.getUserByNumber(sender.toString()),
+//                        contactId = 1, //todo get contact id from sender = from originating address
                         timestamp = System.currentTimeMillis()
                     )
                     Log.d("MainActivity", "Sms received in coroutine: $messageBody from $sender")

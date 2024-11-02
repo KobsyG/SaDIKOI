@@ -35,6 +35,11 @@ class ConversationViewModel(private val messagesRepository: IMessagesRepository)
 
     private val _messages = MutableLiveData<List<Message>>()
     val messages: LiveData<List<Message>> = _messages
+
+    private val _conversations = MutableLiveData<List<Message>>()
+    val conversations: LiveData<List<Message>> = _conversations
+
+
 //    val smsManager = SmsManager.getDefault()
 //
 //    fun sendSMS(phoneNumber: String, message: String) {
@@ -55,6 +60,17 @@ class ConversationViewModel(private val messagesRepository: IMessagesRepository)
             }
         }
     }
+
+    fun loadConversations() {
+        viewModelScope.launch {
+
+         //todo check all user ID
+            messagesRepository.getLastMessageFromUser { conversationsList ->
+                _conversations.value = conversationsList
+            }
+        }
+    }
+
 
 
 }

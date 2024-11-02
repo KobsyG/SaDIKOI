@@ -18,4 +18,7 @@ interface MessageDao {
     @Query("SELECT * FROM message WHERE id = :id") //todo order probably
     fun getByContactId(id: Int): Flow<List<Message>>
 
+    @Query("SELECT * FROM message WHERE id = :id ORDER BY timestamp DESC LIMIT 1")
+    fun getLastMessageFromUser(id: Int): Flow<Message>
+
 }
