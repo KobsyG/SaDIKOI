@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.sadikoi.data.Message
 import com.example.sadikoi.ui.conversation.ConversationViewModel
 import com.example.sadikoi.ui.theme.SaDIKOITheme
 
@@ -31,19 +33,20 @@ fun HomeScreen(
         ) {
             Text("Contacts")
         }
-        Column(
-            modifier = Modifier
-//                .fillMaxHeight(0.8f) //todo just maxHeight ?
-                .weight(1f)
-                .fillMaxWidth()
-                .border(1.dp, Color.Green)
-        ) {
-            //todo List of Conversation
-            Text("List of Conversation")
-//            listOf(
-//                 todo
-//            )
-        }
+        ListConversation(conversationViewModel)
+//        Column(
+//            modifier = Modifier
+////                .fillMaxHeight(0.8f) //todo just maxHeight ?
+//                .weight(1f)
+//                .fillMaxWidth()
+//                .border(1.dp, Color.Green)
+//        ) {
+//            //todo List of Conversation
+//            Text("List of Conversation")
+////            listOf(
+////                 todo
+////            )
+//        }
         Button( //todo floatingActionButton
             onClick = onAddUserClicked // todo add a user
 
@@ -54,10 +57,31 @@ fun HomeScreen(
     }
 }
 
+@Composable
+fun ListConversation(conversationViewModel: ConversationViewModel,
+                     listMessage: List<Message> = conversationViewModel.convPreview.collectAsState().value.lastMessage) {
+//    listMessage: List<Message> = conversationViewModel.convPreview.collectAsState().value.lastMessage
+    Column(
+        modifier = Modifier
+                .fillMaxHeight(0.8f) //todo just maxHeight ?
+//            .weight(1f)
+            .fillMaxWidth()
+            .border(1.dp, Color.Green)
+
+    ) {
+       listMessage.map { message ->
+           Text(message.messageText)
+       }
+//        listOf(
+//            conversationViewModel.conversations.value
+//        )
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
     SaDIKOITheme {
-        HomeScreen(onRepertoireClicked = {}, onAddUserClicked = {})
+//        HomeScreen(onRepertoireClicked = {}, onAddUserClicked = {})
     }
 }

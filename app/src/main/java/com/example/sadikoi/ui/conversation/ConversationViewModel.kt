@@ -36,8 +36,19 @@ class ConversationViewModel(private val messagesRepository: IMessagesRepository)
     private val _messages = MutableLiveData<List<Message>>()
     val messages: LiveData<List<Message>> = _messages
 
-    private val _conversations = MutableLiveData<List<Message>>()
-    val conversations: LiveData<List<Message>> = _conversations
+//    private val _conversations = MutableLiveData<List<Message>>()
+//    val conversations: LiveData<List<Message>> = _conversations
+
+    val convPreview: StateFlow<ConvPreview> =
+        messagesRepository.getAllLastMessages().map { message ->
+             ConvPreview(message.) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = ConvPreview()
+            )
+
+
 
 
 //    val smsManager = SmsManager.getDefault()
@@ -61,18 +72,14 @@ class ConversationViewModel(private val messagesRepository: IMessagesRepository)
         }
     }
 
-    fun loadConversations() {
-        viewModelScope.launch {
-
-         //todo check all user ID
-            messagesRepository.getLastMessageFromUser { conversationsList ->
-                _conversations.value = conversationsList
-            }
-        }
-    }
-
-
-
+//    fun loadConversations() {
+//        viewModelScope.launch {
+//
+//            messagesRepository.getAllLastMessages().collect { message ->
+//                _conversations.value = message
+//            }
+//        }
+//    }
 }
 
 data class MessageUi( //todo val isMe boolean ???
@@ -85,4 +92,6 @@ data class MessageUi( //todo val isMe boolean ???
 )
 
 data class ConversationUiState(val messageList: List<Message> = listOf())
+
+data class ConvPreview(val contactId: Int, val lastMessage: List<Message> = listOf())
 

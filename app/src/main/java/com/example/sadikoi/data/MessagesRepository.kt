@@ -11,6 +11,8 @@ interface IMessagesRepository {
     fun getAllMessagesFromUser(id: Int): Flow<List<Message>>
 
     fun getLastMessageFromUser(id: Int): Flow<Message>
+
+    fun getAllLastMessages(): Flow<List<Message>>
 }
 
 class MessagesRepository(private val messageDao: MessageDao) : IMessagesRepository {
@@ -22,5 +24,7 @@ class MessagesRepository(private val messageDao: MessageDao) : IMessagesReposito
     override fun getAllMessagesFromUser(id: Int) = messageDao.getByContactId(id)
 
     override fun getLastMessageFromUser(id: Int) = messageDao.getLastMessageFromUser(id)
+
+    override fun getAllLastMessages() = messageDao.getAllLastMessages()
 
 }

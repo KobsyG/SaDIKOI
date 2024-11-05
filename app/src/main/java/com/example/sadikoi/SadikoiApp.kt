@@ -108,6 +108,7 @@ fun SadikoiApp(
         ) {
             composable(route = SadikoiScreen.Home.name) {
                 HomeScreen(
+                    conversationViewModel,
                     onRepertoireClicked = {
                         //todo viewmodel
                         navController.navigate(SadikoiScreen.Repertoire.name)

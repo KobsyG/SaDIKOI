@@ -21,4 +21,15 @@ interface MessageDao {
     @Query("SELECT * FROM message WHERE id = :id ORDER BY timestamp DESC LIMIT 1")
     fun getLastMessageFromUser(id: Int): Flow<Message>
 
+    //select last message from all user
+    @Query("SELECT * FROM message WHERE (contactId, timestamp) IN (SELECT contactId, MAX(timestamp) FROM message GROUP BY contactId) ORDER BY timestamp DESC")
+    fun getAllLastMessages(): Flow<List<Message>>
+
+//    //select the last message from all users
+//    @Query("SELECT * FROM message WHERE id IN (SELECT id FROM message GROUP BY id ORDER BY MAX(timestamp) DESC) ORDER BY timestamp DESC LIMIT 1")
+//    fun getAllLastMessages(): Flow<Message>
+
+
+
+
 }
