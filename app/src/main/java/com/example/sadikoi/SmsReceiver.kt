@@ -12,6 +12,7 @@ import com.example.sadikoi.data.AppDatabase
 import com.example.sadikoi.data.IUsersRepository
 import com.example.sadikoi.data.Message
 import com.example.sadikoi.data.MessagesRepository
+import com.example.sadikoi.data.User
 import com.example.sadikoi.data.UserPreferencesRepository
 import com.example.sadikoi.data.UsersRepository
 import com.example.sadikoi.ui.conversation.MessageUi
@@ -35,15 +36,44 @@ class SmsReceiver() : BroadcastReceiver() {
                 val sender = message.originatingAddress
                 Log.d("MainActivity", "Sms received: $messageBody from $sender")
                 CoroutineScope(Dispatchers.IO).launch {
-                    val newMessage = Message(
-                        messageText = messageBody,
-                        contactId = userRepository.getUserByNumber(sender.toString()),
+                    val user = userRepository.getUserByNumber(sender.toString())
+                    if (user == null) {
+                       userRepository.insertUser(User(firstName = "", lastName = "", number = sender.toString(), mail = "", passion = "")) //todo le toString oblitere le sender?
+                        val newUser = userRepository.getUserByNumber(sender.toString())
+
+                        if (newUser != null) {
+                            val newMessage = Message(
+                                messageText = messageBody,
+                                contactId = newUser.id,
+                                number = newUser.number,
 //                        contactId = 1, //todo get contact id from sender = from originating address
-                        timestamp = System.currentTimeMillis()
-                    )
-                    Log.d("MainActivity", "Sms received in coroutine: $messageBody from $sender")
-                    messagesRepository.insertMessage(newMessage)
+                                timestamp = System.currentTimeMillis()
+                            )
+
+                            Log.d(
+                                "MainActivity",
+                                "Sms received in coroutine: $messageBody from $sender"
+                            )
+                            messagesRepository.insertMessage(newMessage)
+                        }
+                        else { Log.d("MainActivity", "user is null -> problem lors de la creation") } //todo ?
+
+                    } else {
+
+                        val newMessage = Message(
+                            messageText = messageBody,
+                            contactId = user.id,
+                            number = user.number,
+//                        contactId = 1, //todo get contact id from sender = from originating address
+                            timestamp = System.currentTimeMillis()
+                        )
+                        Log.d(
+                            "MainActivity",
+                            "Sms received in coroutine: $messageBody from $sender"
+                        )
+                        messagesRepository.insertMessage(newMessage)
 //                    database.messageDao().insert(newMessage)
+                    }
                 }
 //                viewModel.onSmsReceived(messageUi) //todo getDatabase and use Dao to update DB so viewmodel can see update
                 //todo see if i choose shared preference instead

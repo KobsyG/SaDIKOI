@@ -19,7 +19,7 @@ import com.example.sadikoi.ui.theme.SaDIKOITheme
 
 @Composable
 fun HomeScreen(
-    conversationViewModel: ConversationViewModel,
+    homeViewModel: HomeViewModel,
     onRepertoireClicked: () -> Unit,
     onAddUserClicked: () -> Unit,
     modifier: Modifier = Modifier
@@ -33,7 +33,7 @@ fun HomeScreen(
         ) {
             Text("Contacts")
         }
-        ListConversation(conversationViewModel)
+        ListConversation(homeViewModel)
 //        Column(
 //            modifier = Modifier
 ////                .fillMaxHeight(0.8f) //todo just maxHeight ?
@@ -58,8 +58,8 @@ fun HomeScreen(
 }
 
 @Composable
-fun ListConversation(conversationViewModel: ConversationViewModel,
-                     listMessage: List<Message> = conversationViewModel.convPreview.collectAsState().value.lastMessage) {
+fun ListConversation(homeViewModel: HomeViewModel,
+                     listConv: List<ConversationPreview> = homeViewModel.convPreviews.collectAsState().value ) {
 //    listMessage: List<Message> = conversationViewModel.convPreview.collectAsState().value.lastMessage
     Column(
         modifier = Modifier
@@ -69,12 +69,24 @@ fun ListConversation(conversationViewModel: ConversationViewModel,
             .border(1.dp, Color.Green)
 
     ) {
-       listMessage.map { message ->
-           Text(message.messageText)
+       listConv.map { conv ->
+          ConvPreviewButton(conv)
        }
 //        listOf(
 //            conversationViewModel.conversations.value
 //        )
+    }
+}
+
+@Composable
+fun ConvPreviewButton(conv: ConversationPreview) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(1.dp, Color.Green)
+    ) {
+        Text(conv.contactName)
+        Text(conv.lastMessage)
     }
 }
 

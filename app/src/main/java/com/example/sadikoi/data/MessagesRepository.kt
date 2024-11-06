@@ -13,6 +13,7 @@ interface IMessagesRepository {
     fun getLastMessageFromUser(id: Int): Flow<Message>
 
     fun getAllLastMessages(): Flow<List<Message>>
+
 }
 
 class MessagesRepository(private val messageDao: MessageDao) : IMessagesRepository {

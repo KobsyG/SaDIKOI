@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.sadikoi.SadikoiApplication
 import com.example.sadikoi.ui.conversation.ConversationViewModel
+import com.example.sadikoi.ui.home.HomeViewModel
 import com.example.sadikoi.ui.repertoire.RepertoireViewModel
 import com.example.sadikoi.ui.topBar.TopBarViewModel
 import com.example.sadikoi.ui.user.UserAddViewModel
@@ -32,6 +33,9 @@ object AppViewModelProvider {
 
         initializer {
             ConversationViewModel(sadikoiApplication().container.messagesRepository)
+        }
+        initializer {
+            HomeViewModel(sadikoiApplication().container.messagesRepository, sadikoiApplication().container.usersRepository)
         }
     }
 }

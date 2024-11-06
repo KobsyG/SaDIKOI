@@ -8,7 +8,11 @@ interface IUsersRepository {
 
     fun getUser(id: Int): Flow<User?>
 
-    fun getUserByNumber(number: String): Int
+    fun getUserByNumber(number: String): User? //todo User? et create user dans smsReceiver
+
+    fun getUserIdByNumber(number: String): Int
+
+    fun getUserNameById(number: Int): Flow<String?>
 
     suspend fun insertUser(user: User)
 
@@ -24,7 +28,11 @@ interface IUsersRepository {
 
         override fun getUser(id: Int): Flow<User?> = userDao.getUser(id)
 
-        override fun getUserByNumber(number: String): Int = userDao.getUserIdByNumber(number)
+        override fun getUserByNumber(number: String): User? = userDao.getUserByNumber(number)
+
+        override fun getUserIdByNumber(number: String): Int = userDao.getUserIdByNumber(number)
+
+        override fun getUserNameById(id: Int): Flow<String?> = userDao.getUserNameById(id)
 
         override suspend fun insertUser(user: User) = userDao.insert(user)
 

@@ -22,6 +22,8 @@ data class Message (
 
     val contactId: Int,
 
+    val number: String,
+
     val messageText: String,
 
     val timestamp: Long,

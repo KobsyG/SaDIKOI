@@ -65,6 +65,7 @@ import com.example.sadikoi.data.IUsersRepository
 import com.example.sadikoi.data.UsersRepository
 import com.example.sadikoi.ui.conversation.ConversationScreen
 import com.example.sadikoi.ui.conversation.ConversationViewModel
+import com.example.sadikoi.ui.home.HomeViewModel
 import com.example.sadikoi.ui.topBar.TopBar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -84,6 +85,7 @@ enum class SadikoiScreen() {
 @Composable
 fun SadikoiApp(
 //    viewModel: UserViewModel = viewModel(),//todo ViewModel
+    homeViewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
     viewModel: UserViewModel = viewModel(factory = AppViewModelProvider.Factory),
     userAddViewModel: UserAddViewModel = viewModel(factory = AppViewModelProvider.Factory),
 //    repertoireViewModel: RepertoireViewModel = viewModel(),
@@ -108,7 +110,7 @@ fun SadikoiApp(
         ) {
             composable(route = SadikoiScreen.Home.name) {
                 HomeScreen(
-                    conversationViewModel,
+                    homeViewModel,
                     onRepertoireClicked = {
                         //todo viewmodel
                         navController.navigate(SadikoiScreen.Repertoire.name)

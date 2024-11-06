@@ -33,20 +33,11 @@ class ConversationViewModel(private val messagesRepository: IMessagesRepository)
 //            )
 
 
-    private val _messages = MutableLiveData<List<Message>>()
+    private val _messages = MutableLiveData<List<Message>>() //todo use onyl StateFlow
     val messages: LiveData<List<Message>> = _messages
 
 //    private val _conversations = MutableLiveData<List<Message>>()
 //    val conversations: LiveData<List<Message>> = _conversations
-
-    val convPreview: StateFlow<ConvPreview> =
-        messagesRepository.getAllLastMessages().map { message ->
-             ConvPreview(message.) }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000),
-                initialValue = ConvPreview()
-            )
 
 
 

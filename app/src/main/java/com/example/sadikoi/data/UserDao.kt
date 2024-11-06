@@ -27,7 +27,13 @@ interface UserDao {
     fun getUser(id: Int): Flow<User> //todo Flow???
 
     @Query("SELECT * from users WHERE number = :number")
+    fun getUserByNumber(number: String): User?
+
+    @Query("SELECT * from users WHERE number = :number")
     fun getUserIdByNumber(number: String): Int
+
+    @Query("SELECT first_name from users WHERE id = :id")
+    fun getUserNameById(id: Int): Flow<String?>
 
 //    @Transaction //todo L'annotation @Transaction dans Room est utilisée pour garantir que toutes les opérations dans une méthode annotée avec @Transaction s'exécutent de manière atomique, c'est-à-dire comme une transaction unique et indivisible. Cela signifie que si une partie de la transaction échoue, alors aucune des opérations de cette transaction ne sera appliquée à la base de données, assurant ainsi la cohérence des données.
 //    @Query("SELECT * FROM users WHERE id = :id")
