@@ -67,6 +67,7 @@ import com.example.sadikoi.ui.conversation.ConversationScreen
 import com.example.sadikoi.ui.conversation.ConversationViewModel
 import com.example.sadikoi.ui.home.HomeViewModel
 import com.example.sadikoi.ui.topBar.TopBar
+import com.example.sadikoi.ui.user.UserDetails
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -119,6 +120,10 @@ fun SadikoiApp(
                         //todo viewmodel
                         navController.navigate(SadikoiScreen.UserAdd.name)
                     },
+                    onConvClicked = { contactId, number ->
+                        conversationViewModel.updateContactId(contactId, number)
+                        navController.navigate(SadikoiScreen.Conversation.name)
+                    },
                     modifier = Modifier
 //                        .padding(innerPadding) //todo probably not innerPadding
                         .fillMaxSize()
@@ -141,10 +146,15 @@ fun SadikoiApp(
                 UserScreen(
                     viewModel,
 //                    user = UserUiState, todo viewModel.getUser ?
-                    user = viewModel.uiState.collectAsState().value, //todo a degager grace a ouioui,
-                    onSendMessageClicked = {
-                        viewModel.setConvId(it)
-                       navController.navigate(SadikoiScreen.Conversation.name)
+//                    user = viewModel.uiState.collectAsState().value, //todo a degager grace a ouioui,
+                    onSendMessageClicked = { contactId, number ->
+                        conversationViewModel.updateContactId(contactId, number)
+                        navController.navigate(SadikoiScreen.Conversation.name)
+                    },
+                    onEditUserClicked = {
+                        Log.d("Ouioui", "onEditUserClicked : $it")
+                        userAddViewModel.updateUiStateById(it)
+                        navController.navigate(SadikoiScreen.UserAdd.name)
                     },
                     navigateBack = { navController.navigateUp() },
                     modifier = Modifier
@@ -154,15 +164,17 @@ fun SadikoiApp(
             composable(route = SadikoiScreen.UserAdd.name) {
                 UserAddScreen(
                     viewModel = userAddViewModel,
+                    userViewModel = viewModel,
                     navigateBack = { navController.navigateUp() },
                     modifier = Modifier
                 )
             }
 
             composable(route = SadikoiScreen.Conversation.name) {
+
                 ConversationScreen(
                     conversationViewModel,
-                    contactId = viewModel.convId.collectAsState().value
+//                    contactId = viewModel.convId.collectAsState().value
 //                    modifier = Modifier
                 )
             }

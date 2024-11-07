@@ -11,6 +11,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,10 +26,11 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun UserScreen(
-    viewModel: UserViewModel? = null, //todo virer le "?" utile pour la preview
+    viewModel: UserViewModel, //todo virer le "?" utile pour la preview
     toAddUser: Boolean = false,
-    onSendMessageClicked: (Int) -> Unit,
-    user: UserUiState = UserUiState(),
+    onSendMessageClicked: (Int, String) -> Unit,
+    onEditUserClicked: (Int) -> Unit,
+    user: UserUiState = viewModel.uiState.collectAsState().value,
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -111,13 +113,15 @@ fun UserScreen(
                 .border(1.dp, Color.Blue)
         ) {
             Button(
-                onClick = {} //todo use the same screen que userAdd mais prérempli + addUser devient modifier user
+                onClick = {
+                    onEditUserClicked(user.id)
+                } //todo use the same screen que userAdd mais prérempli + addUser devient modifier user
             ) {
                 Text("edit User")
             }
             Button(
                 onClick = {
-                    onSendMessageClicked(user.id)
+                    onSendMessageClicked(user.id, user.number)
                 }
             ) {
                 Text("send Message")

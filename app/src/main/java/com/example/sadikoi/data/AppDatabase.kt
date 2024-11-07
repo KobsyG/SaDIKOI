@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [User::class, Message::class], version = 4, exportSchema = false) //todo singleton design pattern if app run in a single process. exportSchema??
+@Database(entities = [User::class, Message::class], version = 5, exportSchema = true) //todo singleton design pattern if app run in a single process. exportSchema??
 abstract class AppDatabase : RoomDatabase() { //todo probably UserDatabase
 
     abstract fun userDao() : UserDao

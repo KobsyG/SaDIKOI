@@ -9,8 +9,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.viewModelScope
 import com.example.sadikoi.data.IUsersRepository
 import com.example.sadikoi.data.User
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+
 //import com.example.sadikoi.data.UserRepository
 
 private const val TAG = "MainActivity"
@@ -31,9 +36,40 @@ class UserAddViewModel(private val usersRepository: IUsersRepository) : ViewMode
         userAddUiState = UserAddUiState(userDetails = userDetails, isEntryValid = validateInput(userDetails))
     }
 
+//    fun updateUiStateById(id: Int) {
+//        Log.d("UserAddViewModel", "updateUiStateById: $id")
+//        usersRepository.getUser(id).map { user ->
+//            Log.d("UserAddViewModel", "updateUiStateById: $user")
+//            if (user != null) {
+//                Log.d("UserAddViewModel", "updateUiStateById: $user")
+//                updateUiState(user.toUserDetails())
+//                Log.d("UserAddViewModel", "updateUiStateById: ${userAddUiState.userDetails}")
+//            }
+//            }
+//        }
+
+    fun updateUiStateById(id: Int) {
+        Log.d("UserAddViewModel", "updateUiStateById: $id")
+        viewModelScope.launch {
+            usersRepository.getUser(id).collect() { user ->
+                Log.d("UserAddViewModel", "updateUiStateById: $user")
+                if (user != null) {
+                    Log.d("UserAddViewModel", "updateUiStateById: $user")
+                    updateUiState(user.toUserDetails())
+                    Log.d("UserAddViewModel", "updateUiStateById: ${userAddUiState.userDetails}")
+                }
+            }
+        }
+    }
+
+
     suspend fun saveUser() {
 
-        if (validateInput()) {
+        if (validateInput() && userAddUiState.userDetails.id != 0) {
+            usersRepository.updateUser(userAddUiState.userDetails.toUser())
+
+        }
+        else if (validateInput()) {
             usersRepository.insertUser(userAddUiState.userDetails.toUser())
         }
 
@@ -62,6 +98,15 @@ class UserAddViewModel(private val usersRepository: IUsersRepository) : ViewMode
 //    mail = mail,
 //    passion = passion,
 //)
+
+fun User.toUserDetails(): UserDetails = UserDetails(
+    id = id,
+    firstName = firstName,
+    lastName = lastName,
+    number = number,
+    mail = mail,
+    passion = passion
+)
 
 fun UserDetails.toUser(): User = User(
     id = id,

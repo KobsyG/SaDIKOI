@@ -32,7 +32,7 @@ object AppViewModelProvider {
         }
 
         initializer {
-            ConversationViewModel(sadikoiApplication().container.messagesRepository)
+            ConversationViewModel(sadikoiApplication().container.messagesRepository, sadikoiApplication().container.usersRepository)
         }
         initializer {
             HomeViewModel(sadikoiApplication().container.messagesRepository, sadikoiApplication().container.usersRepository)

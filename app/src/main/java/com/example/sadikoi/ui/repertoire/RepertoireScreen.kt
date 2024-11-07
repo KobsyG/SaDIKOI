@@ -24,7 +24,7 @@ fun Contact(
             onUserClicked(user)
         },
         modifier = Modifier.fillMaxWidth()
-    ) { Text(user.firstName) }
+    ) { Text(if (user.firstName.isNullOrBlank()) user.number else user.firstName) }
 }
 
 @Composable

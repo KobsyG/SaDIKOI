@@ -36,7 +36,8 @@ class HomeViewModel(private val messagesRepository: IMessagesRepository, private
 //                        "michel",
                         if (contactName.isNullOrBlank()) message.number else contactName,
 //                        contactName ?: message.number,
-                        message.messageText
+                        message.messageText,
+                        message.number
                     )
                 }
 
@@ -58,4 +59,5 @@ data class ConversationPreview(
     val contactId: Int = -1,
     val contactName: String = "",
     val lastMessage: String = "",
+    val number: String = ""
 )

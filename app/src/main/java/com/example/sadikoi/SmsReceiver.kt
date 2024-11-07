@@ -47,7 +47,8 @@ class SmsReceiver() : BroadcastReceiver() {
                                 contactId = newUser.id,
                                 number = newUser.number,
 //                        contactId = 1, //todo get contact id from sender = from originating address
-                                timestamp = System.currentTimeMillis()
+                                timestamp = System.currentTimeMillis(),
+                                isSent = false
                             )
 
                             Log.d(
@@ -65,7 +66,8 @@ class SmsReceiver() : BroadcastReceiver() {
                             contactId = user.id,
                             number = user.number,
 //                        contactId = 1, //todo get contact id from sender = from originating address
-                            timestamp = System.currentTimeMillis()
+                            timestamp = System.currentTimeMillis(),
+                            isSent = false
                         )
                         Log.d(
                             "MainActivity",

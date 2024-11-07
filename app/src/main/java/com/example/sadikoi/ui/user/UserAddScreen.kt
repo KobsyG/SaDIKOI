@@ -29,14 +29,15 @@ import kotlinx.coroutines.launch
 @Composable
 fun UserAddScreen(
     //For Preview
-    viewModel: UserAddViewModel? = null,
-    user: UserAddUiState = viewModel?.userAddUiState ?: UserAddUiState(),
-    onValueChange: (UserDetails) -> Unit = { viewModel?.updateUiState(it) },
+//    viewModel: UserAddViewModel? = null,
+//    user: UserAddUiState = viewModel?.userAddUiState ?: UserAddUiState(),
+//    onValueChange: (UserDetails) -> Unit = { viewModel?.updateUiState(it) },
 
     //For real
-//    viewModel: UserAddViewModel = viewModel(factory = AppViewModelProvider.Factory),
-//    user: UserAddUiState = viewModel.userAddUiState,
-//    onValueChange: (UserDetails) -> Unit = { viewModel.updateUiState(it) },
+    viewModel: UserAddViewModel,
+    userViewModel: UserViewModel,
+    user: UserAddUiState = viewModel.userAddUiState,
+    onValueChange: (UserDetails) -> Unit = { viewModel.updateUiState(it) },
 
 
     userDetail: UserDetails = user.userDetails,
@@ -45,7 +46,7 @@ fun UserAddScreen(
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val coroutineScope = rememberCoroutineScope() //todo pas ici probablement
+    val coroutineScope = rememberCoroutineScope() //todo pas ici probablement ++ pas de coroutine si lié au viewModel -> viewModelScope !
 
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
@@ -127,7 +128,8 @@ fun UserAddScreen(
         Button(
             onClick = {
                 coroutineScope.launch{
-                    viewModel?.saveUser() //todo que faire si lastname or number or firstname isnull -- virer le "?" utile pour la Preview
+                    viewModel.saveUser() //todo que faire si lastname or number or firstname isnull -- virer le "?" utile pour la Preview
+                    userViewModel.setUserToShow(userDetail.toUser())
                     navigateBack()
 
                 }
@@ -138,10 +140,10 @@ fun UserAddScreen(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun UserAddScreenPreview(){
-    SaDIKOITheme {
-        UserAddScreen(navigateBack = {})
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun UserAddScreenPreview(){
+//    SaDIKOITheme {
+//        UserAddScreen(navigateBack = {})
+//    }
+//}

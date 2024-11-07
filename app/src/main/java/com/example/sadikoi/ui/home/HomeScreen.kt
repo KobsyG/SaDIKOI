@@ -22,6 +22,7 @@ fun HomeScreen(
     homeViewModel: HomeViewModel,
     onRepertoireClicked: () -> Unit,
     onAddUserClicked: () -> Unit,
+    onConvClicked: (Int, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -33,7 +34,7 @@ fun HomeScreen(
         ) {
             Text("Contacts")
         }
-        ListConversation(homeViewModel)
+        ListConversation(homeViewModel, onConvClicked = onConvClicked)
 //        Column(
 //            modifier = Modifier
 ////                .fillMaxHeight(0.8f) //todo just maxHeight ?
@@ -59,7 +60,9 @@ fun HomeScreen(
 
 @Composable
 fun ListConversation(homeViewModel: HomeViewModel,
-                     listConv: List<ConversationPreview> = homeViewModel.convPreviews.collectAsState().value ) {
+                     listConv: List<ConversationPreview> = homeViewModel.convPreviews.collectAsState().value,
+                     onConvClicked: (Int, String) -> Unit,
+                     ) {
 //    listMessage: List<Message> = conversationViewModel.convPreview.collectAsState().value.lastMessage
     Column(
         modifier = Modifier
@@ -70,7 +73,7 @@ fun ListConversation(homeViewModel: HomeViewModel,
 
     ) {
        listConv.map { conv ->
-          ConvPreviewButton(conv)
+          ConvPreviewButton(conv, onConvClicked)
        }
 //        listOf(
 //            conversationViewModel.conversations.value
@@ -79,14 +82,23 @@ fun ListConversation(homeViewModel: HomeViewModel,
 }
 
 @Composable
-fun ConvPreviewButton(conv: ConversationPreview) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(1.dp, Color.Green)
+fun ConvPreviewButton(
+    conv: ConversationPreview,
+    onConvClicked: (Int, String) -> Unit,
     ) {
-        Text(conv.contactName)
-        Text(conv.lastMessage)
+    Button(
+        onClick = {
+            onConvClicked(conv.contactId, conv.number)
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(1.dp, Color.Green)
+        ) {
+            Text(conv.contactName)
+            Text(conv.lastMessage)
+        }
     }
 }
 
