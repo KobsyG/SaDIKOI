@@ -113,7 +113,11 @@ fun MessageList(
 ) {
     Log.d("ConversationScreen", "ContactId : ${conversationViewModel.contactId.collectAsState().value}")
 //    val messages by conversationViewModel.messages.value
-    Log.d("ConversationScreen", "Messages : ${conversationViewModel.messages.collectAsState().value}")
+
+    Log.d("ConversationScreen", "Messages : ${conversationViewModel.messages}")
+
+    Log.d("ConversationScreen", "Messages.collect : ${conversationViewModel.messages.collectAsState()}")
+    Log.d("ConversationScreen", "Messages.collect.value : ${conversationViewModel.messages.collectAsState().value}")
 
        val messageList = conversationViewModel.messages.collectAsState().value
 
@@ -156,6 +160,7 @@ fun InputBar(
             }
         )
         Button(
+            enabled = message.text.isNotEmpty(),
             onClick = {
                 viewModel.sendSMS()
             }

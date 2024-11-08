@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import com.example.sadikoi.SadikoiApplication
 import com.example.sadikoi.data.IUsersRepository
 import com.example.sadikoi.data.UsersRepository
 import kotlinx.coroutines.flow.collectLatest
@@ -39,6 +40,7 @@ import kotlinx.coroutines.flow.collectLatest
 class ConversationViewModel(
     private val messagesRepository: IMessagesRepository,
     private val usersRepository: IUsersRepository,
+//    val smsManager: SmsManager //todo pour ne pas utiliser SmsManager.getDefault()
 ) : ViewModel() {
 
 //    val conversationUiState: StateFlow<ConversationUiState> =
@@ -79,8 +81,8 @@ class ConversationViewModel(
     @OptIn(ExperimentalCoroutinesApi::class)
     val messages: StateFlow<List<Message>> = _contactId
         .flatMapLatest { id ->
-            messagesRepository.getAllMessagesFromUser(id)
-        }
+                messagesRepository.getAllMessagesFromUser(id)
+            }
             .stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(5000),
@@ -111,12 +113,15 @@ class ConversationViewModel(
 
 
     val smsManager = SmsManager.getDefault()
+//    val smsManager = sadi
 
     fun sendSMS() {
+
 
         newMessage = newMessage.copy(
             contactId = contactId.value,
             number = number.value,
+            timestamp = System.currentTimeMillis()
         )
         Log.d("sendSMS", "sendSMS : $newMessage")
         Log.d("sendSMS", "toMessage : ${newMessage.toMessage()}")
@@ -127,6 +132,7 @@ class ConversationViewModel(
 
             messagesRepository.insertMessage(newMessage.toMessage())
             smsManager.sendTextMessage(newMessage.number, null, newMessage.text, null, null)
+            updateMessage("")
         }
 
 

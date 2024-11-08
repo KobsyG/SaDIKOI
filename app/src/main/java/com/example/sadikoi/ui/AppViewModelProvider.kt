@@ -1,5 +1,8 @@
 package com.example.sadikoi.ui
 
+import android.content.Context
+import android.telephony.SmsManager
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
@@ -32,7 +35,12 @@ object AppViewModelProvider {
         }
 
         initializer {
-            ConversationViewModel(sadikoiApplication().container.messagesRepository, sadikoiApplication().container.usersRepository)
+            ConversationViewModel(
+                sadikoiApplication().container.messagesRepository,
+                sadikoiApplication().container.usersRepository,
+//                ContextCompat.getSystemService(SmsManager::javaClass) //todo pour ne pas utiliser SmsManager.getDefault
+//                sadikoiApplication().getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE)
+                )
         }
         initializer {
             HomeViewModel(sadikoiApplication().container.messagesRepository, sadikoiApplication().container.usersRepository)

@@ -66,6 +66,7 @@ import com.example.sadikoi.data.UsersRepository
 import com.example.sadikoi.ui.conversation.ConversationScreen
 import com.example.sadikoi.ui.conversation.ConversationViewModel
 import com.example.sadikoi.ui.home.HomeViewModel
+import com.example.sadikoi.ui.preferences.LanguageScreen
 import com.example.sadikoi.ui.topBar.TopBar
 import com.example.sadikoi.ui.user.UserDetails
 import kotlinx.coroutines.flow.Flow
@@ -80,7 +81,8 @@ enum class SadikoiScreen() {
     User,
     UserAdd, //todo j'aime pas, a voir
     Repertoire,
-    Conversation
+    Conversation,
+    Language
 }
 
 @Composable
@@ -96,7 +98,10 @@ fun SadikoiApp(
 ) {
     Scaffold(
         topBar = {
-            TopBar(
+            TopBar( //todo TopAppBar direct ??
+                onLanguageButtonClicked = {
+                    navController.navigate(SadikoiScreen.Language.name)
+                },
                 modifier = Modifier
                     .height(40.dp)
                     .border(1.dp, Color.Blue)
@@ -128,7 +133,7 @@ fun SadikoiApp(
 //                        .padding(innerPadding) //todo probably not innerPadding
                         .fillMaxSize()
                         .padding(16.dp)
-                        .border(1.dp, Color.Red)
+//                        .border(1.dp, Color.Red)
                 )
             }
             composable(route = SadikoiScreen.Repertoire.name) {
@@ -176,6 +181,14 @@ fun SadikoiApp(
                     conversationViewModel,
 //                    contactId = viewModel.convId.collectAsState().value
 //                    modifier = Modifier
+                )
+            }
+
+            composable(route = SadikoiScreen.Language.name) {
+
+                LanguageScreen(
+
+                    navigateBack = { navController.navigateUp() },
                 )
             }
         }

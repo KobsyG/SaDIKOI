@@ -15,7 +15,7 @@ interface MessageDao {
     @Delete
     suspend fun delete(message: Message) //todo suspend devant fun pour le run on a separate thread
 
-    @Query("SELECT * FROM message WHERE id = :id") //todo order probably
+    @Query("SELECT * FROM message WHERE ContactId = :id") //todo order probably
     fun getByContactId(id: Int): Flow<List<Message>>
 
     @Query("SELECT * FROM message WHERE id = :id ORDER BY timestamp DESC LIMIT 1")
