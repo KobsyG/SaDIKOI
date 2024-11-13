@@ -36,6 +36,10 @@ class UserAddViewModel(private val usersRepository: IUsersRepository) : ViewMode
         userAddUiState = UserAddUiState(userDetails = userDetails, isEntryValid = validateInput(userDetails))
     }
 
+    fun emptyUiState() {
+        userAddUiState = UserAddUiState()
+    }
+
 //    fun updateUiStateById(id: Int) {
 //        Log.d("UserAddViewModel", "updateUiStateById: $id")
 //        usersRepository.getUser(id).map { user ->

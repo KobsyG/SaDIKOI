@@ -1,13 +1,22 @@
 package com.example.sadikoi.ui.home
 
+import android.annotation.SuppressLint
+import android.graphics.drawable.Icon
 import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -20,23 +29,28 @@ import com.example.sadikoi.data.Message
 import com.example.sadikoi.ui.conversation.ConversationViewModel
 import com.example.sadikoi.ui.theme.SaDIKOITheme
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter") //todo a garder?
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel,
     onRepertoireClicked: () -> Unit,
-    onAddUserClicked: () -> Unit,
+//    onAddUserClicked: () -> Unit,
     onConvClicked: (Int, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier
-    ) {
-        Button(
-            onClick = onRepertoireClicked, //todo go to userListScreen
-//            modifier = modifier,
-        ) {
-            Text("Contacts")
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onRepertoireClicked
+            ) {
+                Icon(
+                    Icons.Default.Person,
+                    contentDescription = "repertoire"
+                )
+            }
         }
+    ) {
+
         ListConversation(homeViewModel, onConvClicked = onConvClicked)
 //        Column(
 //            modifier = Modifier
@@ -51,15 +65,14 @@ fun HomeScreen(
 ////                 todo
 ////            )
 //        }
-        Button( //todo floatingActionButton
-            onClick = onAddUserClicked // todo add a user
-
-        ) {
-            Text("Add a User")
-        }
-
+//        Button( //todo floatingActionButton
+//            onClick = onAddUserClicked // todo add a user
+//
+//        ) {
+//            Text("Add a User")
+//        }
     }
-}
+    }
 
 @Composable
 fun ListConversation(homeViewModel: HomeViewModel,
@@ -67,17 +80,20 @@ fun ListConversation(homeViewModel: HomeViewModel,
                      onConvClicked: (Int, String) -> Unit,
                      ) {
 //    listMessage: List<Message> = conversationViewModel.convPreview.collectAsState().value.lastMessage
-    Column(
+    LazyColumn(
         modifier = Modifier
-                .fillMaxHeight(0.8f) //todo just maxHeight ?
+//                .fillMaxHeight(0.8f) //todo just maxHeight ?
 //            .weight(1f)
             .fillMaxWidth()
 //            .border(1.dp, Color.Green)
 
     ) {
-       listConv.map { conv ->
-          ConvPreviewButton(conv, onConvClicked)
-       }
+        items(listConv) { conv ->
+            ConvPreviewButton(conv, onConvClicked)
+        }
+//       listConv.map { conv ->
+//          ConvPreviewButton(conv, onConvClicked)
+//       }
 //        listOf(
 //            conversationViewModel.conversations.value
 //        )

@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        enableEdgeToEdge() //todo ca degage ??
-
+// todo sadikoi theme
 //        val requestPermissionLauncher =
 //            registerForActivityResult(ActivityResultContracts.RequestPermission()
 //            ) {

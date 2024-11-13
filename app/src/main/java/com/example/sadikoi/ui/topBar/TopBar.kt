@@ -1,5 +1,6 @@
 package com.example.sadikoi.ui.topBar
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -26,13 +27,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.sadikoi.R
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import com.example.sadikoi.SadikoiScreen
 import com.example.sadikoi.ui.AppViewModelProvider
 
 private const val TAG = "MainActivity"
@@ -42,6 +47,10 @@ private const val TAG = "MainActivity"
 fun TopBar( //todo pour ce TopBar finalement ? TopAppBar direct ?
     viewModel: TopBarViewModel = viewModel(factory = AppViewModelProvider.Factory),
     onLanguageButtonClicked: () -> Unit,
+    navController: NavHostController, //todo a tej c'est juste pour un test
+    currentScreen: SadikoiScreen,
+    canNavigateBack: Boolean,
+    navigateUp: () -> Unit,
     modifier: Modifier = Modifier
         .height(40.dp)
         .border(1.dp, Color.Blue)
@@ -52,22 +61,38 @@ fun TopBar( //todo pour ce TopBar finalement ? TopAppBar direct ?
 
     TopAppBar(
         title = {
-            Text(stringResource(R.string.app_name))
+            Text(stringResource(R.string.app_name)) //todo changer en fonction du screen + number/name dans conversation
         }, // todo get from Resourse (same name for all languages ? )
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = color,
 //            containerColor = Color(0x00000000)
         ),
         navigationIcon = {
+            Log.d("TopBar", "navController.previousBackStackEntry : ${navController.previousBackStackEntry}")
+            Log.d("TopBar", "canNavigateBack $canNavigateBack")
+            if (canNavigateBack) {
+                IconButton(onClick = navigateUp) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "Localized description"
+                    )
+                }
+            } else {
 
-            Image(
-                painter = painterResource(id = R.drawable.logo),
-                contentDescription = "logo42",
-                modifier = Modifier
+                IconButton(onClick = {
+                    Log.d("TopBar", "navController.previousBackStackEntry : ${navController.previousBackStackEntry}")
+                    Log.d("TopBar", "canNavigateBack $canNavigateBack")
+                }) {
+                    Image(
+
+                        painter = painterResource(id = R.drawable.logo),
+                        contentDescription = "logo42",
+                        modifier = Modifier
 //                .fillMaxHeight()
 //                .aspectRatio(1f)
-                  .sizeIn(maxHeight = 56.dp)
-                )
+                            .sizeIn(maxHeight = 56.dp)
+                    )
+                }
 //            )
 //            IconButton(onClick = { }) {
 //                Icon(
@@ -75,12 +100,19 @@ fun TopBar( //todo pour ce TopBar finalement ? TopAppBar direct ?
 //                    contentDescription = "Localized description"
 //                )
 //            }
+            }
         },
         actions = {
 //            AppBarMenu()
             ColorMenu(viewModel)
             TextButton(
-                onClick = onLanguageButtonClicked
+                onClick = {
+                    Log.d("TopBar", "onLanguageButtonClicked: $currentScreen")
+                    Log.d("TopBar", "onLanguageButtonClicked: ${currentScreen != SadikoiScreen.Language}")
+                    if (currentScreen != SadikoiScreen.Language) {
+                        onLanguageButtonClicked()
+                    }
+                }
             ) {
                 Icon(painter = painterResource(id = R.drawable.language_icon),
                     contentDescription = "Localized description")

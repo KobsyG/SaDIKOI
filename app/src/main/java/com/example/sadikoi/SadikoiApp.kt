@@ -61,6 +61,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.sadikoi.data.IUsersRepository
 import com.example.sadikoi.data.UsersRepository
 import com.example.sadikoi.ui.conversation.ConversationScreen
@@ -94,14 +96,27 @@ fun SadikoiApp(
 //    repertoireViewModel: RepertoireViewModel = viewModel(),
     repertoireViewModel: RepertoireViewModel = viewModel(factory = AppViewModelProvider.Factory),
     conversationViewModel: ConversationViewModel = viewModel(factory = AppViewModelProvider.Factory),
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+
 ) {
+
+    val backStackEntry by navController.currentBackStackEntryAsState()
+
+    val currentScreen = SadikoiScreen.valueOf(
+        backStackEntry?.destination?.route ?: SadikoiScreen.Home.name
+    )
     Scaffold(
         topBar = {
+            Log.d("TopBarafasfasf", "navController.previousBackStackEntry : $navController.previousBackStackEntry")
             TopBar( //todo TopAppBar direct ??
                 onLanguageButtonClicked = {
+                    Log.d("Ouioui", "onLanguageButtonClicked")
                     navController.navigate(SadikoiScreen.Language.name)
                 },
+                navController = navController,
+                currentScreen = currentScreen,
+                canNavigateBack = navController.previousBackStackEntry != null,
+                navigateUp = { navController.navigateUp() },
                 modifier = Modifier
                     .height(40.dp)
                     .border(1.dp, Color.Blue)
@@ -121,10 +136,12 @@ fun SadikoiApp(
                         //todo viewmodel
                         navController.navigate(SadikoiScreen.Repertoire.name)
                     },
-                    onAddUserClicked = {
-                        //todo viewmodel
-                        navController.navigate(SadikoiScreen.UserAdd.name)
-                    },
+//                    onAddUserClicked = {
+//                        //todo viewmodel
+//                        userAddViewModel.emptyUiState()
+//                        navController.navigate(SadikoiScreen.UserAdd.name)
+//                    },
+
                     onConvClicked = { contactId, number ->
                         conversationViewModel.updateContactId(contactId, number)
                         navController.navigate(SadikoiScreen.Conversation.name)
@@ -139,6 +156,10 @@ fun SadikoiApp(
             composable(route = SadikoiScreen.Repertoire.name) {
                 RepertoireScreen(
 //                    repertoireViewModel,
+                    onAddUserClicked = {
+                        userAddViewModel.emptyUiState()
+                        navController.navigate(SadikoiScreen.UserAdd.name)
+                    },
                     repertoireViewModel.repertoireUiState.collectAsState().value.userList,
                     onUserClicked = {
                         viewModel.setUserToShow(it)

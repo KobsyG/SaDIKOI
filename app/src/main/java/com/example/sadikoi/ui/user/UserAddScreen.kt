@@ -1,5 +1,6 @@
 package com.example.sadikoi.ui.user
 
+import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,13 +8,19 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -48,13 +55,36 @@ fun UserAddScreen(
 ) {
     val coroutineScope = rememberCoroutineScope() //todo pas ici probablement ++ pas de coroutine si lié au viewModel -> viewModelScope !
 
+    Log.d("UserAddScreen", "UserAddScreen: $userDetail")
+
     Column(
-        verticalArrangement = Arrangement.SpaceBetween,
+//        verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .fillMaxHeight(0.8f)
             .fillMaxWidth()
             .border(1.dp, Color.Red)
     ) {
+        Row(
+            horizontalArrangement = Arrangement.End,
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            if (userDetail.id != 0) {
+                Button(
+                    onClick = {
+                        coroutineScope.launch {
+                            userViewModel?.deleteUser() //todo virer le "?" utile pour la preview
+                            navigateBack()
+                        }
+                    }
+                ) {
+                    Icon(
+                        Icons.Default.Delete,
+                        contentDescription = "send Message"
+                    )
+                }
+            }
+        }
         Row(
             horizontalArrangement = Arrangement.SpaceAround,
             modifier = Modifier
@@ -65,7 +95,10 @@ fun UserAddScreen(
             Text("Nom")
                 TextField( //todo sizemax
                     value = userDetail.lastName,
-                    onValueChange = { onValueChange(userDetail.copy(lastName = it)) }
+                    onValueChange = { onValueChange(userDetail.copy(lastName = it)) },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    )
                 )
         }
         Row(
@@ -79,7 +112,11 @@ fun UserAddScreen(
 
                 TextField( //todo sizemax
                     value = userDetail.firstName,
-                    onValueChange = { onValueChange(userDetail.copy(firstName = it)) }
+                    onValueChange = { onValueChange(userDetail.copy(firstName = it)) },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    )
+
                 )
 
         }
@@ -93,6 +130,10 @@ fun UserAddScreen(
             Text("Numero") //todo que des number + 10 number ?
                 TextField(
                     value = userDetail.number,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Phone,
+                        imeAction = ImeAction.Next
+                    ),
                     onValueChange = { onValueChange(userDetail.copy(number = it)) }
                 )
 
@@ -107,7 +148,10 @@ fun UserAddScreen(
             Text("Mail")
                 TextField(
                     value = userDetail.mail,
-                    onValueChange = { onValueChange(userDetail.copy(mail = it)) }
+                    onValueChange = { onValueChange(userDetail.copy(mail = it)) },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    )
                 )
 
         }
@@ -121,7 +165,10 @@ fun UserAddScreen(
             Text("Passion")
                 TextField(
                     value = userDetail.passion,
-                    onValueChange = { onValueChange(userDetail.copy(passion = it)) }
+                    onValueChange = { onValueChange(userDetail.copy(passion = it)) },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Done
+                    )
                 )
 
         }

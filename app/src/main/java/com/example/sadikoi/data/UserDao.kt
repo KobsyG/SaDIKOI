@@ -20,7 +20,7 @@ interface UserDao {
     @Update
     suspend fun update(user: User)
 
-    @Query("SELECT * FROM users")
+    @Query("SELECT * FROM users ORDER BY CASE WHEN first_name IS NOT NULL AND first_name != '' THEN 1 ELSE 2 END, LOWER(first_name)")
     fun getAll(): Flow<List<User>> //todo Flow???
 
     @Query("SELECT * from users WHERE id = :id")
