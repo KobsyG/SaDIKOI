@@ -39,10 +39,13 @@ import androidx.compose.foundation.background
 //import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -102,7 +105,7 @@ fun UserScreen(
 //                    )
 //                }
                 Spacer(
-                    modifier = Modifier
+                    modifier = Modifier.weight(1f)
                 )
                 UserPicture()
                 Button(
@@ -110,6 +113,7 @@ fun UserScreen(
                         onEditUserClicked(user.id)
                     }, //todo use the same screen que userAdd mais prérempli + addUser devient modifier user
                     modifier = Modifier.border(1.dp, Color.Green)
+                        .weight(1f)
                     ) {
                     Icon(
                         Icons.Default.Edit,
@@ -119,118 +123,136 @@ fun UserScreen(
             }
             Row(
 //                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
                     .border(1.dp, Color.Blue)
                     .background(color = Color.LightGray)
+                    .height(TextFieldDefaults.MinHeight)
             ) {
                 Text(
                     textAlign = TextAlign.Center,
                     text = "Nom",
                     modifier = Modifier
                         .background(color = Color.Gray)
-                        .padding(8.dp)
-                        .fillMaxWidth(0.2f)
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .wrapContentHeight()
+                        .border(1.dp, Color.Blue)
 
                 )
                 Text(
                     text = user.lastName,
                     modifier = Modifier
-//                        .background(color = Color.LightGray)
                         .padding(8.dp)
+                        .weight(3f)
                     )
             }
             Row(
 //                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
                     .border(1.dp, Color.Blue)
                     .background(color = Color.LightGray)
+                    .height(TextFieldDefaults.MinHeight)
             ) {
                 Text(
                     textAlign = TextAlign.Center,
                     text = "Prenom",
                     modifier = Modifier
                         .background(color = Color.Gray)
-                        .padding(8.dp)
-                        .fillMaxWidth(0.2f)
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .wrapContentHeight()
                     )
 
                 Text(
                     text = user.firstName,
                     modifier = Modifier
                         .padding(8.dp)
+                        .weight(3f)
 
                 )
             }
             Row(
 //                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
                     .border(1.dp, Color.Blue)
                     .background(color = Color.LightGray)
+                    .height(TextFieldDefaults.MinHeight)
             ) {
                 Text(
                     textAlign = TextAlign.Center,
                     text = "Numero",
                     modifier = Modifier
                         .background(color = Color.Gray)
-                        .padding(8.dp)
-                        .fillMaxWidth(0.2f)
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .wrapContentHeight()
                 )
                 Text(
                     text = user.number.toString(),
                  modifier = Modifier
-                    .padding(8.dp)
+                     .padding(8.dp)
+                     .weight(3f)
                 ) //todo number String direct ?
             }
             Row(
 //                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
                     .border(1.dp, Color.Blue)
                     .background(color = Color.LightGray)
+                    .height(TextFieldDefaults.MinHeight)
             ) {
                 Text(
                     textAlign = TextAlign.Center,
                     text = "Mail",
                     modifier = Modifier
                         .background(color = Color.Gray)
-                        .padding(8.dp)
-                        .fillMaxWidth(0.2f)
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .wrapContentHeight()
                     )
                 Text(
                     text = user.mail,
                     modifier = Modifier
-                    .background(color = Color.LightGray)
                         .padding(8.dp)
+                        .weight(3f)
                 )
             }
             Row(
 //                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
                     .border(1.dp, Color.Blue)
                     .background(color = Color.LightGray)
+                    .height(TextFieldDefaults.MinHeight)
             ) {
                 Text(
                     textAlign = TextAlign.Center,
                     text = "Passion",
                     modifier = Modifier
                         .background(color = Color.Gray)
-                        .padding(8.dp)
-                        .fillMaxWidth(0.2f)
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .wrapContentHeight()
                     )
                 Text(
                     text = user.passion,
                     modifier = Modifier
-                        .background(color = Color.LightGray)
                         .padding(8.dp)
+                        .weight(3f)
                     )
             }
 //            Row(
