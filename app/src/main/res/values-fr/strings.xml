@@ -1,3 +1,8 @@
 <resources>
 <!--    <string name="app_name">SaDIKOIFROMG</string>-->
+    <string name="last_name">Nom</string>
+    <string name="first_name">Prénom</string>
+    <string name="number">Numéro</string>
+    <string name="mail">Email</string>
+    <string name="passion">Passion</string>
 </resources>

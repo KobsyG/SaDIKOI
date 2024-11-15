@@ -1,6 +1,7 @@
 package com.example.sadikoi.ui.user
 
 import android.annotation.SuppressLint
+import androidx.annotation.StringRes
 import androidx.compose.foundation.border
 import androidx.compose.foundation.content.MediaType.Companion.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -49,7 +50,40 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import com.example.sadikoi.R
+
+@Composable
+fun BarInfo(
+    modifier: Modifier = Modifier,
+    barName: String,
+    text: @Composable () -> Unit
+) {
+    Row(
+//                horizontalArrangement = Arrangement.SpaceAround,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .border(1.dp, Color.Blue)
+            .background(color = Color.LightGray)
+            .height(TextFieldDefaults.MinHeight)
+    ) {
+        Text(
+            textAlign = TextAlign.Center,
+            text = barName,
+            modifier = Modifier
+                .background(color = Color.Gray)
+                .weight(1f)
+                .fillMaxHeight()
+                .wrapContentHeight()
+                .border(1.dp, Color.Blue)
+
+        )
+        text()
+    }
+}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter") //todo a garder ?
 @Composable
@@ -112,7 +146,8 @@ fun UserScreen(
                     onClick = {
                         onEditUserClicked(user.id)
                     }, //todo use the same screen que userAdd mais prérempli + addUser devient modifier user
-                    modifier = Modifier.border(1.dp, Color.Green)
+                    modifier = Modifier
+                        .border(1.dp, Color.Green)
                         .weight(1f)
                     ) {
                     Icon(
@@ -121,140 +156,177 @@ fun UserScreen(
                     )
                 }
             }
-            Row(
-//                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically,
+            BarInfo(barName = stringResource(R.string.last_name), text = {Text(
+                text = user.lastName,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .border(1.dp, Color.Blue)
-                    .background(color = Color.LightGray)
-                    .height(TextFieldDefaults.MinHeight)
-            ) {
-                Text(
-                    textAlign = TextAlign.Center,
-                    text = "Nom",
-                    modifier = Modifier
-                        .background(color = Color.Gray)
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .wrapContentHeight()
-                        .border(1.dp, Color.Blue)
+                    .padding(8.dp)
+                    .weight(3f)
+            )} )
 
-                )
-                Text(
-                    text = user.lastName,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .weight(3f)
-                    )
-            }
-            Row(
-//                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically,
+            BarInfo(barName = stringResource(R.string.first_name), text = {Text(
+                text = user.firstName,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .border(1.dp, Color.Blue)
-                    .background(color = Color.LightGray)
-                    .height(TextFieldDefaults.MinHeight)
-            ) {
-                Text(
-                    textAlign = TextAlign.Center,
-                    text = "Prenom",
-                    modifier = Modifier
-                        .background(color = Color.Gray)
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .wrapContentHeight()
-                    )
+                    .padding(8.dp)
+                    .weight(3f)
+            )})
 
-                Text(
-                    text = user.firstName,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .weight(3f)
+            BarInfo(barName = stringResource(R.string.number), text = {Text(
+                text = user.number,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .weight(3f)
+            )})
 
-                )
-            }
-            Row(
-//                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically,
+            BarInfo(barName = stringResource(R.string.mail), text = {Text(
+                text = user.mail,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .border(1.dp, Color.Blue)
-                    .background(color = Color.LightGray)
-                    .height(TextFieldDefaults.MinHeight)
-            ) {
-                Text(
-                    textAlign = TextAlign.Center,
-                    text = "Numero",
-                    modifier = Modifier
-                        .background(color = Color.Gray)
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .wrapContentHeight()
-                )
-                Text(
-                    text = user.number.toString(),
-                 modifier = Modifier
-                     .padding(8.dp)
-                     .weight(3f)
-                ) //todo number String direct ?
-            }
-            Row(
-//                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically,
+                    .padding(8.dp)
+                    .weight(3f)
+            )})
+
+            BarInfo(barName = stringResource(R.string.passion), text = {Text(
+                text = user.passion,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .border(1.dp, Color.Blue)
-                    .background(color = Color.LightGray)
-                    .height(TextFieldDefaults.MinHeight)
-            ) {
-                Text(
-                    textAlign = TextAlign.Center,
-                    text = "Mail",
-                    modifier = Modifier
-                        .background(color = Color.Gray)
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .wrapContentHeight()
-                    )
-                Text(
-                    text = user.mail,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .weight(3f)
-                )
-            }
-            Row(
-//                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .border(1.dp, Color.Blue)
-                    .background(color = Color.LightGray)
-                    .height(TextFieldDefaults.MinHeight)
-            ) {
-                Text(
-                    textAlign = TextAlign.Center,
-                    text = "Passion",
-                    modifier = Modifier
-                        .background(color = Color.Gray)
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .wrapContentHeight()
-                    )
-                Text(
-                    text = user.passion,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .weight(3f)
-                    )
-            }
+                    .padding(8.dp)
+                    .weight(3f)
+            )})
+
+
+
+//            Row(
+////                horizontalArrangement = Arrangement.SpaceAround,
+//                verticalAlignment = Alignment.CenterVertically,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(16.dp)
+//                    .border(1.dp, Color.Blue)
+//                    .background(color = Color.LightGray)
+//                    .height(TextFieldDefaults.MinHeight)
+//            ) {
+//                Text(
+//                    textAlign = TextAlign.Center,
+//                    text = "Nom",
+//                    modifier = Modifier
+//                        .background(color = Color.Gray)
+//                        .weight(1f)
+//                        .fillMaxHeight()
+//                        .wrapContentHeight()
+//                        .border(1.dp, Color.Blue)
+//
+//                )
+//                Text(
+//                    text = user.lastName,
+//                    modifier = Modifier
+//                        .padding(8.dp)
+//                        .weight(3f)
+//                    )
+//            }
+//            Row(
+////                horizontalArrangement = Arrangement.SpaceAround,
+//                verticalAlignment = Alignment.CenterVertically,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(16.dp)
+//                    .border(1.dp, Color.Blue)
+//                    .background(color = Color.LightGray)
+//                    .height(TextFieldDefaults.MinHeight)
+//            ) {
+//                Text(
+//                    textAlign = TextAlign.Center,
+//                    text = "Prenom",
+//                    modifier = Modifier
+//                        .background(color = Color.Gray)
+//                        .weight(1f)
+//                        .fillMaxHeight()
+//                        .wrapContentHeight()
+//                    )
+//
+//                Text(
+//                    text = user.firstName,
+//                    modifier = Modifier
+//                        .padding(8.dp)
+//                        .weight(3f)
+//
+//                )
+//            }
+//            Row(
+////                horizontalArrangement = Arrangement.SpaceAround,
+//                verticalAlignment = Alignment.CenterVertically,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(16.dp)
+//                    .border(1.dp, Color.Blue)
+//                    .background(color = Color.LightGray)
+//                    .height(TextFieldDefaults.MinHeight)
+//            ) {
+//                Text(
+//                    textAlign = TextAlign.Center,
+//                    text = "Numero",
+//                    modifier = Modifier
+//                        .background(color = Color.Gray)
+//                        .weight(1f)
+//                        .fillMaxHeight()
+//                        .wrapContentHeight()
+//                )
+//                Text(
+//                    text = user.number.toString(),
+//                 modifier = Modifier
+//                     .padding(8.dp)
+//                     .weight(3f)
+//                ) //todo number String direct ?
+//            }
+//            Row(
+////                horizontalArrangement = Arrangement.SpaceAround,
+//                verticalAlignment = Alignment.CenterVertically,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(16.dp)
+//                    .border(1.dp, Color.Blue)
+//                    .background(color = Color.LightGray)
+//                    .height(TextFieldDefaults.MinHeight)
+//            ) {
+//                Text(
+//                    textAlign = TextAlign.Center,
+//                    text = "Mail",
+//                    modifier = Modifier
+//                        .background(color = Color.Gray)
+//                        .weight(1f)
+//                        .fillMaxHeight()
+//                        .wrapContentHeight()
+//                    )
+//                Text(
+//                    text = user.mail,
+//                    modifier = Modifier
+//                        .padding(8.dp)
+//                        .weight(3f)
+//                )
+//            }
+//            Row(
+////                horizontalArrangement = Arrangement.SpaceAround,
+//                verticalAlignment = Alignment.CenterVertically,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(16.dp)
+//                    .border(1.dp, Color.Blue)
+//                    .background(color = Color.LightGray)
+//                    .height(TextFieldDefaults.MinHeight)
+//            ) {
+//                Text(
+//                    textAlign = TextAlign.Center,
+//                    text = "Passion",
+//                    modifier = Modifier
+//                        .background(color = Color.Gray)
+//                        .weight(1f)
+//                        .fillMaxHeight()
+//                        .wrapContentHeight()
+//                    )
+//                Text(
+//                    text = user.passion,
+//                    modifier = Modifier
+//                        .padding(8.dp)
+//                        .weight(3f)
+//                    )
+//            }
 //            Row(
 //                horizontalArrangement = Arrangement.SpaceAround,
 //                modifier = Modifier

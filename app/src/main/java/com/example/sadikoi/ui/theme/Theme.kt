@@ -105,7 +105,8 @@ private val darkScheme = darkColorScheme(
 
 @Composable
 fun SaDIKOITheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+//    darkTheme: Boolean = isSystemInDarkTheme(), //todo
+    darkTheme: Boolean = false,
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit

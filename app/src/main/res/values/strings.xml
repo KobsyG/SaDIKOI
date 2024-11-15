@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">SaDIKOI</string>
 <!--    <string name="colorSetting"></string>-->
+    <string name="last_name">Lastname</string>
+    <string name="first_name">Firstname</string>
+    <string name="number">Number</string>
+    <string name="mail">Mail</string>
+    <string name="passion">Passion</string>
 </resources>

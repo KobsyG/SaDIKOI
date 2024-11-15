@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.sadikoi.data.UserPreferencesRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -20,6 +22,18 @@ class TopBarViewModel(private val userPreferencesRepository: UserPreferencesRepo
             initialValue = Color(0xFF1976D2)
         )
 
+    val topBarColorOption: StateFlow<ColorOption> = userPreferencesRepository.topBarColorOption.map { ColorOption.entries[it] }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = ColorOption.Primary
+        )
+
+    fun selectColorOption(colorOption: Int) {
+        viewModelScope.launch {
+            userPreferencesRepository.saveTopBarColorOption(colorOption)
+        }
+    }
 
     fun selectColor(color: Color) {
         viewModelScope.launch {
@@ -29,3 +43,10 @@ class TopBarViewModel(private val userPreferencesRepository: UserPreferencesRepo
     }
 
 }
+
+enum class ColorOption {
+    Primary,
+    Surface,
+    SurfaceVariant
+}
+

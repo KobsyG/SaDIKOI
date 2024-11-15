@@ -22,6 +22,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -70,6 +71,7 @@ import com.example.sadikoi.ui.conversation.ConversationViewModel
 import com.example.sadikoi.ui.home.HomeViewModel
 import com.example.sadikoi.ui.preferences.LanguageScreen
 import com.example.sadikoi.ui.topBar.TopBar
+import com.example.sadikoi.ui.topBar.TopBarViewModel
 import com.example.sadikoi.ui.user.UserDetails
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -90,6 +92,7 @@ enum class SadikoiScreen() {
 @Composable
 fun SadikoiApp(
 //    viewModel: UserViewModel = viewModel(),//todo ViewModel
+    topBarViewModel: TopBarViewModel = viewModel(factory = AppViewModelProvider.Factory),
     homeViewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
     viewModel: UserViewModel = viewModel(factory = AppViewModelProvider.Factory),
     userAddViewModel: UserAddViewModel = viewModel(factory = AppViewModelProvider.Factory),
@@ -113,6 +116,9 @@ fun SadikoiApp(
                     Log.d("Ouioui", "onLanguageButtonClicked")
                     navController.navigate(SadikoiScreen.Language.name)
                 },
+//                changeColor = {
+//                    topBarViewModel.selectColor(Color.Red)
+//                },
                 navController = navController,
                 currentScreen = currentScreen,
                 canNavigateBack = navController.previousBackStackEntry != null,

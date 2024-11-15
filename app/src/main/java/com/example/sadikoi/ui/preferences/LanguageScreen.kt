@@ -20,19 +20,13 @@ import java.util.Locale
 fun LanguageScreen(
     navigateBack: () -> Unit
 ) {
-    Log.d("qwe1", "Apploc : ${AppCompatDelegate.getApplicationLocales().toLanguageTags()}") //todo check quelle langue actuelle (au lancement) pour le CheckCircle
+//    Log.d("qwe1", "Apploc : ${AppCompatDelegate.getApplicationLocales().toLanguageTags()}") //todo check quelle langue actuelle (au lancement) pour le CheckCircle
 //    Log.d("qwe11", "Apploc : ${}")
     Column {
         Button(
             onClick = {
                 updateAppLocale("fr")
-//                    Log.d(TAG, "before launch $currentLanguage")
-//                    coroutineScope.launch{
-//                        preferencesManager.setAppLanguage("qwrnqwjroiq")
-//                        Log.d(TAG, "after launch $currentLanguage")
-//                    }
                 navigateBack()
-
             }
         ) {
             Row() {
@@ -48,22 +42,11 @@ fun LanguageScreen(
 
         Button(
             onClick = {
-//                    Log.d(TAG, "before english launch ${AppCompatDelegate.getApplicationLocales()}")
-
-
                 updateAppLocale("en")
                 navigateBack()
             }
-
-//                    Log.d(TAG, "before english launch ${AppCompatDelegate.getApplicationLocales()}")
-//                    Log.d(TAG, "before english launch $currentLanguage")
-//                    coroutineScope.launch{
-//                        preferencesManager.setAppLanguage("ehouiouio")
-//                        Log.d(TAG, "after english launch $currentLanguage")
-//                    }
         ) {
             Row() {
-//                Log.d("qwe", "Apploc : ${AppCompatDelegate.getApplicationLocales()}")
                 if (getCurrentLocale().equals("en")) {
                     Icon(
                         Icons.Default.CheckCircle,

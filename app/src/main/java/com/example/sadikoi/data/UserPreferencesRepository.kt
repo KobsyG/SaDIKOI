@@ -21,7 +21,18 @@ class UserPreferencesRepository(
 ) {
     private companion object {
         val TOPBAR_COLOR = longPreferencesKey("topbar_color")
+        val TOPBAR_COLOR_OPTION = intPreferencesKey("topbar_color_option")
         const val TAG = "UserPreferencesRepo"
+    }
+
+    val topBarColorOption: Flow<Int> = dataStore.data.map { preferences ->
+        preferences[TOPBAR_COLOR_OPTION] ?: 0
+    }
+
+    suspend fun saveTopBarColorOption(option: Int) {
+        dataStore.edit { preferences ->
+            preferences[TOPBAR_COLOR_OPTION] = option
+        }
     }
 
     val topBarColor: Flow<Color> = dataStore.data

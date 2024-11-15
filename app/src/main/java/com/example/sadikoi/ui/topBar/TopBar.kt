@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.collectAsState
@@ -56,17 +57,37 @@ fun TopBar( //todo pour ce TopBar finalement ? TopAppBar direct ?
         .border(1.dp, Color.Blue)
 ) {
     val color by viewModel.topBarColor.collectAsState()
+    val colorOption by viewModel.topBarColorOption.collectAsState()
+
+    val selectedColor = when (colorOption) {
+        ColorOption.Primary -> MaterialTheme.colorScheme.primary
+        ColorOption.Surface -> MaterialTheme.colorScheme.surface
+        ColorOption.SurfaceVariant -> MaterialTheme.colorScheme.surfaceVariant
+    }
+
+    val onSelectedColor = when (colorOption) {
+        ColorOption.Primary -> MaterialTheme.colorScheme.onPrimary
+        ColorOption.Surface -> MaterialTheme.colorScheme.onSurface
+        ColorOption.SurfaceVariant -> MaterialTheme.colorScheme.onSurfaceVariant
+    }
 //    val long: Long = 0xFFFFFF00
 //        val color = Color(long)
 
     TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = selectedColor,
+            titleContentColor = onSelectedColor
+        ),
         title = {
+//            Text(currentScreen.name)
             Text(stringResource(R.string.app_name)) //todo changer en fonction du screen + number/name dans conversation
         }, // todo get from Resourse (same name for all languages ? )
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = color,
-//            containerColor = Color(0x00000000)
-        ),
+//        colors = TopAppBarDefaults.topAppBarColors(
+//            containerColor = color,
+////            containerColor = Color(0x00000000)
+//        ),
+
+
         navigationIcon = {
             Log.d("TopBar", "navController.previousBackStackEntry : ${navController.previousBackStackEntry}")
             Log.d("TopBar", "canNavigateBack $canNavigateBack")
@@ -195,7 +216,8 @@ fun ColorMenu(
         ) {
             DropdownMenuItem(
                 onClick = {
-                    viewModel.selectColor(Color.Red)
+//                    viewModel.selectColor(Color.Red) //todo get ColorScheme ?
+                    viewModel.selectColorOption(1)
                 },
                 text = {
                     Row {
@@ -203,22 +225,25 @@ fun ColorMenu(
                         Icon(
                             painter = painterResource(id = R.drawable.color_icon),
                             contentDescription = "Localized description",
-                            tint = Red, //todo ???
-                        )
+//                            tint = Red, //todo ???
+                            tint = MaterialTheme.colorScheme.surface
+                            )
 //                        Text("test")
                     }
                 }
             )
             DropdownMenuItem(
                 onClick = {
-                    viewModel.selectColor(Color.Blue)
+//                    viewModel.selectColor(Color.Blue)
+                    viewModel.selectColorOption(2)
                 },
                 text = {
                     Row {
                         Icon(
                             painter = painterResource(id = R.drawable.color_icon),
                             contentDescription = "Localized description",
-                            tint = Blue,
+//                            tint = Blue,
+                            tint = MaterialTheme.colorScheme.surfaceVariant
                         )
                     }
                 }
