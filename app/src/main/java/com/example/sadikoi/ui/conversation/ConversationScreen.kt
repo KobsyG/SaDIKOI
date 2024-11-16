@@ -10,6 +10,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
@@ -32,6 +39,12 @@ import androidx.compose.runtime.getValue
 import com.example.sadikoi.data.Message
 import com.example.sadikoi.ui.user.UserDetails
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Shapes
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalConfiguration
 
 @Composable
 fun ConversationScreen(
@@ -46,16 +59,17 @@ fun ConversationScreen(
             conversationViewModel,
             modifier = Modifier
 //            .fillMaxHeight() //todo just maxHeight ?
-            .fillMaxWidth()
-            .weight(1f)
+                .fillMaxWidth()
+
+                .weight(1f)
 //            .fillMaxSize()
-            .border(1.dp, Color.Green)
+//                .border(1.dp, Color.Green)
         )
         InputBar(
             conversationViewModel,
-//            modifier = Modifier
+            modifier = Modifier
 //            .fillMaxHeight(0.2f)
-//            .weight(1f)
+//            .weight(0.2f)
 //        .border(1.dp, Color.Green)
         )
     }
@@ -98,7 +112,15 @@ fun Conversation(
 //            .border(1.dp, Color.Green)
     ) {
         items(messageList) { message ->
-            Message(message)
+            Message(
+                message,
+//                Modifier
+//                    .padding(8.dp)
+////                    .heightIn(min = 48.dp)
+//                    .fillMaxWidth()
+//                    .border(1.dp, Color.Green)
+            )
+
         }
     }
 }
@@ -107,22 +129,42 @@ fun Conversation(
 fun Message(
     message: Message,
 //    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier.fillMaxWidth().padding(8.dp)
 //        .fillMaxWidth()
 //        .border(1.dp, Color.Green)
 ) {
     Row(
-        horizontalArrangement =
-            if (message.isSent)
-                Arrangement.End
-            else
-                Arrangement.Start
-        ,
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(1.dp, Color.Red)
-    ){
-        Text(text = message.messageText)
+        horizontalArrangement = if (message.isSent)
+                                    Arrangement.End
+                                else
+                                    Arrangement.Start,
+        modifier = modifier
+//            .border(1.dp, Color.Red)
+    ) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth(0.8f)
+                .wrapContentWidth(
+                    align = if (message.isSent) Alignment.End else Alignment.Start
+                )
 
+            ,
+
+            //todo backgroundColor en fonction de isSent
+            shape = RoundedCornerShape(
+                topStart = if (message.isSent) 16.dp else 0.dp,
+                topEnd = if (message.isSent) 0.dp else 16.dp,
+                bottomStart = 16.dp,
+                bottomEnd = 16.dp
+            )
+
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(8.dp),
+                text = message.messageText
+            )
+        }
     }
 }
 

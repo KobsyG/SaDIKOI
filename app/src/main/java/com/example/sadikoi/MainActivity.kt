@@ -14,10 +14,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.sadikoi.ui.theme.SaDIKOITheme
+import java.util.Date
 
 class MainActivity : AppCompatActivity() {
 
@@ -63,12 +65,26 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        Toast.makeText(this, "onStop", Toast.LENGTH_LONG).show()
+
+        val currentTimestamp = System.currentTimeMillis();
+
+        val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putLong("lastStopTimestamp", currentTimestamp)
+        editor.apply()
+
+//        Toast.makeText(this, "onStop", Toast.LENGTH_LONG).show()
     }
 
     override fun onRestart() {
         super.onRestart()
-        Toast.makeText(this, "onRestart", Toast.LENGTH_LONG).show()
+
+        val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val lastStopTimestamp = sharedPreferences.getLong("lastStopTimestamp", 0)
+        val date = Date(lastStopTimestamp)
+        val restart_message = getString(R.string.restart_message) + date.toString()
+
+        Toast.makeText(this, restart_message, Toast.LENGTH_LONG).show()
     }
 
         override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
