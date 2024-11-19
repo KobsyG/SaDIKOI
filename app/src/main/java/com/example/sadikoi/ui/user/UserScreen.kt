@@ -1,6 +1,7 @@
 package com.example.sadikoi.ui.user
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
 import androidx.compose.foundation.border
 import androidx.compose.foundation.content.MediaType.Companion.Image
@@ -44,8 +45,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
@@ -60,29 +69,48 @@ fun BarInfo(
     barName: String,
     text: @Composable () -> Unit
 ) {
-    Row(
-//                horizontalArrangement = Arrangement.SpaceAround,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .border(1.dp, Color.Blue)
-            .background(color = Color.LightGray)
-            .height(TextFieldDefaults.MinHeight)
-    ) {
-        Text(
-            textAlign = TextAlign.Center,
-            text = barName,
+        Row(
+            //                horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .background(color = Color.Gray)
-                .weight(1f)
-                .fillMaxHeight()
-                .wrapContentHeight()
-                .border(1.dp, Color.Blue)
+                .fillMaxWidth()
+                .padding(16.dp)
+                            .border(1.dp, Color.Blue)
+                .background(color = MaterialTheme.colorScheme.secondaryContainer)
+                .height(TextFieldDefaults.MinHeight)
+                .clip()
+        ) {
+            Text(
+                textAlign = TextAlign.Center,
+                text = barName,
+//                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                modifier = Modifier
+//                    .background(color = MaterialTheme.colorScheme.primaryContainer)
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .wrapContentHeight()
+//                    .clip(RoundedCornerShape(50.dp))
+                                .border(1.dp, Color.Green)
 
-        )
-        text()
-    }
+            )
+            text()
+        }
+}
+
+@Composable
+fun UserPicture() {
+    // circulaire image
+    Image(
+        imageVector = Icons.Default.Person,
+        contentDescription = "User picture",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .size(100.dp)
+            .clip(CircleShape)
+//            .border(1.dp, Color.Blue)
+            .background(Color.Gray)
+
+    )
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter") //todo a garder ?
@@ -90,16 +118,24 @@ fun BarInfo(
 fun UserScreen(
     viewModel: UserViewModel, //todo virer le "?" utile pour la preview
     toAddUser: Boolean = false,
-    onSendMessageClicked: (Int, String) -> Unit,
+    onSendMessageClicked: (Int, String, String) -> Unit,
     onEditUserClicked: (Int) -> Unit,
     user: UserUiState = viewModel.uiState.collectAsState().value,
     navigateBack: () -> Unit,
+    backHandle: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    BackHandler() {
+        backHandle()
+    }
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { onSendMessageClicked(user.id, user.number) }
+                onClick = { onSendMessageClicked(
+                    user.id,
+                    user.number,
+                    if (user.firstName.isNotBlank()) user.firstName else user.number
+                ) }
             ) {
                 Icon(
                     Icons.Default.Email,
@@ -117,13 +153,14 @@ fun UserScreen(
             modifier = Modifier
                 .fillMaxHeight()
                 .fillMaxWidth()
-                .border(1.dp, Color.Red)
+                .verticalScroll(rememberScrollState())
+//                .border(1.dp, Color.Red)
         ) {
             Row(
-                horizontalArrangement = Arrangement.SpaceBetween, //todo comment centrer picture
+//                horizontalArrangement = Arrangement.SpaceBetween, //todo comment centrer picture
                 modifier = Modifier
                     .fillMaxWidth()
-                    .border(1.dp, Color.Blue)
+//                    .border(1.dp, Color.Blue)
             ) {
 //                Button(
 //                    onClick = {
@@ -141,26 +178,39 @@ fun UserScreen(
                 Spacer(
                     modifier = Modifier.weight(1f)
                 )
+//                UserPicture(modifier = Modifier.weight(1f).border(1.dp, Color.Blue))
                 UserPicture()
-                Button(
-                    onClick = {
-                        onEditUserClicked(user.id)
-                    }, //todo use the same screen que userAdd mais prérempli + addUser devient modifier user
+                Row(
                     modifier = Modifier
-                        .border(1.dp, Color.Green)
                         .weight(1f)
+                        .padding(3.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Button(
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondaryContainer),
+                        onClick = {
+                            onEditUserClicked(user.id)
+                        }, //todo use the same screen que userAdd mais prérempli + addUser devient modifier user
+//                        modifier = Modifier
+//                        .wrapContentWidth()
+//                            .border(1.dp, Color.Green)
+//                            .weight(1f)
                     ) {
-                    Icon(
-                        Icons.Default.Edit,
-                        contentDescription = "edit user"
-                    )
+                        Icon(
+                            Icons.Default.Edit,
+                            contentDescription = "edit user",
+                            tint = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                    }
                 }
             }
             BarInfo(barName = stringResource(R.string.last_name), text = {Text(
                 text = user.lastName,
+//                color = MaterialTheme.colorScheme.onSecondaryContainer,
                 modifier = Modifier
                     .padding(8.dp)
                     .weight(3f)
+//                    .background(MaterialTheme.colorScheme.primaryContainer)
             )} )
 
             BarInfo(barName = stringResource(R.string.first_name), text = {Text(
@@ -353,21 +403,6 @@ fun UserScreen(
     }
 }
 
-@Composable
-fun UserPicture() {
-    // circulaire image
-    Image(
-       imageVector = Icons.Default.Person,
-        contentDescription = "User picture",
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .size(200.dp)
-            .clip(CircleShape)
-            .border(1.dp, Color.Blue)
-            .background(Color.Gray)
-
-    )
-}
 
 //@Preview(showBackground = true)
 //@Composable

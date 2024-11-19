@@ -1,6 +1,7 @@
 package com.example.sadikoi.ui.topBar
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,8 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 class TopBarViewModel(private val userPreferencesRepository: UserPreferencesRepository) : ViewModel() {
 
@@ -28,6 +31,14 @@ class TopBarViewModel(private val userPreferencesRepository: UserPreferencesRepo
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = ColorOption.Primary
         )
+    
+    var topBarTitle by mutableStateOf("")
+        private set
+
+    fun updateTopBarTitle(title: String) {
+        topBarTitle = title
+        Log.d("topBarVM", "topBarTitle: $topBarTitle")
+    }
 
     fun selectColorOption(colorOption: Int) {
         viewModelScope.launch {

@@ -79,8 +79,11 @@ fun TopBar( //todo pour ce TopBar finalement ? TopAppBar direct ?
             titleContentColor = onSelectedColor
         ),
         title = {
-//            Text(currentScreen.name)
-            Text(stringResource(R.string.app_name)) //todo changer en fonction du screen + number/name dans conversation
+            Text(
+                text = if (viewModel.topBarTitle.isBlank()) stringResource(currentScreen.title) else viewModel.topBarTitle
+            )
+
+//            Text(stringResource(R.string.app_name)) //todo changer en fonction du screen + number/name dans conversation
         }, // todo get from Resourse (same name for all languages ? )
 //        colors = TopAppBarDefaults.topAppBarColors(
 //            containerColor = color,

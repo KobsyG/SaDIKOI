@@ -7,4 +7,12 @@
     <string name="mail">Mail</string>
     <string name="passion">Passion</string>
     <string name="restart_message">Application was in background since\n</string>
+    <string name="delete_user_confirmation_start">Are you sure to want to delete\ </string>
+    <string name="delete_user_confirmation_end">\ who is probably a bro ?</string>
+    <string name="home_screen">Home</string>
+    <string name="repertoire_screen">Repertoire</string>
+    <string name="language_screen">Language</string>
+    <string name="conversation_screen">Conversation</string>
+    <string name="user_screen">User</string>
+    <string name="user_add_screen">New User</string>
 </resources>

@@ -3,6 +3,7 @@ package com.example.sadikoi
 import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -80,13 +81,19 @@ import java.util.Locale
 
 private const val TAG = "MainActivity"
 
-enum class SadikoiScreen() {
-    Home,
-    User,
-    UserAdd, //todo j'aime pas, a voir
-    Repertoire,
-    Conversation,
-    Language
+enum class SadikoiScreen(@StringRes val title: Int) {
+    Home(title = R.string.home_screen),
+    User(title = R.string.user_screen),
+    UserAdd(title = R.string.user_add_screen),
+    Repertoire(title = R.string.repertoire_screen),
+    Language(title = R.string.language_screen),
+    Conversation(title = R.string.conversation_screen)
+
+//    User()
+//    User,
+//    UserAdd, //todo j'aime pas, a voir
+//    Repertoire,
+//    Language
 }
 
 @Composable
@@ -125,7 +132,7 @@ fun SadikoiApp(
                 navigateUp = { navController.navigateUp() },
                 modifier = Modifier
                     .height(40.dp)
-                    .border(1.dp, Color.Blue)
+                    .border(3.dp, Color.Blue)
             )
         } //todo topBar
     ) { innerPadding ->
@@ -148,8 +155,9 @@ fun SadikoiApp(
 //                        navController.navigate(SadikoiScreen.UserAdd.name)
 //                    },
 
-                    onConvClicked = { contactId, number ->
+                    onConvClicked = { contactId, number, topBarTitle ->
                         conversationViewModel.updateContactId(contactId, number)
+                        topBarViewModel.updateTopBarTitle(topBarTitle)
                         navController.navigate(SadikoiScreen.Conversation.name)
                     },
                     modifier = Modifier
@@ -168,6 +176,9 @@ fun SadikoiApp(
                     },
                     repertoireViewModel.repertoireUiState.collectAsState().value.userList,
                     onUserClicked = {
+                        topBarViewModel.updateTopBarTitle(
+                            if (it.firstName.isNotBlank()) it.firstName else it.number
+                        )
                         viewModel.setUserToShow(it)
                         navController.navigate(SadikoiScreen.User.name)
                     },
@@ -179,7 +190,9 @@ fun SadikoiApp(
                     viewModel,
 //                    user = UserUiState, todo viewModel.getUser ?
 //                    user = viewModel.uiState.collectAsState().value, //todo a degager grace a ouioui,
-                    onSendMessageClicked = { contactId, number ->
+                    onSendMessageClicked = { contactId, number, topBarTitle ->
+                        //todo ici change updateTopBarTille(
+                        topBarViewModel.updateTopBarTitle(topBarTitle)
                         conversationViewModel.updateContactId(contactId, number)
                         navController.navigate(SadikoiScreen.Conversation.name)
                     },
@@ -187,6 +200,10 @@ fun SadikoiApp(
                         Log.d("Ouioui", "onEditUserClicked : $it")
                         userAddViewModel.updateUiStateById(it)
                         navController.navigate(SadikoiScreen.UserAdd.name)
+                    },
+                    backHandle = {
+                        topBarViewModel.updateTopBarTitle("")
+                        navController.navigateUp()
                     },
                     navigateBack = { navController.navigateUp() },
                     modifier = Modifier
@@ -197,7 +214,13 @@ fun SadikoiApp(
                 UserAddScreen(
                     viewModel = userAddViewModel,
                     userViewModel = viewModel,
-                    navigateBack = { navController.navigateUp() },
+                    navigateBack = {
+                        topBarViewModel.updateTopBarTitle(it)
+                        navController.navigateUp()
+                                   },
+                    navigateToRepertoire = {
+                        navController.navigate(SadikoiScreen.Repertoire.name)
+                    },
                     modifier = Modifier
                 )
             }
@@ -206,6 +229,10 @@ fun SadikoiApp(
 
                 ConversationScreen(
                     conversationViewModel,
+                    backHandle = {
+                        topBarViewModel.updateTopBarTitle("")
+                        navController.navigateUp()
+                    }
 //                    contactId = viewModel.convId.collectAsState().value
 //                    modifier = Modifier
                 )

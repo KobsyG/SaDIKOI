@@ -7,6 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -17,6 +18,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -38,10 +40,11 @@ fun HomeScreen(
     homeViewModel: HomeViewModel,
     onRepertoireClicked: () -> Unit,
 //    onAddUserClicked: () -> Unit,
-    onConvClicked: (Int, String) -> Unit,
+    onConvClicked: (Int, String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.surface,
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onRepertoireClicked
@@ -51,9 +54,10 @@ fun HomeScreen(
                     contentDescription = "repertoire"
                 )
             }
-        }
+        },
+//        modifier = Modifier.border(1.dp, Color.Green)
     ) {
-
+//        Log.d("HomeScreen", "HomeScreen: ", )
         ListConversation(homeViewModel, onConvClicked = onConvClicked)
 //        Column(
 //            modifier = Modifier
@@ -80,7 +84,7 @@ fun HomeScreen(
 @Composable
 fun ListConversation(homeViewModel: HomeViewModel,
                      listConv: List<ConversationPreview> = homeViewModel.convPreviews.collectAsState().value,
-                     onConvClicked: (Int, String) -> Unit,
+                     onConvClicked: (Int, String, String) -> Unit,
                      ) {
 //    listMessage: List<Message> = conversationViewModel.convPreview.collectAsState().value.lastMessage
     LazyColumn(
@@ -106,17 +110,23 @@ fun ListConversation(homeViewModel: HomeViewModel,
 @Composable
 fun ConvPreviewButton(
     conv: ConversationPreview,
-    onConvClicked: (Int, String) -> Unit,
+    onConvClicked: (Int, String, String) -> Unit,
 //    modifier: Modifier = Modifier
 //        .border(1.dp, Color.Gray)
     ) {
 //    FilledTonalButton(
     Card(
-//        colors = CardDefaults.cardColors(),
-        modifier = Modifier
-            .border(1.dp, Color.Gray),
+        colors = CardDefaults.cardColors(
+//            MaterialTheme.colorScheme.onPrimaryContainer
+        ),
+        modifier = Modifier,
+//            .border(1.dp, Color.Gray),
+//            .padding(10.dp),
         onClick = {
-            onConvClicked(conv.contactId, conv.number)
+            onConvClicked(conv.contactId,
+                conv.number,
+                if (conv.contactName.isNotBlank()) conv.contactName else conv.number
+                )
         },
         shape = RectangleShape,
 //        border =
@@ -125,11 +135,24 @@ fun ConvPreviewButton(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .border(1.dp, Color.Green)
+//                .border(1.dp, Color.Green)
+                .padding(6.dp)
         ) {
-            Text(conv.contactName)
-            Text(conv.lastMessage)
+            Text(
+                text = conv.contactName,
+                style = MaterialTheme.typography.titleSmall
+            )
+            Text(
+                text = conv.lastMessage,
+                style = MaterialTheme.typography.bodyMedium
+                )
+
         }
+        HorizontalDivider(
+            color = Color.Gray,
+            thickness = 1.dp,
+//                modifier = Modifier.padding(vertical = 4.dp)
+        )
     }
 }
 

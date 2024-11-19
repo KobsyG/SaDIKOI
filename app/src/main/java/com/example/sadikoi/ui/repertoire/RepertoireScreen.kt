@@ -39,7 +39,7 @@ fun Contact(
         onClick = { //todo give userID here ?
             onUserClicked(user)
         },
-        modifier = Modifier.fillMaxWidth().border(1.dp, Color.Green),
+        modifier = Modifier.fillMaxWidth(),
         shape = RectangleShape,
     ) {
         Text(

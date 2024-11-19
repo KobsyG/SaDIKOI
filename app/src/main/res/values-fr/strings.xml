@@ -6,4 +6,12 @@
     <string name="mail">Email</string>
     <string name="passion">Passion</string>
     <string name="restart_message">L\'application était en arrière plan depuis\n</string>
+    <string name="delete_user_confirmation_start">Etes-vous sur de vouloir supprimer\ </string>
+    <string name="delete_user_confirmation_end">\ qui est probablement un fréro ?</string>
+    <string name="home_screen">Accueil</string>
+    <string name="repertoire_screen">Répertoire</string>
+    <string name="language_screen">Langue</string>
+    <string name="conversation_screen">Conversation</string>
+    <string name="user_screen">Contact</string>
+    <string name="user_add_screen">Nouveau Contact</string>
 </resources>

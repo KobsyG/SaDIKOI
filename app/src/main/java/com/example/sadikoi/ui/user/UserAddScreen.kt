@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -47,6 +49,14 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.sp
+import com.example.sadikoi.R
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,8 +64,20 @@ import androidx.compose.runtime.getValue
 fun DeleteUserDialog(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
+    userName: String
 ) {
     AlertDialog(
+        text = {
+            Text(
+                text = buildAnnotatedString {
+                    append(stringResource(R.string.delete_user_confirmation_start))
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(userName)
+                    }
+
+                    append(stringResource(R.string.delete_user_confirmation_end))
+                })
+               },
         onDismissRequest = onDismiss,
         confirmButton = {
             TextButton(
@@ -91,7 +113,8 @@ fun UserAddScreen(
     userDetail: UserDetails = user.userDetails,
 //    onValueChange: (UserUiState) -> Unit = viewModel::updateUiState, //todo qweeqweq
 
-    navigateBack: () -> Unit,
+    navigateBack: (String) -> Unit,
+    navigateToRepertoire: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope() //todo pas ici probablement ++ pas de coroutine si lié au viewModel -> viewModelScope !
@@ -106,13 +129,14 @@ fun UserAddScreen(
         modifier = Modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .border(1.dp, Color.Red)
+            .verticalScroll(rememberScrollState())
     ) {
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween, //todo comment centrer picture
+//            horizontalArrangement = Arrangement.SpaceBetween, //todo comment centrer picture
+            horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .border(1.dp, Color.Blue)
+//                .border(1.dp, Color.Blue)
         ) {
 //                Button(
 //                    onClick = {
@@ -127,25 +151,31 @@ fun UserAddScreen(
 //                        contentDescription = "send Message"
 //                    )
 //                }
-            Spacer(
-                modifier = Modifier.weight(1f)
-            )
+            if (userDetail.id != 0) {
+                Spacer(
+                    modifier = Modifier.weight(1f)
+                )
+            }
             UserPicture()
             if (userDetail.id != 0) {
-                Button(
-                    onClick = {
-                        showDialog = true
-//                        coroutineScope.launch {
-//                            userViewModel?.deleteUser() //todo virer le "?" utile pour la preview
-//                            navigateBack()
-//                        }
-                    },
-                    modifier = Modifier.weight(1f)
+                Row(
+                    modifier = Modifier.weight(1f).padding(3.dp),
+                    horizontalArrangement = Arrangement.End
                 ) {
-                    Icon(
-                        Icons.Default.Delete,
-                        contentDescription = "send Message"
-                    )
+                    Button(
+                        onClick = {
+                            showDialog = true
+                            //                        coroutineScope.launch {
+                            //                            userViewModel?.deleteUser() //todo virer le "?" utile pour la preview
+                            //                            navigateBack()
+                            //                        }
+                        },
+                    ) {
+                        Icon(
+                            Icons.Default.Delete,
+                            contentDescription = "send Message"
+                        )
+                    }
                 }
             }
         }
@@ -173,11 +203,12 @@ fun UserAddScreen(
 //        }
         if (showDialog) {
             DeleteUserDialog(
+                userName = if (userDetail.firstName.isNotBlank()) userDetail.firstName else userDetail.number,
                 onConfirm = {
                     showDialog = false
                     coroutineScope.launch {
                         userViewModel.deleteUser() //todo virer le "?" utile pour la preview
-                        navigateBack() // todo navigateTo RepertoireScreen car UserScreen should not exist anymore for this User
+                        navigateToRepertoire() // todo navigateTo RepertoireScreen car UserScreen should not exist anymore for this User
 
                     }
                             },
@@ -191,19 +222,19 @@ fun UserAddScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .border(1.dp, Color.Blue)
+//                .border(1.dp, Color.Blue)
                 .background(color = Color.LightGray)
                 .height(TextFieldDefaults.MinHeight)
         ) {
             Text(
                 textAlign = TextAlign.Center,
-                text = "Nom",
+                text = stringResource(R.string.last_name),
                 modifier = Modifier
                     .background(color = Color.Gray)
                     .weight(1f)
                     .fillMaxHeight()
                     .wrapContentHeight()
-                    .border(1.dp, Color.Blue)
+//                    .border(1.dp, Color.Blue)
 
             )
                 TextField( //todo sizemax
@@ -222,19 +253,19 @@ fun UserAddScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .border(1.dp, Color.Blue)
+//                .border(1.dp, Color.Blue)
                 .background(color = Color.LightGray)
                 .height(TextFieldDefaults.MinHeight)
         ) {
             Text(
                 textAlign = TextAlign.Center,
-                text = "Prenom",
+                text = stringResource(R.string.first_name),
                 modifier = Modifier
                     .background(color = Color.Gray)
                     .weight(1f)
                     .fillMaxHeight()
                     .wrapContentHeight()
-                    .border(1.dp, Color.Blue)
+//                    .border(1.dp, Color.Blue)
             )
 
                 TextField( //todo sizemax
@@ -254,19 +285,19 @@ fun UserAddScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .border(1.dp, Color.Blue)
+//                .border(1.dp, Color.Blue)
                 .background(color = Color.LightGray)
                 .height(TextFieldDefaults.MinHeight)
         ) {
             Text(
                 textAlign = TextAlign.Center,
-                text = "Numero",
+                text = stringResource(R.string.number),
                 modifier = Modifier
                     .background(color = Color.Gray)
                     .weight(1f)
                     .fillMaxHeight()
                     .wrapContentHeight()
-                    .border(1.dp, Color.Blue)
+//                    .border(1.dp, Color.Blue)
             )
                 TextField(
                     value = userDetail.number,
@@ -285,19 +316,19 @@ fun UserAddScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .border(1.dp, Color.Blue)
+//                .border(1.dp, Color.Blue)
                 .background(color = Color.LightGray)
                 .height(TextFieldDefaults.MinHeight)
         ) {
             Text(
                 textAlign = TextAlign.Center,
-                text = "Mail",
+                text = stringResource(R.string.mail),
                 modifier = Modifier
                     .background(color = Color.Gray)
                     .weight(1f)
                     .fillMaxHeight()
                     .wrapContentHeight()
-                    .border(1.dp, Color.Blue)
+//                    .border(1.dp, Color.Blue)
             )
                 TextField(
                     value = userDetail.mail,
@@ -315,19 +346,19 @@ fun UserAddScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .border(1.dp, Color.Blue)
+//                .border(1.dp, Color.Blue)
                 .background(color = Color.LightGray)
                 .height(TextFieldDefaults.MinHeight)
         ) {
             Text(
                 textAlign = TextAlign.Center,
-                text = "Passion",
+                text = stringResource(R.string.passion),
                 modifier = Modifier
                     .background(color = Color.Gray)
                     .weight(1f)
                     .fillMaxHeight()
                     .wrapContentHeight()
-                    .border(1.dp, Color.Blue)
+//                    .border(1.dp, Color.Blue)
             )
                 TextField(
                     value = userDetail.passion,
@@ -345,7 +376,9 @@ fun UserAddScreen(
                 coroutineScope.launch{
                     viewModel.saveUser() //todo que faire si lastname or number or firstname isnull -- virer le "?" utile pour la Preview
                     userViewModel.setUserToShow(userDetail.toUser())
-                    navigateBack()
+                    navigateBack(
+                        if (userDetail.firstName.isNotBlank()) userDetail.firstName else userDetail.number
+                    )
 
                 }
             }

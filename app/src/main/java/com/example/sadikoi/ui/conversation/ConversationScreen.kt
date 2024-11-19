@@ -2,6 +2,7 @@ package com.example.sadikoi.ui.conversation
 
 import android.content.pm.PackageManager
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -43,14 +44,20 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Shapes
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalConfiguration
 
 @Composable
 fun ConversationScreen(
     conversationViewModel: ConversationViewModel,
-//    contactId: Int
+    backHandle: () -> Unit,
+//    contactId: Int(
 ) {
+    BackHandler() {
+        backHandle()
+    }
+
 //    LaunchedEffect(contactId) {
 //        conversationViewModel.loadMessagesFromContact(contactId)
 //    }
@@ -68,6 +75,7 @@ fun ConversationScreen(
         InputBar(
             conversationViewModel,
             modifier = Modifier
+                .fillMaxWidth()
 //            .fillMaxHeight(0.2f)
 //            .weight(0.2f)
 //        .border(1.dp, Color.Green)
@@ -215,28 +223,39 @@ fun InputBar(
     message: MessageUi = viewModel.newMessage,
     onValueChange: (String) -> Unit = { viewModel.updateMessage(it) },
     modifier: Modifier = Modifier
-        .border(1.dp, Color.Blue)
-        .fillMaxWidth()
 ) {
-//    val sendSmsPermission = Manifest
-
 
     Row(
-        modifier = modifier
+//        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.Bottom,
+        modifier = modifier.padding(
+            start = 8.dp,
+            end = 8.dp,
+            top = 8.dp,
+            bottom = 16.dp
+        )
     ) {
         TextField(
+            modifier = Modifier
+                .padding(4.dp)
+                .weight(4f),
+            colors = TextFieldDefaults.colors(
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+            ),
+            shape = RoundedCornerShape(16.dp),
+
             value = message.text,
             label = { Text("Message") },
             onValueChange = {
                 onValueChange(it)
-//                if (ContextCompat.checkSelfPermission(context, sendSmsPermission) != PackageManager.PERMISSION_GRANTED) { //todo check Airplace mode genre ?
-//                    ActivityCompat.requestPermissions(activity, arrayOf(sendSmsPermission), REQUEST_CODE_SMS_PERMISSION)
-//                } else {
-//                    viewModel.sendSMS("+33661696704", "Hello, this is a test message!")
-//                }
             }
         )
         Button(
+            modifier = Modifier
+                .height(TextFieldDefaults.MinHeight)
+                .padding(4.dp)
+                .weight(1f),
             enabled = message.text.isNotEmpty(),
             onClick = {
                 viewModel.sendSMS()
