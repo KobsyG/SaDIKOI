@@ -35,7 +35,8 @@ class UserViewModel(private val usersRepository: IUsersRepository) : ViewModel()
             lastName = uiState.value.lastName,
             number = uiState.value.number,
             mail = uiState.value.mail,
-            passion = uiState.value.passion
+            passion = uiState.value.passion,
+            photoPath = uiState.value.photoPath
         )
         Log.d(TAG, "deleteUser:  $user")
         usersRepository.deleteUser(user)

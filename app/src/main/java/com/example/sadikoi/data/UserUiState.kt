@@ -7,5 +7,6 @@ data class UserUiState(
 //    val number: Int = 0, //todo number string direct ?
     val number: String = "",
     val mail: String = "",
-    val passion: String = ""
+    val passion: String = "",
+    val photoPath: String = "",
 )

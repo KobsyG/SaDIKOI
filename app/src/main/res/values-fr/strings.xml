@@ -14,4 +14,10 @@
     <string name="conversation_screen">Conversation</string>
     <string name="user_screen">Contact</string>
     <string name="user_add_screen">Nouveau Contact</string>
+    <string name="back_confirmation_title">Etes-vous sur de vouloir quitter ?</string>
+    <string name="back_confirmation_text">Rien de ce que vous avez fait ne sera sauvegardé</string>
+    <string name="delete_user_confirmation_confirm">Supprimer</string>
+    <string name="delete_user_confirmation_cancel">Annuler</string>
+    <string name="back_confirmation_quit">Quitter</string>
+    <string name="back_confirmation_stay">Rester</string>
 </resources>

@@ -1,6 +1,12 @@
 package com.example.sadikoi.ui.user
 
 import android.annotation.SuppressLint
+import android.content.ContentResolver
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.provider.MediaStore
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
 import androidx.compose.foundation.border
@@ -37,6 +43,7 @@ import com.example.sadikoi.ui.theme.SaDIKOITheme
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 //import androidx.compose.foundation.layout.Arrangement
 //import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
@@ -58,10 +65,14 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.core.net.toUri
 import com.example.sadikoi.R
+import com.example.sadikoi.SadikoiApp
 
 @Composable
 fun BarInfo(
@@ -74,23 +85,26 @@ fun BarInfo(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
-                            .border(1.dp, Color.Blue)
-                .background(color = MaterialTheme.colorScheme.secondaryContainer)
+                .padding(8.dp)
+//                            .border(1.dp, Color.Blue)
+                .background(
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(50.dp)
+                )
                 .height(TextFieldDefaults.MinHeight)
-                .clip()
+                .clip(RoundedCornerShape(50.dp))
         ) {
             Text(
                 textAlign = TextAlign.Center,
                 text = barName,
 //                color = MaterialTheme.colorScheme.onSecondaryContainer,
                 modifier = Modifier
-//                    .background(color = MaterialTheme.colorScheme.primaryContainer)
+                    .background(color = MaterialTheme.colorScheme.primaryContainer)
                     .weight(1f)
                     .fillMaxHeight()
                     .wrapContentHeight()
 //                    .clip(RoundedCornerShape(50.dp))
-                                .border(1.dp, Color.Green)
+//                                .border(1.dp, Color.Green)
 
             )
             text()
@@ -98,19 +112,60 @@ fun BarInfo(
 }
 
 @Composable
-fun UserPicture() {
-    // circulaire image
-    Image(
-        imageVector = Icons.Default.Person,
-        contentDescription = "User picture",
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .size(100.dp)
-            .clip(CircleShape)
-//            .border(1.dp, Color.Blue)
-            .background(Color.Gray)
+fun ImageFromGallery(uri: String) {
+    val context = LocalContext.current
+    val bitmap = loadBitmapFromUri(context.contentResolver , uri.toUri())
 
-    )
+    Log.d("nfwnfiuqw", "ImageFromGallery: $uri")
+    bitmap?.let {
+        Image(
+            bitmap = it.asImageBitmap(),
+            contentDescription = "User picture",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(100.dp)
+        )
+    }
+
+}
+
+fun loadBitmapFromUri(contentResolver: ContentResolver, uri: Uri): Bitmap? {
+    return try {
+        MediaStore.Images.Media.getBitmap(contentResolver, uri)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
+@Composable
+fun UserPicture(
+    uri: String? = null,
+    onImageClicked: () -> Unit = {},
+    enabled: Boolean = false,
+) {
+    Log.d("USERSCREEN", "UserPicture: $uri")
+    // circulaire image
+    TextButton(
+        enabled = enabled,
+        onClick = onImageClicked
+    ) {
+        if (uri == null) {
+            Image(
+                imageVector = Icons.Default.Person,
+                contentDescription = "User picture",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(100.dp)
+                    .clip(CircleShape)
+                    //            .border(1.dp, Color.Blue)
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
+
+            )
+        }
+        else
+            ImageFromGallery(uri)
+    }
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter") //todo a garder ?
@@ -179,7 +234,7 @@ fun UserScreen(
                     modifier = Modifier.weight(1f)
                 )
 //                UserPicture(modifier = Modifier.weight(1f).border(1.dp, Color.Blue))
-                UserPicture()
+                UserPicture(uri = user.photoPath)
                 Row(
                     modifier = Modifier
                         .weight(1f)
@@ -208,7 +263,7 @@ fun UserScreen(
                 text = user.lastName,
 //                color = MaterialTheme.colorScheme.onSecondaryContainer,
                 modifier = Modifier
-                    .padding(8.dp)
+//                    .padding(8.dp)
                     .weight(3f)
 //                    .background(MaterialTheme.colorScheme.primaryContainer)
             )} )

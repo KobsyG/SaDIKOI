@@ -15,4 +15,10 @@
     <string name="conversation_screen">Conversation</string>
     <string name="user_screen">User</string>
     <string name="user_add_screen">New User</string>
+    <string name="back_confirmation_title">Are you sure to want to go back ?</string>
+    <string name="back_confirmation_text">Nothing you did will be save</string>
+    <string name="delete_user_confirmation_confirm">Delete</string>
+    <string name="delete_user_confirmation_cancel">Cancel</string>
+    <string name="back_confirmation_quit">Quit</string>
+    <string name="back_confirmation_stay">Stay</string>
 </resources>

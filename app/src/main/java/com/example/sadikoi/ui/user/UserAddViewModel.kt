@@ -1,5 +1,6 @@
 package com.example.sadikoi.ui.user
 
+import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -109,7 +110,8 @@ fun User.toUserDetails(): UserDetails = UserDetails(
     lastName = lastName,
     number = number,
     mail = mail,
-    passion = passion
+    passion = passion,
+    photoPath = photoPath
 )
 
 fun UserDetails.toUser(): User = User(
@@ -118,7 +120,8 @@ fun UserDetails.toUser(): User = User(
     lastName = lastName,
     number = number,
     mail = mail,
-    passion = passion
+    passion = passion,
+    photoPath = photoPath
 )
 
 data class UserAddUiState(
@@ -133,7 +136,8 @@ data class UserDetails(
 //    val number: Int = 0, //todo number string direct ?
     val number: String = "",
     val mail: String = "",
-    val passion: String = ""
+    val passion: String = "",
+    val photoPath: String? = null,
 )
 
 //todo probably User.toUserDetails

@@ -1,5 +1,6 @@
 package com.example.sadikoi.data
 
+import android.net.Uri
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
@@ -21,7 +22,9 @@ data class User(
 
     val mail: String,
 
-    val passion: String
+    val passion: String,
+
+    val photoPath: String? = null
 )
 
 //data class NameTuple( //todo c'est quoi deja cette merde

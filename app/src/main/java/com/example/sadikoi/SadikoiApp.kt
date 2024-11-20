@@ -98,6 +98,7 @@ enum class SadikoiScreen(@StringRes val title: Int) {
 
 @Composable
 fun SadikoiApp(
+    context: Context,
 //    viewModel: UserViewModel = viewModel(),//todo ViewModel
     topBarViewModel: TopBarViewModel = viewModel(factory = AppViewModelProvider.Factory),
     homeViewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
@@ -221,7 +222,11 @@ fun SadikoiApp(
                     navigateToRepertoire = {
                         navController.navigate(SadikoiScreen.Repertoire.name)
                     },
-                    modifier = Modifier
+                    backHandle = {
+
+                    },
+                    modifier = Modifier,
+                    context = context
                 )
             }
 
@@ -269,10 +274,10 @@ fun SadikoiApp(
 //    }
 //}
 
-@Preview(showBackground = true)
-@Composable
-fun SadikoiAppPreview() {
-    SaDIKOITheme {
-        SadikoiApp()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun SadikoiAppPreview() {
+//    SaDIKOITheme {
+//        SadikoiApp()
+//    }
+//}

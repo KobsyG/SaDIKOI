@@ -229,7 +229,7 @@ fun ColorMenu(
                             painter = painterResource(id = R.drawable.color_icon),
                             contentDescription = "Localized description",
 //                            tint = Red, //todo ???
-                            tint = MaterialTheme.colorScheme.surface
+                            tint = MaterialTheme.colorScheme.tertiary
                             )
 //                        Text("test")
                     }
@@ -246,7 +246,7 @@ fun ColorMenu(
                             painter = painterResource(id = R.drawable.color_icon),
                             contentDescription = "Localized description",
 //                            tint = Blue,
-                            tint = MaterialTheme.colorScheme.surfaceVariant
+                            tint = MaterialTheme.colorScheme.tertiaryContainer
                         )
                     }
                 }

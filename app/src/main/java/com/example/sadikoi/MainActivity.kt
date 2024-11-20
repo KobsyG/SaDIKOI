@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         ) {
             setContent {
                 SaDIKOITheme {
-                    SadikoiApp() //todo check Flow plus serieusement - check companion object en Kotlin - check @Volatile
+                    SadikoiApp(this) //todo check Flow plus serieusement - check companion object en Kotlin - check @Volatile
                 }                //todo check content.Context
             }
         } else {
@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                     // Permission accordée, lancer le contenu
                     setContent {
                         SaDIKOITheme {
-                            SadikoiApp()
+                            SadikoiApp(this)
                         }
                     }
                 } else {
