@@ -1,5 +1,6 @@
 package com.example.sadikoi.ui.user
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
@@ -87,12 +88,24 @@ class UserAddViewModel(private val usersRepository: IUsersRepository) : ViewMode
 //        usersRepository.insertUser(userUiState.toUser())
     }
 
+//    private fun saveImageToInternalStorage(context: Context, uri : Uri) {
+//        val inputStream = context.contentResolver.openInputStream(uri)
+//        val outputStream = context.openFileOutput("image.jpg", Context.MODE_PRIVATE)
+//        inputStream.use { input ->
+//            outputStream.use { output ->
+//                input?.copyTo(output)
+//            }
+//        }
+//    }
+
     private fun validateInput(userDetails: UserDetails = userAddUiState.userDetails): Boolean {
         return with(userDetails) { //todo check with
             firstName.isNotBlank() && lastName.isNotBlank() && number.toString().isNotBlank()
         }
 //        return  (userDetails.firstName.isNotBlank() && userDetails.lastName.isNotBlank() && userDetails.number.toString().isNotBlank())
     }
+
+
 
 }
 
@@ -137,7 +150,7 @@ data class UserDetails(
     val number: String = "",
     val mail: String = "",
     val passion: String = "",
-    val photoPath: String? = null,
+    val photoPath: String = "",
 )
 
 //todo probably User.toUserDetails

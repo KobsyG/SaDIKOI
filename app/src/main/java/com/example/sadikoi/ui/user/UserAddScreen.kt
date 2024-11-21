@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -194,6 +196,9 @@ fun UserAddScreen(
                 Intent.FLAG_GRANT_READ_URI_PERMISSION
             )
 
+            Log.d("PhotoPicker", "Selected URI after permission: $uri")
+            Log.d("PhotoPicker", "Selected URI after permission: ${uri.toString()}")
+
             viewModel.updateUiState(userDetail.copy(photoPath = uri.toString()))
 
 
@@ -292,24 +297,35 @@ fun UserAddScreen(
                         modifier = Modifier.weight(1f)
                     )
                 }
-                UserPicture(
-                    uri = userDetail.photoPath,
+                Box(
+                    contentAlignment = Alignment.Center,
+                ) {
+                    UserPicture(
+                        uri = userDetail.photoPath,
 
-                    onImageClicked = {
-                        pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
-//                        SadikoiApplication().contentResolver.takePersistableUriPermission(
-//                            uri,
-//                            Intent.FLAG_GRANT_READ_URI_PERMISSION
-//                        )
+                        onImageClicked = {
+                            pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
+                            //                        SadikoiApplication().contentResolver.takePersistableUriPermission(
+                            //                            uri,
+                            //                            Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            //                        )
 
-//                        Log.d("UserAddScreenq", "UserAddScreenq: $uri.")
-                                     },
-                    enabled = true
-                )
+                            //                        Log.d("UserAddScreenq", "UserAddScreenq: $uri.")
+                        },
+                        enabled = true,
+                        modifier = Modifier.size(100.dp)
+                    )
+                    Icon(
+                        Icons.Default.Edit,
+                        ""
+                    )
+                }
 
                 if (userDetail.id != 0) {
                     Row(
-                        modifier = Modifier.weight(1f).padding(3.dp),
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(3.dp),
                         horizontalArrangement = Arrangement.End
                     ) {
 

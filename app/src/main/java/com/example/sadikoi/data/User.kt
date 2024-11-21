@@ -24,7 +24,7 @@ data class User(
 
     val passion: String,
 
-    val photoPath: String? = null
+    val photoPath: String,
 )
 
 //data class NameTuple( //todo c'est quoi deja cette merde

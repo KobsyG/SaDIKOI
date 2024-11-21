@@ -5,6 +5,7 @@ import android.content.ContentResolver
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.compose.BackHandler
@@ -65,6 +66,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -111,19 +114,26 @@ fun BarInfo(
         }
 }
 
+//fun resizeBitmap
+
 @Composable
-fun ImageFromGallery(uri: String) {
+fun ImageFromGallery(modifier: Modifier = Modifier, uri: String, edit: Boolean = false) {
+    Log.d("nfwnfiuqw11", "ImageFromGallery: $uri")
     val context = LocalContext.current
     val bitmap = loadBitmapFromUri(context.contentResolver , uri.toUri())
+//    bitmap.
 
     Log.d("nfwnfiuqw", "ImageFromGallery: $uri")
     bitmap?.let {
+        Log.d("bitmap", "bitmap.size: ${bitmap.width} * ${bitmap.height}")
         Image(
             bitmap = it.asImageBitmap(),
             contentDescription = "User picture",
             contentScale = ContentScale.Crop,
-            modifier = Modifier
+            modifier = modifier
                 .size(100.dp)
+                .clip(CircleShape),
+            colorFilter = if (edit) ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }) else null
         )
     }
 
@@ -131,7 +141,23 @@ fun ImageFromGallery(uri: String) {
 
 fun loadBitmapFromUri(contentResolver: ContentResolver, uri: Uri): Bitmap? {
     return try {
-        MediaStore.Images.Media.getBitmap(contentResolver, uri)
+
+
+        val source = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            ImageDecoder.createSource(contentResolver, uri)
+        } else {
+            TODO("VERSION.SDK_INT < P")
+            //        MediaStore.Images.Media.getBitmap(contentResolver, uri) //todo probably this
+        }
+        ImageDecoder.decodeBitmap(source) { decoder, info, _ ->
+            Log.d("abc", "info.siz :  ${info.size}")
+//            decoder.setTargetSize(100, 100)
+//            if (info.size.width > 2000 || info.size.width > 4000) {
+                decoder.setTargetSampleSize(4)
+                Log.d("abc", "info.size after setTargetSampleSize :  ${info.size}")
+//                } //todo what if mega image
+
+        }
     } catch (e: Exception) {
         e.printStackTrace()
         null
@@ -140,31 +166,37 @@ fun loadBitmapFromUri(contentResolver: ContentResolver, uri: Uri): Bitmap? {
 
 @Composable
 fun UserPicture(
-    uri: String? = null,
+    uri: String = "",
+    modifier: Modifier = Modifier,
     onImageClicked: () -> Unit = {},
     enabled: Boolean = false,
 ) {
     Log.d("USERSCREEN", "UserPicture: $uri")
+//    Log.d("USERSCREEN", "UserPictuqweqre: ${uri ?: "null"}")
+//    Log.d("USERSCREEN", "uri.isNullOrBlank(): ${uri.isNullOrEmpty()}")
+//    Log.d("USERSCREEN", "{uri.equals(null)}: ${uri.equals(null)}")
     // circulaire image
     TextButton(
         enabled = enabled,
         onClick = onImageClicked
     ) {
-        if (uri == null) {
+        if (uri.isBlank()) {
+            Log.d("USERSCREEN", "UserPicture: $uri")
             Image(
                 imageVector = Icons.Default.Person,
                 contentDescription = "User picture",
                 contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(100.dp)
+                modifier = modifier
+//                    .size(100.dp)
                     .clip(CircleShape)
                     //            .border(1.dp, Color.Blue)
-                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                    .background(MaterialTheme.colorScheme.secondaryContainer),
+                colorFilter = if (enabled) ColorFilter.tint(Color.Gray) else null
 
             )
         }
         else
-            ImageFromGallery(uri)
+            ImageFromGallery(modifier, uri, enabled)
     }
 }
 
@@ -234,7 +266,7 @@ fun UserScreen(
                     modifier = Modifier.weight(1f)
                 )
 //                UserPicture(modifier = Modifier.weight(1f).border(1.dp, Color.Blue))
-                UserPicture(uri = user.photoPath)
+                UserPicture(uri = user.photoPath, modifier = Modifier.size(100.dp))
                 Row(
                     modifier = Modifier
                         .weight(1f)

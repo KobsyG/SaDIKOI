@@ -38,7 +38,7 @@ class SmsReceiver() : BroadcastReceiver() {
                 CoroutineScope(Dispatchers.IO).launch {
                     val user = userRepository.getUserByNumber(sender.toString())
                     if (user == null) {
-                       userRepository.insertUser(User(firstName = "", lastName = "", number = sender.toString(), mail = "", passion = "")) //todo le toString oblitere le sender?
+                       userRepository.insertUser(User(firstName = "", lastName = "", number = sender.toString(), mail = "", passion = "", photoPath = "")) //todo le toString oblitere le sender?
                         val newUser = userRepository.getUserByNumber(sender.toString())
 
                         if (newUser != null) {

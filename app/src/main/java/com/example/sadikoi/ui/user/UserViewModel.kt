@@ -64,6 +64,7 @@ class UserViewModel(private val usersRepository: IUsersRepository) : ViewModel()
                 number = user.number,
                 mail = user.mail,
                 passion = user.passion,
+                photoPath = user.photoPath.toString()
             )
         }
     }

@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.graphics.drawable.Icon
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -24,10 +26,13 @@ import com.example.sadikoi.data.User
 import com.example.sadikoi.ui.AppViewModelProvider
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.sadikoi.ui.user.UserPicture
 
 @Composable
 fun Contact(
@@ -42,10 +47,19 @@ fun Contact(
         modifier = Modifier.fillMaxWidth(),
         shape = RectangleShape,
     ) {
-        Text(
-            textAlign = TextAlign.End,
-            text = if (user.firstName.isBlank()) user.number else user.firstName
-        ) }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+//                .border(1.dp, Color.Green)
+                .fillMaxWidth()
+        ) {
+            UserPicture(user.photoPath, modifier = Modifier.size(25.dp))
+            Text(
+//                textAlign = TextAlign.End,
+                text = if (user.firstName.isBlank()) user.number else user.firstName
+            )
+        }
+    }
 }
 
 @Composable
@@ -59,6 +73,10 @@ fun UserList(
     ) {
         items(userList) { user ->
                 Contact(user, onUserClicked)
+                HorizontalDivider(
+                    color = Color.Gray,
+                    thickness = 1.dp
+                )
             }
     }
 }
@@ -110,8 +128,8 @@ fun RepertoireScreen(
 @Composable
 fun RepertoireScreenPreview() {
     SaDIKOITheme {
-        val user1 = User(firstName = "jean", lastName = "michel", number = "123456789", mail = "mail", passion = "passion")
-        val user2 = User(firstName = "michel", lastName = "jean", number = "123456789", mail = "mail", passion = "passion")
+        val user1 = User(firstName = "jean", lastName = "michel", number = "123456789", mail = "mail", passion = "passion", photoPath = "")
+        val user2 = User(firstName = "michel", lastName = "jean", number = "123456789", mail = "mail", passion = "passion", photoPath = "")
         val users: List<User> = listOf(user1, user2)
 //        val viewModel: RepertoireViewModel = viewModel(factory = AppViewModelProvider.Factory)
         RepertoireScreen(userList = users, onUserClicked = {}, onAddUserClicked = {})
