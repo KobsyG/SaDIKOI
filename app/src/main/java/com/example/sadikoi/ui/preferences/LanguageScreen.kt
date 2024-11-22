@@ -20,8 +20,6 @@ import java.util.Locale
 fun LanguageScreen(
     navigateBack: () -> Unit
 ) {
-//    Log.d("qwe1", "Apploc : ${AppCompatDelegate.getApplicationLocales().toLanguageTags()}") //todo check quelle langue actuelle (au lancement) pour le CheckCircle
-//    Log.d("qwe11", "Apploc : ${}")
     Column {
         Button(
             onClick = {

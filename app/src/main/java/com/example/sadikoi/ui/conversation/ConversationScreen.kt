@@ -89,28 +89,12 @@ fun Conversation(
     modifier: Modifier = Modifier
 //        .fillMaxHeight() //todo just maxHeight ?
 //        .fillMaxWidth()
-
-
 //        .fillMaxSize()
-
 //        .border(1.dp, Color.Green)
 
 ) {
 
     val messageList = conversationViewModel.messages.collectAsState().value.reversed()
-
-//    Column(
-//        verticalArrangement = Arrangement.Bottom,
-//        modifier = modifier
-////            .fillMaxHeight(0.8f) //todo just maxHeight ?
-////            .fillMaxWidth()
-////            .border(1.dp, Color.Green)
-//    ) {
-//        MessageList(
-//            conversationViewModel,
-//            modifier = modifier,
-//            )
-//    }
 
     LazyColumn(
         verticalArrangement = Arrangement.Bottom,
@@ -124,7 +108,7 @@ fun Conversation(
                 message,
 //                Modifier
 //                    .padding(8.dp)
-////                    .heightIn(min = 48.dp)
+////                  .heightIn(min = 48.dp)
 //                    .fillMaxWidth()
 //                    .border(1.dp, Color.Green)
             )
@@ -184,17 +168,7 @@ fun MessageList(
 //        .fillMaxHeight()
 
 ) {
-    Log.d("ConversationScreen", "ContactId : ${conversationViewModel.contactId.collectAsState().value}")
-//    val messages by conversationViewModel.messages.value
-
-    Log.d("ConversationScreen", "Messages : ${conversationViewModel.messages}")
-
-    Log.d("ConversationScreen", "Messages.collect : ${conversationViewModel.messages.collectAsState()}")
-    Log.d("ConversationScreen", "Messages.collect.value : ${conversationViewModel.messages.collectAsState().value}")
-
        val messageList = conversationViewModel.messages.collectAsState().value
-
-    Log.d("ConversationScreen", "MessageList : ${messageList}")
 
     LazyColumn(
 //        verticalArrangement = Arrangement.Bottom,
@@ -206,15 +180,6 @@ fun MessageList(
             Message(message)
         }
     }
-//    for (message in messageList) {
-//        Message(message)
-//    }
-
-//        Message("Hello", "Jean", "moi", 17545454),
-//        Message("Hello", "Jean", "moi", 17545454),
-//        Message("Hello", "moi", "Jean", 17545454),
-//        Message("Hello", "Jean", "moi", 17545454)
-
 }
 
 @Composable
@@ -268,153 +233,3 @@ fun InputBar(
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun ConversationScreenPreview() {
-//    SaDIKOITheme {
-//        ConversationScreen()
-//    }
-//}
-
-//@Composable
-//fun ConversationScreen(
-//    conversationViewModel: ConversationViewModel,
-////    contactId: Int
-//) {
-////    LaunchedEffect(contactId) {
-////        conversationViewModel.loadMessagesFromContact(contactId)
-////    }
-//    Column {
-//        Conversation(
-//            conversationViewModel,
-//            modifier = Modifier
-////            .fillMaxHeight() //todo just maxHeight ?
-//                .fillMaxWidth()
-//                .weight(1f)
-////            .fillMaxSize()
-//                .border(1.dp, Color.Green)
-//        )
-//        InputBar(
-//            conversationViewModel,
-////            modifier = Modifier
-////            .fillMaxHeight(0.2f)
-////            .weight(1f)
-////        .border(1.dp, Color.Green)
-//        )
-//    }
-//}
-//
-//@Composable
-//fun Conversation(
-//    conversationViewModel: ConversationViewModel,
-//    modifier: Modifier = Modifier
-////        .fillMaxHeight() //todo just maxHeight ?
-////        .fillMaxWidth()
-//
-//
-////        .fillMaxSize()
-//
-////        .border(1.dp, Color.Green)
-//
-//) {
-//    Column(
-//        verticalArrangement = Arrangement.Bottom,
-//        modifier = modifier
-////            .fillMaxHeight(0.8f) //todo just maxHeight ?
-////            .fillMaxWidth()
-////            .border(1.dp, Color.Green)
-//    ) {
-//        MessageList(conversationViewModel)
-//    }
-//}
-//
-//@Composable
-//fun Message(
-//    message: Message,
-////    modifier: Modifier = Modifier
-////        .fillMaxWidth()
-////        .border(1.dp, Color.Green)
-//) {
-//    Row(
-//        horizontalArrangement =
-//        if (message.isSent)
-//            Arrangement.End
-//        else
-//            Arrangement.Start
-//        ,
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .border(1.dp, Color.Green)
-//    ){
-//        Text(text = message.messageText)
-//
-//    }
-//}
-//
-//@Composable
-//fun MessageList(
-//    conversationViewModel: ConversationViewModel,
-////    modifier: Modifier = Modifier.fillMaxWidth(),
-//) {
-//    Log.d("ConversationScreen", "ContactId : ${conversationViewModel.contactId.collectAsState().value}")
-////    val messages by conversationViewModel.messages.value
-//
-//    Log.d("ConversationScreen", "Messages : ${conversationViewModel.messages}")
-//
-//    Log.d("ConversationScreen", "Messages.collect : ${conversationViewModel.messages.collectAsState()}")
-//    Log.d("ConversationScreen", "Messages.collect.value : ${conversationViewModel.messages.collectAsState().value}")
-//
-//    val messageList = conversationViewModel.messages.collectAsState().value
-//
-//    Log.d("ConversationScreen", "MessageList : ${messageList}")
-//
-//    for (message in messageList) {
-//        Message(message)
-//    }
-//
-////        Message("Hello", "Jean", "moi", 17545454),
-////        Message("Hello", "Jean", "moi", 17545454),
-////        Message("Hello", "moi", "Jean", 17545454),
-////        Message("Hello", "Jean", "moi", 17545454)
-//
-//}
-//
-//@Composable
-//fun InputBar(
-//    viewModel: ConversationViewModel,
-//    message: MessageUi = viewModel.newMessage,
-//    onValueChange: (String) -> Unit = { viewModel.updateMessage(it) },
-//    modifier: Modifier = Modifier
-//        .border(1.dp, Color.Blue)
-//) {
-////    val sendSmsPermission = Manifest
-//
-//
-//    Row(
-//        modifier = modifier
-//    ) {
-//        TextField(
-//            value = message.text,
-//            onValueChange = {
-//                onValueChange(it)
-////                if (ContextCompat.checkSelfPermission(context, sendSmsPermission) != PackageManager.PERMISSION_GRANTED) { //todo check Airplace mode genre ?
-////                    ActivityCompat.requestPermissions(activity, arrayOf(sendSmsPermission), REQUEST_CODE_SMS_PERMISSION)
-////                } else {
-////                    viewModel.sendSMS("+33661696704", "Hello, this is a test message!")
-////                }
-//            }
-//        )
-//        Button(
-//            enabled = message.text.isNotEmpty(),
-//            onClick = {
-//                viewModel.sendSMS()
-//            }
-//        ) {
-//            Icon(
-//                Icons.Default.Send,
-//                contentDescription = "Send"
-//            )
-//        }
-//    }
-//}

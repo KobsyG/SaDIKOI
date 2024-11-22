@@ -23,8 +23,6 @@ import java.util.Date
 
 class MainActivity : AppCompatActivity() {
 
-//    val receiveSmsPermission = rememberPermissionState(android.Manifest.permission.RECEIVE_SMS)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        enableEdgeToEdge() //todo ca degage ??
@@ -116,19 +114,3 @@ class MainActivity : AppCompatActivity() {
         private const val REQUEST_CODE = 101
     }
 }
-
-//@Composable
-//fun Greeting(name: String, modifier: Modifier = Modifier) {
-//    Text(
-//        text = "Hello $name!",
-//        modifier = modifier
-//    )
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    SaDIKOITheme {
-//        Greeting("Android")
-//    }
-//}

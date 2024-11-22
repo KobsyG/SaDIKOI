@@ -256,24 +256,6 @@ fun SadikoiApp(
     }
 }
 
-//@Composable
-//fun SmsPermissionHandler(onPermissionGranted: () -> Unit) {
-//    val context = LocalContext.current
-//    val permissionState = rememberPermissionState(android.Manifest.permission.RECEIVE_SMS)
-//
-//    LaunchedEffect(permissionState.hasPermission) {
-//        if (permissionState.hasPermission) {
-//            onPermissionGranted()
-//        } else {
-//            permissionState.launchPermissionRequest()
-//        }
-//    }
-//
-//    if (!permissionState.hasPermission) {
-//        Text("Permission to receive SMS is required for this app.")
-//    }
-//}
-
 //@Preview(showBackground = true)
 //@Composable
 //fun SadikoiAppPreview() {

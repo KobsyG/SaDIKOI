@@ -42,19 +42,6 @@ class UserViewModel(private val usersRepository: IUsersRepository) : ViewModel()
         usersRepository.deleteUser(user)
     }
 
-//    fun setUserToShowById(id: Int) {
-//        viewModelScope.launch {
-//            usersRepository.getUser(id).collect() { user ->
-//                if (user != null)
-//                    setUserToShow(user)
-//            }
-//
-//
-//        }
-//
-//
-//    }
-
     fun setUserToShow(user: User) {
         _uiState.update { currentState ->
             currentState.copy(

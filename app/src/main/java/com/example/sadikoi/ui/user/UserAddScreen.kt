@@ -77,14 +77,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 import com.example.sadikoi.R
 
-//@Composable
-//fun pickPhoto() {
-//
-//
-//
-//}
-
-//@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DeleteUserDialog(
     onConfirm: () -> Unit,
@@ -122,7 +114,6 @@ fun DeleteUserDialog(
     )
 }
 
-//@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BackConfirmationDialog(
     onConfirm: () -> Unit,
@@ -186,7 +177,7 @@ fun UserAddScreen(
     val pickMedia = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
 
 
-        if (uri != null) {
+        if (uri != null) { //todo tout faire dans photo ?
 
             Log.d("PhotoPicker", "Selected URI: $uri")
             Log.d("PhotoPicker", "Selected URI: ${uri.toString()}")
@@ -217,26 +208,10 @@ fun UserAddScreen(
 
     val initialName = remember { userDetail.firstName }
 
-    Log.d("UserAddScreen", "UserAddScreen: $userDetail")
 
     BackHandler() {
         showBackDialog = true
     }
-
-//    Button(
-//        onClick = {
-//            coroutineScope.launch {
-//                viewModel.saveUser() //todo que faire si lastname or number or firstname isnull -- virer le "?" utile pour la Preview
-//                userViewModel.setUserToShow(userDetail.toUser())
-//                navigateBack(
-//                    if (userDetail.firstName.isNotBlank()) userDetail.firstName else userDetail.number
-//                )
-//
-//            }
-//        }
-//    ) {
-//        Text("Add User")
-//    }
 
     Scaffold(
         floatingActionButton = {
@@ -250,11 +225,6 @@ fun UserAddScreen(
 
                 }
             }
-//                onClick = { onSendMessageClicked(
-//                    user.id,
-//                    user.number,
-//                    if (user.firstName.isNotBlank()) user.firstName else user.number
-//                ) }
             ) {
                 Icon(
                     Icons.Default.Done,
@@ -279,19 +249,6 @@ fun UserAddScreen(
                     .fillMaxWidth()
 //                .border(1.dp, Color.Blue)
             ) {
-//                Button(
-//                    onClick = {
-//                        coroutineScope.launch {
-//                            viewModel?.deleteUser() //todo virer le "?" utile pour la preview
-//                            navigateBack()
-//                        }
-//                    }
-//                ) {
-//                    Icon(
-//                        Icons.Default.Delete,
-//                        contentDescription = "send Message"
-//                    )
-//                }
                 if (userDetail.id != 0) {
                     Spacer(
                         modifier = Modifier.weight(1f)
@@ -304,13 +261,7 @@ fun UserAddScreen(
                         uri = userDetail.photoPath,
 
                         onImageClicked = {
-                            pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
-                            //                        SadikoiApplication().contentResolver.takePersistableUriPermission(
-                            //                            uri,
-                            //                            Intent.FLAG_GRANT_READ_URI_PERMISSION
-                            //                        )
-
-                            //                        Log.d("UserAddScreenq", "UserAddScreenq: $uri.")
+                            pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly)) //todo tout faire dans photo
                         },
                         enabled = true,
                         modifier = Modifier.size(100.dp)
@@ -333,10 +284,6 @@ fun UserAddScreen(
                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondaryContainer),
                             onClick = {
                                 showDialog = true
-                                //                        coroutineScope.launch {
-                                //                            userViewModel?.deleteUser() //todo virer le "?" utile pour la preview
-                                //                            navigateBack()
-                                //                        }
                             },
                         ) {
                             Icon(
@@ -349,27 +296,6 @@ fun UserAddScreen(
                 }
             }
 
-//        Row(
-//            horizontalArrangement = Arrangement.End,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//        ) {
-//            if (userDetail.id != 0) {
-//                Button(
-//                    onClick = {
-//                        coroutineScope.launch {
-//                            userViewModel?.deleteUser() //todo virer le "?" utile pour la preview
-//                            navigateBack()
-//                        }
-//                    }
-//                ) {
-//                    Icon(
-//                        Icons.Default.Delete,
-//                        contentDescription = "send Message"
-//                    )
-//                }
-//            }
-//        }
             if (showBackDialog) {
                 BackConfirmationDialog(
                     onConfirm = {
@@ -411,37 +337,6 @@ fun UserAddScreen(
                         .weight(3f)
                 )
             })
-//            Row(
-////            horizontalArrangement = Arrangement.SpaceAround,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(16.dp)
-////                .border(1.dp, Color.Blue)
-//                    .background(color = Color.LightGray)
-//                    .height(TextFieldDefaults.MinHeight)
-//            ) {
-//                Text(
-//                    textAlign = TextAlign.Center,
-//                    text = stringResource(R.string.last_name),
-//                    modifier = Modifier
-//                        .background(color = Color.Gray)
-//                        .weight(1f)
-//                        .fillMaxHeight()
-//                        .wrapContentHeight()
-////                    .border(1.dp, Color.Blue)
-//
-//                )
-//                TextField( //todo sizemax
-//                    value = userDetail.lastName,
-//                    onValueChange = { onValueChange(userDetail.copy(lastName = it)) },
-//                    keyboardOptions = KeyboardOptions(
-//                        imeAction = ImeAction.Next
-//                    ),
-//                    modifier = Modifier
-////                        .padding(8.dp)
-//                        .weight(3f)
-//                )
-//            }
 
             BarInfo(barName = stringResource(R.string.first_name), text = {
                 TextField( //todo sizemax
@@ -455,38 +350,6 @@ fun UserAddScreen(
 
                 )
             })
-//            Row(
-////            horizontalArrangement = Arrangement.SpaceAround,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(16.dp)
-////                .border(1.dp, Color.Blue)
-//                    .background(color = Color.LightGray)
-//                    .height(TextFieldDefaults.MinHeight)
-//            ) {
-//                Text(
-//                    textAlign = TextAlign.Center,
-//                    text = stringResource(R.string.first_name),
-//                    modifier = Modifier
-//                        .background(color = Color.Gray)
-//                        .weight(1f)
-//                        .fillMaxHeight()
-//                        .wrapContentHeight()
-////                    .border(1.dp, Color.Blue)
-//                )
-//
-//                TextField( //todo sizemax
-//                    value = userDetail.firstName,
-//                    onValueChange = { onValueChange(userDetail.copy(firstName = it)) },
-//                    keyboardOptions = KeyboardOptions(
-//                        imeAction = ImeAction.Next
-//                    ),
-//                    modifier = Modifier
-//                        .weight(3f)
-//
-//                )
-//
-//            }
 
             BarInfo(barName = stringResource(R.string.number), text = {
                 TextField(
@@ -501,38 +364,6 @@ fun UserAddScreen(
                 )
             })
 
-//            Row(
-////            horizontalArrangement = Arrangement.SpaceAround,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(16.dp)
-////                .border(1.dp, Color.Blue)
-//                    .background(color = Color.LightGray)
-//                    .height(TextFieldDefaults.MinHeight)
-//            ) {
-//                Text(
-//                    textAlign = TextAlign.Center,
-//                    text = stringResource(R.string.number),
-//                    modifier = Modifier
-//                        .background(color = Color.Gray)
-//                        .weight(1f)
-//                        .fillMaxHeight()
-//                        .wrapContentHeight()
-////                    .border(1.dp, Color.Blue)
-//                )
-//                TextField(
-//                    value = userDetail.number,
-//                    keyboardOptions = KeyboardOptions(
-//                        keyboardType = KeyboardType.Phone,
-//                        imeAction = ImeAction.Next
-//                    ),
-//                    onValueChange = { onValueChange(userDetail.copy(number = it)) },
-//                    modifier = Modifier
-//                        .weight(3f)
-//                )
-//
-//            }
-
             BarInfo(barName = stringResource(R.string.mail), text = {
                 TextField(
                     value = userDetail.mail,
@@ -545,37 +376,6 @@ fun UserAddScreen(
                 )
             })
 
-//            Row(
-////            horizontalArrangement = Arrangement.SpaceAround,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(16.dp)
-////                .border(1.dp, Color.Blue)
-//                    .background(color = Color.LightGray)
-//                    .height(TextFieldDefaults.MinHeight)
-//            ) {
-//                Text(
-//                    textAlign = TextAlign.Center,
-//                    text = stringResource(R.string.mail),
-//                    modifier = Modifier
-//                        .background(color = Color.Gray)
-//                        .weight(1f)
-//                        .fillMaxHeight()
-//                        .wrapContentHeight()
-////                    .border(1.dp, Color.Blue)
-//                )
-//                TextField(
-//                    value = userDetail.mail,
-//                    onValueChange = { onValueChange(userDetail.copy(mail = it)) },
-//                    keyboardOptions = KeyboardOptions(
-//                        imeAction = ImeAction.Next
-//                    ),
-//                    modifier = Modifier
-//                        .weight(3f)
-//                )
-//
-//            }
-
             BarInfo(barName = stringResource(R.string.passion), text = {
                 TextField(
                     value = userDetail.passion,
@@ -587,51 +387,6 @@ fun UserAddScreen(
                         .weight(3f)
                 )
             })
-
-//            Row(
-////            horizontalArrangement = Arrangement.SpaceAround,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(16.dp)
-////                .border(1.dp, Color.Blue)
-//                    .background(color = Color.LightGray)
-//                    .height(TextFieldDefaults.MinHeight)
-//            ) {
-//                Text(
-//                    textAlign = TextAlign.Center,
-//                    text = stringResource(R.string.passion),
-//                    modifier = Modifier
-//                        .background(color = Color.Gray)
-//                        .weight(1f)
-//                        .fillMaxHeight()
-//                        .wrapContentHeight()
-////                    .border(1.dp, Color.Blue)
-//                )
-//                TextField(
-//                    value = userDetail.passion,
-//                    onValueChange = { onValueChange(userDetail.copy(passion = it)) },
-//                    keyboardOptions = KeyboardOptions(
-//                        imeAction = ImeAction.Done
-//                    ),
-//                    modifier = Modifier
-//                        .weight(3f)
-//                )
-//
-//            }
-//            Button(
-//                onClick = {
-//                    coroutineScope.launch {
-//                        viewModel.saveUser() //todo que faire si lastname or number or firstname isnull -- virer le "?" utile pour la Preview
-//                        userViewModel.setUserToShow(userDetail.toUser())
-//                        navigateBack(
-//                            if (userDetail.firstName.isNotBlank()) userDetail.firstName else userDetail.number
-//                        )
-//
-//                    }
-//                }
-//            ) {
-//                Text("Add User")
-//            }
         }
     }
 }

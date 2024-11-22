@@ -70,8 +70,6 @@ fun TopBar( //todo pour ce TopBar finalement ? TopAppBar direct ?
         ColorOption.Surface -> MaterialTheme.colorScheme.onSurface
         ColorOption.SurfaceVariant -> MaterialTheme.colorScheme.onSurfaceVariant
     }
-//    val long: Long = 0xFFFFFF00
-//        val color = Color(long)
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -82,18 +80,8 @@ fun TopBar( //todo pour ce TopBar finalement ? TopAppBar direct ?
             Text(
                 text = if (viewModel.topBarTitle.isBlank()) stringResource(currentScreen.title) else viewModel.topBarTitle
             )
-
-//            Text(stringResource(R.string.app_name)) //todo changer en fonction du screen + number/name dans conversation
-        }, // todo get from Resourse (same name for all languages ? )
-//        colors = TopAppBarDefaults.topAppBarColors(
-//            containerColor = color,
-////            containerColor = Color(0x00000000)
-//        ),
-
-
+        },
         navigationIcon = {
-            Log.d("TopBar", "navController.previousBackStackEntry : ${navController.previousBackStackEntry}")
-            Log.d("TopBar", "canNavigateBack $canNavigateBack")
             if (canNavigateBack) {
                 IconButton(onClick = navigateUp) {
                     Icon(
@@ -112,18 +100,11 @@ fun TopBar( //todo pour ce TopBar finalement ? TopAppBar direct ?
                         painter = painterResource(id = R.drawable.logo),
                         contentDescription = "logo42",
                         modifier = Modifier
-//                .fillMaxHeight()
-//                .aspectRatio(1f)
-                            .sizeIn(maxHeight = 56.dp)
+//                      .fillMaxHeight()
+//                      .aspectRatio(1f)
+                        .sizeIn(maxHeight = 56.dp)
                     )
                 }
-//            )
-//            IconButton(onClick = { }) {
-//                Icon(
-//                    Icons.Filled.ArrowBack,
-//                    contentDescription = "Localized description"
-//                )
-//            }
             }
         },
         actions = {
@@ -143,57 +124,7 @@ fun TopBar( //todo pour ce TopBar finalement ? TopAppBar direct ?
             }
         }
     )
-//    Row(
-//        verticalAlignment = Alignment.CenterVertically,
-//        modifier = modifier
-//            .fillMaxWidth()
-//    ) {
-//        Image(
-//            painter = painterResource(id = R.drawable.logo),
-//            contentDescription = "logo42"
-//        )
-////        Text("Logo") //todo
-////        Text("SaDIKOI")
-//        Text(stringResource(id = R.string.app_name))
-//
-//        Spacer(Modifier.weight(1f))
-////        Text("Menu")
-////        AppBarMenu()
-//        LanguageMenu()
-//    }
 }
-
-//@Composable
-//fun AppBarMenu() {
-//    var menuExpanded by remember { mutableStateOf(false) }
-//
-//    Box(modifier = Modifier) {
-//        Button(
-//            onClick = { menuExpanded = !menuExpanded }
-//        ) {
-//            Icon(Icons.Default.MoreVert, contentDescription = "Localized description")
-//        }
-//        DropdownMenu(
-//            expanded = menuExpanded,
-//            onDismissRequest = { menuExpanded = false }
-//        ) {
-////            DropdownMenuItem(
-////                onClick = { /* Handle Option 1 click */ menuExpanded = false },
-////                text = {
-////                    LanguageMenu()
-////                }
-////            )
-//            DropdownMenuItem(
-//                onClick = { /* Handle Option 1 click */ menuExpanded = false },
-//                text = {
-//                    ColorMenu()
-//                }
-//            )
-//
-//
-//        }
-//    }
-//}
 
 @Composable
 fun ColorMenu(
@@ -254,132 +185,6 @@ fun ColorMenu(
         }
     }
 }
-
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun LanguageMenu() {
-//    val options = listOf("Option 1", "Option 2", "Option 3", "Option 4", "Option 5")
-//    var expanded by remember { mutableStateOf(false) }
-//
-//    Column() `
-//        ExposedDropdownMenuBox(
-//            expanded = expanded,
-//            onExpandedChange = { expanded = !expanded } //todo different from https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary#ExposedDropdownMenuBox(kotlin.Boolean,kotlin.Function1,androidx.compose.ui.Modifier,kotlin.Function1)
-//        ) { }
-//    }
-//}
-
-//@Composable
-//fun LanguageMenu(
-//    modifier: Modifier = Modifier.fillMaxWidth()
-////        .fillMaxSize()
-//) {
-//
-////    val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags("xx-YY")
-//// Call this on the main thread as it may require Activity.restart()
-////    AppCompatDelegate.setApplicationLocales(appLocale)
-//
-//
-//    var languageExpanded by remember { mutableStateOf(false) }
-//    val coroutineScope = rememberCoroutineScope() //todo probably tej
-////    val context = LocalContext.current
-////    val preferencesManager = PreferencesManager(context)
-////    val currentLanguage by preferencesManager.appLanguage.collectAsState(initial = Locale.getDefault().language)
-//
-//    Box( //todo Surface ???
-//        modifier = Modifier
-//    ) {
-//        TextButton(
-//            onClick = { languageExpanded = !languageExpanded },
-//            shape = androidx.compose.material3.MaterialTheme.shapes.small,
-//        ) {
-//            Text("Langage") //todo langage en fonction de la langue
-//        }
-//        DropdownMenu(
-//            expanded = languageExpanded,
-//            onDismissRequest = { languageExpanded = false }
-//        ) {
-//            DropdownMenuItem(
-//                onClick = {
-//                    languageExpanded = false
-//                    updateAppLocale("fr")
-////                    Log.d(TAG, "before launch $currentLanguage")
-////                    coroutineScope.launch{
-////                        preferencesManager.setAppLanguage("qwrnqwjroiq")
-////                        Log.d(TAG, "after launch $currentLanguage")
-////                    }
-//
-//                },
-//                text = {
-//                    Row() {
-//                        Icons.Default.CheckCircle
-//                        Text("Français")
-//                    }
-//                },
-//            )
-//            DropdownMenuItem(
-//                onClick = {
-////                    Log.d(TAG, "before english launch ${AppCompatDelegate.getApplicationLocales()}")
-//                    languageExpanded = false
-//
-//
-//                        updateAppLocale("en")
-//
-////                    Log.d(TAG, "before english launch ${AppCompatDelegate.getApplicationLocales()}")
-////                    Log.d(TAG, "before english launch $currentLanguage")
-////                    coroutineScope.launch{
-////                        preferencesManager.setAppLanguage("ehouiouio")
-////                        Log.d(TAG, "after english launch $currentLanguage")
-////                    }
-//                },
-//                text = {
-//                    Row() {
-//                        Icon(Icons.Default.CheckCircle, contentDescription = "Localized description") //todo Icon only for selected langage
-//                        Text("English")
-//                    }
-//                },
-//
-//                )
-//
-//
-//        }
-//    }
-//}
-
-//import androidx.core.os.LocaleListCompat
-
-//fun updateAppLocale(languageCode: String) {
-//    val appLocale = LocaleListCompat.forLanguageTags(languageCode)
-//    AppCompatDelegate.setApplicationLocales(appLocale)
-//}
-
-
-//fun updateLanguage(context: Context, languageCode: String) {
-//    val locale = Locale(languageCode)
-//    Locale.setDefault(locale)
-//
-//    val config = Configuration(context.resources.configuration)
-//    config.setLocale(locale)
-//    context.resources.updateConfiguration(config, context.resources.displayMetrics)
-//}
-
-//val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-//
-//class PreferencesManager(private val context: Context) {
-//
-//    private val LANGUAGE_KEY = stringPreferencesKey("language")
-//
-//    val appLanguage: Flow<String> = context.dataStore.data
-//        .map { preferences ->
-//            preferences[LANGUAGE_KEY] ?: Locale.getDefault().language
-//        }
-//
-//    suspend fun setAppLanguage(language: String) {
-//        context.dataStore.edit { preferences ->
-//            preferences[LANGUAGE_KEY] = language
-//        }
-//    }
-//}
 
 
 //@Preview(showBackground = true)

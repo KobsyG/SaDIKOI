@@ -30,10 +30,6 @@ class UserAddViewModel(private val usersRepository: IUsersRepository) : ViewMode
     var userAddUiState by mutableStateOf(UserAddUiState())
         private set
 
-//    fun updateUiState(userdetail: UserUiState) {
-//        userUiState = userdetail()
-//    }
-
     fun updateUiState(userDetails: UserDetails) {
         userAddUiState = UserAddUiState(userDetails = userDetails, isEntryValid = validateInput(userDetails))
     }
@@ -41,18 +37,6 @@ class UserAddViewModel(private val usersRepository: IUsersRepository) : ViewMode
     fun emptyUiState() {
         userAddUiState = UserAddUiState()
     }
-
-//    fun updateUiStateById(id: Int) {
-//        Log.d("UserAddViewModel", "updateUiStateById: $id")
-//        usersRepository.getUser(id).map { user ->
-//            Log.d("UserAddViewModel", "updateUiStateById: $user")
-//            if (user != null) {
-//                Log.d("UserAddViewModel", "updateUiStateById: $user")
-//                updateUiState(user.toUserDetails())
-//                Log.d("UserAddViewModel", "updateUiStateById: ${userAddUiState.userDetails}")
-//            }
-//            }
-//        }
 
     fun updateUiStateById(id: Int) {
         Log.d("UserAddViewModel", "updateUiStateById: $id")
@@ -79,43 +63,18 @@ class UserAddViewModel(private val usersRepository: IUsersRepository) : ViewMode
             usersRepository.insertUser(userAddUiState.userDetails.toUser())
         }
 
-//        Log.d(TAG, "onStart Called")
-//        Log.d(TAG, "UserUiState: $userUiState" )
-//        if (userUiState.lastName.isBlank()) {
-//            return
-//        }
-//
-//        usersRepository.insertUser(userUiState.toUser())
     }
 
-//    private fun saveImageToInternalStorage(context: Context, uri : Uri) {
-//        val inputStream = context.contentResolver.openInputStream(uri)
-//        val outputStream = context.openFileOutput("image.jpg", Context.MODE_PRIVATE)
-//        inputStream.use { input ->
-//            outputStream.use { output ->
-//                input?.copyTo(output)
-//            }
-//        }
-//    }
 
     private fun validateInput(userDetails: UserDetails = userAddUiState.userDetails): Boolean {
         return with(userDetails) { //todo check with
             firstName.isNotBlank() && lastName.isNotBlank() && number.toString().isNotBlank()
         }
-//        return  (userDetails.firstName.isNotBlank() && userDetails.lastName.isNotBlank() && userDetails.number.toString().isNotBlank())
     }
 
 
 
 }
-
-//fun UserUiState.toUser(): User = User(
-//    firstName = firstName,
-//    lastName = lastName,
-//    number = number,
-//    mail = mail,
-//    passion = passion,
-//)
 
 fun User.toUserDetails(): UserDetails = UserDetails(
     id = id,

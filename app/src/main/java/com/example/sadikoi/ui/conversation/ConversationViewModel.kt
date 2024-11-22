@@ -137,30 +137,12 @@ class ConversationViewModel(
 
 
     }
-//    fun loadMessagesFromContact(contactId: Int) {
-//        viewModelScope.launch {
-//            messagesRepository.getAllMessagesFromUser(contactId).collect { messagesList ->
-//                _messages.value = messagesList
-//            }
-//        }
-//    }
-
-//    fun loadConversations() {
-//        viewModelScope.launch {
-//
-//            messagesRepository.getAllLastMessages().collect { message ->
-//                _conversations.value = message
-//            }
-//        }
-//    }
 }
 
 data class MessageUi( //todo val isMe boolean ???
     val text: String,
     val contactId: Int,
-//    val sender: User, //todo User
     val isSent: Boolean,
-//    val receiver: User,
     val timestamp: Long,
     val number: String
 )

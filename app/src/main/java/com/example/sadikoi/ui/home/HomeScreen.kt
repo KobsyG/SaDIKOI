@@ -57,27 +57,7 @@ fun HomeScreen(
         },
 //        modifier = Modifier.border(1.dp, Color.Green)
     ) {
-//        Log.d("HomeScreen", "HomeScreen: ", )
         ListConversation(homeViewModel, onConvClicked = onConvClicked)
-//        Column(
-//            modifier = Modifier
-////                .fillMaxHeight(0.8f) //todo just maxHeight ?
-//                .weight(1f)
-//                .fillMaxWidth()
-//                .border(1.dp, Color.Green)
-//        ) {
-//            //todo List of Conversation
-//            Text("List of Conversation")
-////            listOf(
-////                 todo
-////            )
-//        }
-//        Button( //todo floatingActionButton
-//            onClick = onAddUserClicked // todo add a user
-//
-//        ) {
-//            Text("Add a User")
-//        }
     }
     }
 
@@ -98,12 +78,6 @@ fun ListConversation(homeViewModel: HomeViewModel,
         items(listConv) { conv ->
             ConvPreviewButton(conv, onConvClicked)
         }
-//       listConv.map { conv ->
-//          ConvPreviewButton(conv, onConvClicked)
-//       }
-//        listOf(
-//            conversationViewModel.conversations.value
-//        )
     }
 }
 
@@ -129,7 +103,6 @@ fun ConvPreviewButton(
                 )
         },
         shape = RectangleShape,
-//        border =
 
     ) {
         Column(
@@ -156,10 +129,10 @@ fun ConvPreviewButton(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    SaDIKOITheme {
+//@Preview(showBackground = true)
+//@Composable
+//fun HomeScreenPreview() {
+//    SaDIKOITheme {
 //        HomeScreen(onRepertoireClicked = {}, onAddUserClicked = {})
-    }
-}
+//    }
+//}

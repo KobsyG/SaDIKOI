@@ -106,98 +106,12 @@ fun BarInfo(
                     .weight(1f)
                     .fillMaxHeight()
                     .wrapContentHeight()
-//                    .clip(RoundedCornerShape(50.dp))
-//                                .border(1.dp, Color.Green)
+//                  .clip(RoundedCornerShape(50.dp))
+//                  .border(1.dp, Color.Green)
 
             )
             text()
         }
-}
-
-//fun resizeBitmap
-
-@Composable
-fun ImageFromGallery(modifier: Modifier = Modifier, uri: String, edit: Boolean = false) {
-    Log.d("nfwnfiuqw11", "ImageFromGallery: $uri")
-    val context = LocalContext.current
-    val bitmap = loadBitmapFromUri(context.contentResolver , uri.toUri())
-//    bitmap.
-
-    Log.d("nfwnfiuqw", "ImageFromGallery: $uri")
-    bitmap?.let {
-        Log.d("bitmap", "bitmap.size: ${bitmap.width} * ${bitmap.height}")
-        Image(
-            bitmap = it.asImageBitmap(),
-            contentDescription = "User picture",
-            contentScale = ContentScale.Crop,
-            modifier = modifier
-                .size(100.dp)
-                .clip(CircleShape),
-            colorFilter = if (edit) ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }) else null
-        )
-    }
-
-}
-
-fun loadBitmapFromUri(contentResolver: ContentResolver, uri: Uri): Bitmap? {
-    return try {
-
-
-        val source = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            ImageDecoder.createSource(contentResolver, uri)
-        } else {
-            TODO("VERSION.SDK_INT < P")
-            //        MediaStore.Images.Media.getBitmap(contentResolver, uri) //todo probably this
-        }
-        ImageDecoder.decodeBitmap(source) { decoder, info, _ ->
-            Log.d("abc", "info.siz :  ${info.size}")
-//            decoder.setTargetSize(100, 100)
-//            if (info.size.width > 2000 || info.size.width > 4000) {
-                decoder.setTargetSampleSize(4)
-                Log.d("abc", "info.size after setTargetSampleSize :  ${info.size}")
-//                } //todo what if mega image
-
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-        null
-    }
-}
-
-@Composable
-fun UserPicture(
-    uri: String = "",
-    modifier: Modifier = Modifier,
-    onImageClicked: () -> Unit = {},
-    enabled: Boolean = false,
-) {
-    Log.d("USERSCREEN", "UserPicture: $uri")
-//    Log.d("USERSCREEN", "UserPictuqweqre: ${uri ?: "null"}")
-//    Log.d("USERSCREEN", "uri.isNullOrBlank(): ${uri.isNullOrEmpty()}")
-//    Log.d("USERSCREEN", "{uri.equals(null)}: ${uri.equals(null)}")
-    // circulaire image
-    TextButton(
-        enabled = enabled,
-        onClick = onImageClicked
-    ) {
-        if (uri.isBlank()) {
-            Log.d("USERSCREEN", "UserPicture: $uri")
-            Image(
-                imageVector = Icons.Default.Person,
-                contentDescription = "User picture",
-                contentScale = ContentScale.Crop,
-                modifier = modifier
-//                    .size(100.dp)
-                    .clip(CircleShape)
-                    //            .border(1.dp, Color.Blue)
-                    .background(MaterialTheme.colorScheme.secondaryContainer),
-                colorFilter = if (enabled) ColorFilter.tint(Color.Gray) else null
-
-            )
-        }
-        else
-            ImageFromGallery(modifier, uri, enabled)
-    }
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter") //todo a garder ?
@@ -247,25 +161,11 @@ fun UserScreen(
 //                horizontalArrangement = Arrangement.SpaceBetween, //todo comment centrer picture
                 modifier = Modifier
                     .fillMaxWidth()
-//                    .border(1.dp, Color.Blue)
             ) {
-//                Button(
-//                    onClick = {
-//                        coroutineScope.launch {
-//                            viewModel?.deleteUser() //todo virer le "?" utile pour la preview
-//                            navigateBack()
-//                        }
-//                    }
-//                ) {
-//                    Icon(
-//                        Icons.Default.Delete,
-//                        contentDescription = "send Message"
-//                    )
-//                }
+
                 Spacer(
                     modifier = Modifier.weight(1f)
                 )
-//                UserPicture(modifier = Modifier.weight(1f).border(1.dp, Color.Blue))
                 UserPicture(uri = user.photoPath, modifier = Modifier.size(100.dp))
                 Row(
                     modifier = Modifier
@@ -327,165 +227,6 @@ fun UserScreen(
                     .padding(8.dp)
                     .weight(3f)
             )})
-
-
-
-//            Row(
-////                horizontalArrangement = Arrangement.SpaceAround,
-//                verticalAlignment = Alignment.CenterVertically,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(16.dp)
-//                    .border(1.dp, Color.Blue)
-//                    .background(color = Color.LightGray)
-//                    .height(TextFieldDefaults.MinHeight)
-//            ) {
-//                Text(
-//                    textAlign = TextAlign.Center,
-//                    text = "Nom",
-//                    modifier = Modifier
-//                        .background(color = Color.Gray)
-//                        .weight(1f)
-//                        .fillMaxHeight()
-//                        .wrapContentHeight()
-//                        .border(1.dp, Color.Blue)
-//
-//                )
-//                Text(
-//                    text = user.lastName,
-//                    modifier = Modifier
-//                        .padding(8.dp)
-//                        .weight(3f)
-//                    )
-//            }
-//            Row(
-////                horizontalArrangement = Arrangement.SpaceAround,
-//                verticalAlignment = Alignment.CenterVertically,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(16.dp)
-//                    .border(1.dp, Color.Blue)
-//                    .background(color = Color.LightGray)
-//                    .height(TextFieldDefaults.MinHeight)
-//            ) {
-//                Text(
-//                    textAlign = TextAlign.Center,
-//                    text = "Prenom",
-//                    modifier = Modifier
-//                        .background(color = Color.Gray)
-//                        .weight(1f)
-//                        .fillMaxHeight()
-//                        .wrapContentHeight()
-//                    )
-//
-//                Text(
-//                    text = user.firstName,
-//                    modifier = Modifier
-//                        .padding(8.dp)
-//                        .weight(3f)
-//
-//                )
-//            }
-//            Row(
-////                horizontalArrangement = Arrangement.SpaceAround,
-//                verticalAlignment = Alignment.CenterVertically,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(16.dp)
-//                    .border(1.dp, Color.Blue)
-//                    .background(color = Color.LightGray)
-//                    .height(TextFieldDefaults.MinHeight)
-//            ) {
-//                Text(
-//                    textAlign = TextAlign.Center,
-//                    text = "Numero",
-//                    modifier = Modifier
-//                        .background(color = Color.Gray)
-//                        .weight(1f)
-//                        .fillMaxHeight()
-//                        .wrapContentHeight()
-//                )
-//                Text(
-//                    text = user.number.toString(),
-//                 modifier = Modifier
-//                     .padding(8.dp)
-//                     .weight(3f)
-//                ) //todo number String direct ?
-//            }
-//            Row(
-////                horizontalArrangement = Arrangement.SpaceAround,
-//                verticalAlignment = Alignment.CenterVertically,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(16.dp)
-//                    .border(1.dp, Color.Blue)
-//                    .background(color = Color.LightGray)
-//                    .height(TextFieldDefaults.MinHeight)
-//            ) {
-//                Text(
-//                    textAlign = TextAlign.Center,
-//                    text = "Mail",
-//                    modifier = Modifier
-//                        .background(color = Color.Gray)
-//                        .weight(1f)
-//                        .fillMaxHeight()
-//                        .wrapContentHeight()
-//                    )
-//                Text(
-//                    text = user.mail,
-//                    modifier = Modifier
-//                        .padding(8.dp)
-//                        .weight(3f)
-//                )
-//            }
-//            Row(
-////                horizontalArrangement = Arrangement.SpaceAround,
-//                verticalAlignment = Alignment.CenterVertically,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(16.dp)
-//                    .border(1.dp, Color.Blue)
-//                    .background(color = Color.LightGray)
-//                    .height(TextFieldDefaults.MinHeight)
-//            ) {
-//                Text(
-//                    textAlign = TextAlign.Center,
-//                    text = "Passion",
-//                    modifier = Modifier
-//                        .background(color = Color.Gray)
-//                        .weight(1f)
-//                        .fillMaxHeight()
-//                        .wrapContentHeight()
-//                    )
-//                Text(
-//                    text = user.passion,
-//                    modifier = Modifier
-//                        .padding(8.dp)
-//                        .weight(3f)
-//                    )
-//            }
-//            Row(
-//                horizontalArrangement = Arrangement.SpaceAround,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(16.dp)
-//                    .border(1.dp, Color.Blue)
-//            ) {
-////                Button(
-////                    onClick = {
-////                        onEditUserClicked(user.id)
-////                    } //todo use the same screen que userAdd mais prérempli + addUser devient modifier user
-////                ) {
-////                    Text("edit User")
-////                }
-////                Button(
-////                    onClick = {
-////                        onSendMessageClicked(user.id, user.number)
-////                    }
-////                ) {
-////                    Text("send Message")
-////                }
-//            }
         }
     }
 }

@@ -50,26 +50,9 @@ class UserPreferencesRepository(
         //todo ?
         }
 
-
-//
-//    val language: Flow<String> = dataStore.data
-////        .catch { //todo ???
-////            if ( it is IOException) {
-////                Log.e(TAG, "Error reading preferences.", it)
-////                emit(emptyPreferences()) //todo ??
-////            } else {
-////                throw it
-////            }
-////        }
-//        .map { preferences ->
-//        preferences[LANGUAGE] ?: "en" //todo: set default language from phone setting
-//    }
-//
     suspend fun saveTopBarColorPreference(color: Color) {
         dataStore.edit { preferences ->
-            Log.d("MainActivity", "Repository Selected color: $color")
             preferences[TOPBAR_COLOR] = color.value.toLong()
-            Log.d("MainActivity", "Repository preferences[color]: $preferences[TOPBAR_COLOR]")
         }
     }
 }
