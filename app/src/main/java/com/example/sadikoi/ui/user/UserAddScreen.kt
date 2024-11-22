@@ -101,7 +101,10 @@ fun DeleteUserDialog(
             TextButton(
                 onClick = onConfirm
             ) {
-                Text(stringResource(R.string.delete_user_confirmation_confirm))
+                Text(
+                    text = stringResource(R.string.delete_user_confirmation_confirm),
+                    color = MaterialTheme.colorScheme.error,
+                    )
             }
         },
         dismissButton = {
@@ -136,7 +139,10 @@ fun BackConfirmationDialog(
             TextButton(
                 onClick = onConfirm
             ) {
-                Text(stringResource(R.string.back_confirmation_quit))
+                Text(
+                    text = stringResource(R.string.back_confirmation_quit),
+                    color = MaterialTheme.colorScheme.error,
+                    )
             }
             },
         dismissButton = {
@@ -254,9 +260,9 @@ fun UserAddScreen(
                         modifier = Modifier.weight(1f)
                     )
                 }
-                Box(
-                    contentAlignment = Alignment.Center,
-                ) {
+//                Box(
+//                    contentAlignment = Alignment.Center,
+//                ) {
                     UserPicture(
                         uri = userDetail.photoPath,
 
@@ -264,13 +270,16 @@ fun UserAddScreen(
                             pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly)) //todo tout faire dans photo
                         },
                         enabled = true,
-                        modifier = Modifier.size(100.dp)
+                        modifier = Modifier.size(100.dp),
+//                        firstLetter = initialName.substring(0,1),
+                        firstLetter = if (initialName.isNotBlank()) initialName else userDetail.number,
+                        id = userDetail.id
                     )
-                    Icon(
-                        Icons.Default.Edit,
-                        ""
-                    )
-                }
+//                    Icon(
+//                        Icons.Default.Edit,
+//                        ""
+//                    )
+//                }
 
                 if (userDetail.id != 0) {
                     Row(

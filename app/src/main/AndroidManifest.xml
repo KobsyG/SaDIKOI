@@ -39,7 +39,7 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.SaDIKOI">
-<!--            android:theme="@style/Theme.AppCompat.DayNight">--> //todo ??
+<!--            android:theme="@style/Theme.AppCompat.DayNight"> //todo ??-->
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

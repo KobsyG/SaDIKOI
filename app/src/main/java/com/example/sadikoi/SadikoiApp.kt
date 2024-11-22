@@ -131,6 +131,14 @@ fun SadikoiApp(
                 currentScreen = currentScreen,
                 canNavigateBack = navController.previousBackStackEntry != null,
                 navigateUp = { navController.navigateUp() },
+                onUserClicked = {
+                        topBarViewModel.updateTopBarTitle(
+                            if (it.firstName.isNotBlank()) it.firstName else it.number
+                        )
+                        viewModel.setUserToShow(it)
+                        navController.navigate(SadikoiScreen.User.name)
+                },
+                convViewModel = conversationViewModel,
                 modifier = Modifier
                     .height(40.dp)
                     .border(3.dp, Color.Blue)
@@ -158,6 +166,7 @@ fun SadikoiApp(
 
                     onConvClicked = { contactId, number, topBarTitle ->
                         conversationViewModel.updateContactId(contactId, number)
+                        conversationViewModel.updateUser(contactId)
                         topBarViewModel.updateTopBarTitle(topBarTitle)
                         navController.navigate(SadikoiScreen.Conversation.name)
                     },
@@ -181,6 +190,7 @@ fun SadikoiApp(
                             if (it.firstName.isNotBlank()) it.firstName else it.number
                         )
                         viewModel.setUserToShow(it)
+//                        conversationViewModel.updateUser(it)
                         navController.navigate(SadikoiScreen.User.name)
                     },
                     modifier = Modifier
@@ -217,10 +227,14 @@ fun SadikoiApp(
                     userViewModel = viewModel,
                     navigateBack = {
                         topBarViewModel.updateTopBarTitle(it)
+                        Log.d("Ouioui", "navController.currentBackStackEntry?.destination?.route : ${navController.currentBackStackEntry?.destination?.route}")
+                        Log.d("Ouioui", "navController.previousBackStackEntry : ${navController.previousBackStackEntry}")
                         navController.navigateUp()
                                    },
                     navigateToRepertoire = {
-                        navController.navigate(SadikoiScreen.Repertoire.name)
+                        navController.navigate(SadikoiScreen.Repertoire.name) {
+                            popUpTo(SadikoiScreen.Repertoire.name) { inclusive = true }
+                        }
                     },
                     backHandle = {
 

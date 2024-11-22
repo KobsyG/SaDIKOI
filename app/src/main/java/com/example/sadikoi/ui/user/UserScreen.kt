@@ -166,7 +166,13 @@ fun UserScreen(
                 Spacer(
                     modifier = Modifier.weight(1f)
                 )
-                UserPicture(uri = user.photoPath, modifier = Modifier.size(100.dp))
+                UserPicture(
+                    uri = user.photoPath,
+
+                    modifier = Modifier.size(100.dp),
+                    firstLetter = if (user.firstName.isNotBlank()) user.firstName else user.number,
+                    id = user.id
+                )
                 Row(
                     modifier = Modifier
                         .weight(1f)

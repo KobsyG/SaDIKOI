@@ -53,7 +53,12 @@ fun Contact(
 //                .border(1.dp, Color.Green)
                 .fillMaxWidth()
         ) {
-            UserPicture(user.photoPath, modifier = Modifier.size(25.dp))
+            UserPicture(
+//                uri = user.photoPath,
+                modifier = Modifier.size(40.dp),
+                firstLetter = if (user.firstName.isNotBlank()) user.firstName else user.number,
+                id = user.id
+            )
             Text(
 //                textAlign = TextAlign.End,
                 text = if (user.firstName.isBlank()) user.number else user.firstName

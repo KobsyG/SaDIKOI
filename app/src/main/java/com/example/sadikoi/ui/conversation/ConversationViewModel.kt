@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.provider.Telephony
 import android.telephony.SmsManager
 import android.util.Log
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -34,6 +35,7 @@ import androidx.compose.runtime.setValue
 import com.example.sadikoi.SadikoiApplication
 import com.example.sadikoi.data.IUsersRepository
 import com.example.sadikoi.data.UsersRepository
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 
 
@@ -60,6 +62,26 @@ class ConversationViewModel(
 
     var newMessage by mutableStateOf(MessageUi("", -1, true, 0, ""))
         private set
+
+    private val _user = MutableStateFlow(User(-1, "", "", "", "", "", ""))
+    val user: StateFlow<User> = _user.asStateFlow()
+
+    fun updateUser(id: Int) {
+        Log.d("qweqwe", "updateUser : $id")
+        Log.d("user", "_user.value : ${_user.value}")
+        viewModelScope.launch {
+           usersRepository.getUser(id).collect() {
+               Log.d("azy", "it : $it")
+               _user.value = it }
+        }
+
+        Log.d("user", "_user.value : ${_user.value}")
+
+    }
+
+    fun updateUser(user : User) {
+        _user.value = user
+    }
 
 
     private val _contactId = MutableStateFlow(-1)
@@ -117,7 +139,6 @@ class ConversationViewModel(
 
     fun sendSMS() {
 
-
         newMessage = newMessage.copy(
             contactId = contactId.value,
             number = number.value,
@@ -134,7 +155,6 @@ class ConversationViewModel(
             smsManager.sendTextMessage(newMessage.number, null, newMessage.text, null, null)
             updateMessage("")
         }
-
 
     }
 }

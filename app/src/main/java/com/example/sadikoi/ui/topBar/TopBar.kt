@@ -39,7 +39,9 @@ import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.sadikoi.SadikoiScreen
+import com.example.sadikoi.data.User
 import com.example.sadikoi.ui.AppViewModelProvider
+import com.example.sadikoi.ui.conversation.ConversationViewModel
 
 private const val TAG = "MainActivity"
 
@@ -47,11 +49,13 @@ private const val TAG = "MainActivity"
 @Composable
 fun TopBar( //todo pour ce TopBar finalement ? TopAppBar direct ?
     viewModel: TopBarViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    convViewModel: ConversationViewModel,
     onLanguageButtonClicked: () -> Unit,
     navController: NavHostController, //todo a tej c'est juste pour un test
     currentScreen: SadikoiScreen,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
+    onUserClicked: (User) -> Unit,
     modifier: Modifier = Modifier
         .height(40.dp)
         .border(1.dp, Color.Blue)
@@ -77,9 +81,24 @@ fun TopBar( //todo pour ce TopBar finalement ? TopAppBar direct ?
             titleContentColor = onSelectedColor
         ),
         title = {
-            Text(
-                text = if (viewModel.topBarTitle.isBlank()) stringResource(currentScreen.title) else viewModel.topBarTitle
-            )
+            TextButton(
+                onClick = {
+                    Log.d("onUserClicked", " convViewModel.user.value : ${convViewModel.user.value}")
+//                    onUserClicked(convViewModel.user.value)
+                    },
+                enabled = currentScreen.name.equals("Conversation")
+            ) {
+                Text(
+                    text = if (currentScreen.name.equals("Conversation") || currentScreen.name.equals(
+                            "User"
+                        ) || currentScreen.name.equals("UserAdd")
+                    ) {
+                        if (viewModel.topBarTitle.isBlank()) stringResource(currentScreen.title) else viewModel.topBarTitle
+                    } else stringResource(currentScreen.title),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.Black,
+                )
+            }
         },
         navigationIcon = {
             if (canNavigateBack) {
