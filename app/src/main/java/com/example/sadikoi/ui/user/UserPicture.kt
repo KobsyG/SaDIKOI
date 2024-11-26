@@ -27,8 +27,10 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import com.example.sadikoi.R
 
 enum class backGround(val color: Color) {
     Color1(Color.Red),
@@ -47,7 +49,10 @@ fun UserPicture(
     enabled: Boolean = false,
     firstLetter: String = "",
     id: Int = 0,
+    photoBitmap: Bitmap? = null
 ) {
+//    Log.d("UserPicture", "UserPictureId: $id")
+//    Log.d("UserPicture", "UserPictureUri: $uri")
     TextButton(
         enabled = enabled,
         onClick = onImageClicked
@@ -59,20 +64,25 @@ fun UserPicture(
                     .clip(CircleShape)
                     .background(if (id == 0) Color.LightGray else backGround.entries[id % 6].color)
             ){
-                if (id != 0 && firstLetter.isNotBlank()) {
-                    Text(
-                        text = firstLetter.first().uppercase(),
-                        color = Color.Black,
-                        fontSize = MaterialTheme.typography.headlineMedium.fontSize
-                    )
-                } else {
-                    Image(
-                        imageVector = Icons.Default.Person,
-                        contentDescription = "User picture",
-//                        contentScale = ContentScale.Fit,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
+//                if (id != 0 && firstLetter.isNotBlank()) {
+//                    Text(
+//                        text = firstLetter.first().uppercase(),
+//                        color = Color.Black,
+//                        fontSize = MaterialTheme.typography.headlineMedium.fontSize
+//                    )
+//                } else {
+//                    Image(
+//                        imageVector = Icons.Default.Person,
+//                        contentDescription = "User picture",
+////                        contentScale = ContentScale.Fit,
+//                        modifier = Modifier.fillMaxSize()
+//                    )
+//                }
+                Image(
+                    painter = painterResource(R.drawable.pp_test),
+                    contentDescription = "User picture",
+                    contentScale = ContentScale.Fit
+                )
             }
 //            Image(
 //                imageVector = Icons.Default.Person,
@@ -93,21 +103,44 @@ fun UserPicture(
 
 fun loadBitmapFromUri(contentResolver: ContentResolver, uri: Uri): Bitmap? {
     return try {
+        val timestartloadBitmapFromUri = System.currentTimeMillis()
 
+        val timeBeforeDecoder = System.currentTimeMillis()
 
         val source = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+//            Log.d("abc", "VERSION.SDK_INT >= P")
+
             ImageDecoder.createSource(contentResolver, uri)
+
+
         } else {
             TODO("VERSION.SDK_INT < P")
+
             //        MediaStore.Images.Media.getBitmap(contentResolver, uri) //todo probably this
         }
+        val timeAfterDecoder = System.currentTimeMillis()
+        Log.d("time", "timeCreateSource :  ${timeAfterDecoder - timeBeforeDecoder}")
+
+
+        val timebeforeDecodeBitmap = System.currentTimeMillis()
         ImageDecoder.decodeBitmap(source) { decoder, info, _ ->
-            Log.d("abc", "info.siz :  ${info.size}")
-//            decoder.setTargetSize(100, 100)
+
+//            Log.d("abc", "info.siz :  ${info.size}")
+
+            val timeBeforesetTargetSize = System.currentTimeMillis()
+            decoder.setTargetSize(100, 100)
+            val timeAftersetTargetSize = System.currentTimeMillis()
+            Log.d("time", "timesetTargetSize :  ${timeAftersetTargetSize - timeBeforesetTargetSize}")
+
 //            if (info.size.width > 2000 || info.size.width > 4000) {
-            decoder.setTargetSampleSize(10)
+//            decoder.setTargetSampleSize(10)
             Log.d("abc", "info.size after setTargetSampleSize :  ${info.size}")
 //                } //todo what if mega image
+
+            val timeafterDecodeBitmap = System.currentTimeMillis()
+            Log.d("time", "timeDecodeBitmap :  ${timeafterDecodeBitmap - timebeforeDecodeBitmap}")
+            val timendloadBitmapFromUri = System.currentTimeMillis()
+            Log.d("time", "timeloadBitmapFromUri :  ${timendloadBitmapFromUri - timestartloadBitmapFromUri}")
 
         }
     } catch (e: Exception) {
@@ -118,17 +151,26 @@ fun loadBitmapFromUri(contentResolver: ContentResolver, uri: Uri): Bitmap? {
 
 
 @Composable
-fun ImageFromGallery(modifier: Modifier = Modifier, uri: String, edit: Boolean = false) {
-    Log.d("nfwnfiuqw11", "ImageFromGallery: $uri")
+fun ImageFromGallery(modifier: Modifier = Modifier, uri: String, edit: Boolean = false,) {
+    val timeEnterIfromGal = System.currentTimeMillis()
+    val timebeforecontext = System.currentTimeMillis()
     val context = LocalContext.current
+    val timeaftercontext = System.currentTimeMillis()
+    Log.d("time", "context: ${timeaftercontext - timebeforecontext}")
     val bitmap = loadBitmapFromUri(context.contentResolver , uri.toUri())
+    val timeAfterloadBitmapFromUri = System.currentTimeMillis()
+    Log.d("time", "loadBitmapFromUri: ${timeAfterloadBitmapFromUri - timeEnterIfromGal}")
+    Log.d("time", "-------------------------------------------------------------------")
 //    bitmap.
 
-    Log.d("nfwnfiuqw", "ImageFromGallery: $uri")
+    Log.d("UserPicture", "ImageFromGallery: $uri")
     bitmap?.let {
-        Log.d("bitmap", "bitmap.size: ${bitmap.width} * ${bitmap.height}")
+//    photoBitmap?.let {
+        val timeBeforeImage = System.currentTimeMillis()
+//        Log.d("bitmap", "bitmap.size: ${bitmap.width} * ${bitmap.height}")
         Image(
             bitmap = it.asImageBitmap(),
+//            bitmap = photoBitmap.asImageBitmap(),
             contentDescription = "User picture",
             contentScale = ContentScale.Crop,
             modifier = modifier
@@ -136,6 +178,8 @@ fun ImageFromGallery(modifier: Modifier = Modifier, uri: String, edit: Boolean =
                 .clip(CircleShape),
             colorFilter = if (edit) ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }) else null
         )
+        val timeafterImage = System.currentTimeMillis()
+//        Log.d("time", "Image: ${timeafterImage - timeBeforeImage}")
     }
 
 }

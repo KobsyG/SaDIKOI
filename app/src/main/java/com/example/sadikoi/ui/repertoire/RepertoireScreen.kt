@@ -54,10 +54,11 @@ fun Contact(
                 .fillMaxWidth()
         ) {
             UserPicture(
-//                uri = user.photoPath,
+                uri = user.photoPath,
                 modifier = Modifier.size(40.dp),
                 firstLetter = if (user.firstName.isNotBlank()) user.firstName else user.number,
-                id = user.id
+                id = user.id,
+//                photoBitmap = user.photoBitmap
             )
             Text(
 //                textAlign = TextAlign.End,
