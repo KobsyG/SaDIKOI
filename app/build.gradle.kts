@@ -101,5 +101,9 @@ dependencies {
     // Kotlin
     implementation("androidx.activity:activity-ktx:$activity_version")
 
+//    val camerax_version = "1.5.0-alpha03"
+//
+//    implementation("androidx.camera:camera-camera2:${camerax_version}")
+
 
 }

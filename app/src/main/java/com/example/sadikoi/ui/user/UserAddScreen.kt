@@ -180,6 +180,10 @@ fun UserAddScreen(
     modifier: Modifier = Modifier
 ) {
 
+//    val cameraPermissionRequest = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+//
+//    }
+
     val pickMedia = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
 
 

@@ -25,6 +25,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sadikoi.data.User
 import com.example.sadikoi.ui.AppViewModelProvider
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.Alignment
@@ -74,10 +76,13 @@ fun UserList(
     onUserClicked: (User) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        modifier = modifier
+//    LazyColumn(
+    Column(
+    modifier = modifier
+        .verticalScroll(rememberScrollState())
     ) {
-        items(userList) { user ->
+//        items(userList, key = { user -> user.id }) { user ->
+        userList.forEach { user ->
                 Contact(user, onUserClicked)
                 HorizontalDivider(
                     color = Color.Gray,
